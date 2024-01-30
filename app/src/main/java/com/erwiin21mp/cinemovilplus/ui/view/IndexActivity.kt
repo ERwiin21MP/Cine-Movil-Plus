@@ -8,6 +8,7 @@ import android.widget.Button
 import androidx.appcompat.app.AlertDialog
 import com.erwiin21mp.cinemovilplus.R
 import com.erwiin21mp.cinemovilplus.Win
+import com.erwiin21mp.cinemovilplus.core.navigateToLogin
 import com.erwiin21mp.cinemovilplus.data.network.AnalyticsManager
 import com.erwiin21mp.cinemovilplus.data.network.AuthGoogle
 import com.erwiin21mp.cinemovilplus.data.network.AuthManager
@@ -22,7 +23,6 @@ class IndexActivity : AppCompatActivity() {
     private val authManager = AuthManager()
     private val analyticsManager = AnalyticsManager()
     private val win = Win()
-    private val navigate = Navigate()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,7 +54,7 @@ class IndexActivity : AppCompatActivity() {
                 runOnUiThread {
                     dialog.dismiss()
                     win.toast(this@IndexActivity, "Has cerrado sesión")
-                    navigate.toLogin(this@IndexActivity)
+                    navigateToLogin()
                 }
             }
         }

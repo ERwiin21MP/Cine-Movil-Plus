@@ -8,6 +8,9 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.erwiin21mp.cinemovilplus.R
 import com.erwiin21mp.cinemovilplus.Win
+import com.erwiin21mp.cinemovilplus.core.navigateToForgotPassword
+import com.erwiin21mp.cinemovilplus.core.navigateToIndex
+import com.erwiin21mp.cinemovilplus.core.navigateToSignUp
 import com.erwiin21mp.cinemovilplus.data.model.AuthRes
 import com.erwiin21mp.cinemovilplus.data.network.AnalyticsManager
 import com.erwiin21mp.cinemovilplus.data.network.AuthGoogle
@@ -35,7 +38,6 @@ class LoginActivity : AppCompatActivity() {
     private val win = Win()
     private val auth: AuthManager = AuthManager()
     private val analyticsManager: AnalyticsManager = AnalyticsManager()
-    private val navigate = Navigate()
     private lateinit var authGoogle: AuthGoogle
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -97,8 +99,8 @@ class LoginActivity : AppCompatActivity() {
                     val credential = GoogleAuthProvider.getCredential(account.data.idToken, null)
                     CoroutineScope(Dispatchers.IO).launch {
                         val firebaseUser = authGoogle.signInWithGoogleCredential(credential)
-                        if (firebaseUser!=null){
-                            navigate.toIndex(this@LoginActivity)
+                        if (firebaseUser != null) {
+                            navigateToIndex()
                             finish()
                             runOnUiThread { win.toast(this@LoginActivity, "Has iniciado sesión") }
                         }
@@ -128,16 +130,16 @@ class LoginActivity : AppCompatActivity() {
 
     private fun loginSuccess(result: AuthRes.Success<FirebaseUser>) {
         analyticsManager.logLogin(result.data)
-        navigate.toIndex(this)
+        navigateToIndex()
         runOnUiThread { win.toast(this, "Has iniciado sesión") }
     }
 
     private fun signUp() {
-        navigate.tosignUp(this)
+        navigateToSignUp()
     }
 
     private fun forgotPassword() {
-        navigate.toForgotPassword(this)
+        navigateToForgotPassword()
     }
 
     private fun login() {
@@ -161,7 +163,7 @@ class LoginActivity : AppCompatActivity() {
                 is AuthRes.Success -> {
                     analyticsManager.logLogin(result.data!!)
                     runOnUiThread {
-                        navigate.toIndex(this@LoginActivity)
+                        navigateToIndex()
                         win.toast(this@LoginActivity, "Has iniciado sesión")
                     }
                 }

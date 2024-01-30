@@ -9,6 +9,8 @@ import com.erwiin21mp.cinemovilplus.R
 import com.erwiin21mp.cinemovilplus.Win
 import com.google.firebase.auth.FirebaseUser
 import com.erwiin21mp.cinemovilplus.Win.Companion.MIN_PASSWORD_LENGTH
+import com.erwiin21mp.cinemovilplus.core.navigateToIndex
+import com.erwiin21mp.cinemovilplus.core.navigateToLogin
 import com.erwiin21mp.cinemovilplus.data.model.AuthRes
 import com.erwiin21mp.cinemovilplus.data.network.AnalyticsManager
 import com.erwiin21mp.cinemovilplus.data.network.AuthManager
@@ -29,7 +31,6 @@ class RegisterActivity : AppCompatActivity() {
     private var isValidPassword = false
     private var isEqualsPasswords = false
     private val win = Win()
-    private val navigate = Navigate()
     private val authManager = AuthManager()
     private val analyticsManager = AnalyticsManager()
 
@@ -121,7 +122,7 @@ class RegisterActivity : AppCompatActivity() {
             etPassword.addTextChangedListener(textWatcherPassword)
             etConfirmedPassword.addTextChangedListener(textWatcherConfirmed)
             tvLogin.setOnClickListener {
-                navigate.toLogin(this@RegisterActivity)
+                navigateToLogin()
                 finish()
             }
         }
@@ -178,7 +179,7 @@ class RegisterActivity : AppCompatActivity() {
                 runOnUiThread {
                     analyticsManager.logCreateAccount(authManager.getCurrentUser()!!)
                     dialog.dismiss()
-                    navigate.toIndex(this)
+                    navigateToIndex()
                     win.toast(this, "Se ha creado la cuenta")
                     finish()
                 }

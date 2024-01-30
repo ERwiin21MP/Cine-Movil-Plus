@@ -6,6 +6,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import com.erwiin21mp.cinemovilplus.R
 import com.erwiin21mp.cinemovilplus.Win
+import com.erwiin21mp.cinemovilplus.core.navigateToLogin
 import com.erwiin21mp.cinemovilplus.data.model.AuthRes
 import com.erwiin21mp.cinemovilplus.data.network.AnalyticsManager
 import com.erwiin21mp.cinemovilplus.data.network.AuthManager
@@ -22,7 +23,6 @@ class ForgotPasswordActivity : AppCompatActivity() {
     private val win = Win()
     private val authManager: AuthManager = AuthManager()
     private val analyticsManager: AnalyticsManager = AnalyticsManager()
-    private val navigate = Navigate()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,7 +68,7 @@ class ForgotPasswordActivity : AppCompatActivity() {
             when (authManager.sendPasswordResetEmail(email)) {
                 is AuthRes.Error -> analyticsManager.logError("Error al enviar el correo")
                 is AuthRes.Success -> {
-                    navigate.toLogin(this@ForgotPasswordActivity)
+                    navigateToLogin()
                     runOnUiThread { win.toast(this@ForgotPasswordActivity, "Se ha enviado el correo electronico") }
                 }
             }

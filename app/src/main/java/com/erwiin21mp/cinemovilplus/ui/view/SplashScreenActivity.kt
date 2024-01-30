@@ -8,12 +8,12 @@ import androidx.core.splashscreen.SplashScreen
 import com.erwiin21mp.cinemovilplus.R
 import com.erwiin21mp.cinemovilplus.core.isNull
 import com.erwiin21mp.cinemovilplus.core.navigateToIndex
+import com.erwiin21mp.cinemovilplus.core.navigateToLogin
 import com.erwiin21mp.cinemovilplus.data.network.AuthManager
 
 @SuppressLint("CustomSplashScreen")
 class SplashScreenActivity : AppCompatActivity() {
     private val authManager = AuthManager()
-    private val navigate = Navigate()
     private val user = authManager.getCurrentUser()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,8 +25,7 @@ class SplashScreenActivity : AppCompatActivity() {
 
     private fun initSplash(screenSplash: SplashScreen) {
         screenSplash.setKeepOnScreenCondition { true }
-        if (user.isNull())
-            navigate.toLogin(this)
+        if (user.isNull()) navigateToLogin()
         else navigateToIndex()
         finish()
     }
