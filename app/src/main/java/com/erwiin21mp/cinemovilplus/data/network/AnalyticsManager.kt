@@ -1,5 +1,6 @@
 package com.erwiin21mp.cinemovilplus.data.network
 
+import android.content.Context
 import android.os.Bundle
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
@@ -7,8 +8,9 @@ import com.google.firebase.analytics.logEvent
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.ktx.Firebase
 
-class AnalyticsManager {
-    private val analytics: FirebaseAnalytics by lazy { Firebase.analytics }
+class AnalyticsManager(context: Context) {
+
+    private val analytics: FirebaseAnalytics by lazy { FirebaseAnalytics.getInstance(context) }
 
     private companion object {
         const val USER_ID = "UserId"

@@ -22,14 +22,15 @@ class ForgotPasswordActivity : AppCompatActivity() {
     private lateinit var textWatcherEmail: TextWatcher
     private var isValidEmail = false
     private val win = Win()
-    private val authManager: AuthManager = AuthManager()
-    private val analyticsManager: AnalyticsManager = AnalyticsManager()
+    private val auth: AuthManager = AuthManager()
+    private lateinit var analytics: AnalyticsManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityForgotPasswordBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        analytics = AnalyticsManager(this)
         initTextWatchers()
         setListeners()
     }
@@ -66,8 +67,8 @@ class ForgotPasswordActivity : AppCompatActivity() {
     private fun sendEmail(email: String) {
         val dialog = win.showAlertOfWaiting(this, R.layout.alert_enviando_correo)
         CoroutineScope(Dispatchers.IO).launch {
-            when (authManager.sendPasswordResetEmail(email)) {
-                is AuthRes.Error -> analyticsManager.logError("Error al enviar el correo")
+            when (auth.sendPasswordResetEmail(email)) {
+                is AuthRes.Error -> analytics.logError("Error al enviar el correo")
                 is AuthRes.Success -> {
                     navigateToLogin()
                     runOnUiThread { toast("Se ha enviado el correo electronico") }

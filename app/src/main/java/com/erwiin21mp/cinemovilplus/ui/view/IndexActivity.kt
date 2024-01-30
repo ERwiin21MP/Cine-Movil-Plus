@@ -21,8 +21,8 @@ import kotlinx.coroutines.launch
 class IndexActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityIndexBinding
-    private val authManager = AuthManager()
-    private val analyticsManager = AnalyticsManager()
+    private val auth = AuthManager()
+    private lateinit var analytics:AnalyticsManager
     private val win = Win()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,6 +30,7 @@ class IndexActivity : AppCompatActivity() {
         binding = ActivityIndexBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        analytics = AnalyticsManager(this)
         binding.btnSignOut.setOnClickListener { logOut() }
     }
 
@@ -49,8 +50,8 @@ class IndexActivity : AppCompatActivity() {
 
         btnVale.setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch {
-                analyticsManager.logSignOut(authManager.getCurrentUser()!!)
-                authManager.signOut()
+                analytics.logSignOut(auth.getCurrentUser()!!)
+                auth.signOut()
                 AuthGoogle(this@IndexActivity).signOut()
                 runOnUiThread {
                     dialog.dismiss()

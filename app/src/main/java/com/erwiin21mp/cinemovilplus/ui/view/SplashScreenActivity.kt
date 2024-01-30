@@ -13,8 +13,8 @@ import com.erwiin21mp.cinemovilplus.data.network.AuthManager
 
 @SuppressLint("CustomSplashScreen")
 class SplashScreenActivity : AppCompatActivity() {
-    private val authManager = AuthManager()
-    private val user = authManager.getCurrentUser()
+    private val auth = AuthManager()
+    private val user = auth.getCurrentUser()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val screenSplash = installSplashScreen()

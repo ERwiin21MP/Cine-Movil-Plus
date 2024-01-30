@@ -33,13 +33,14 @@ class RegisterActivity : AppCompatActivity() {
     private var isEqualsPasswords = false
     private val win = Win()
     private val authManager = AuthManager()
-    private val analyticsManager = AnalyticsManager()
+    private lateinit var analytics:AnalyticsManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        analytics = AnalyticsManager(this)
         initTextWatchers()
         setListeners()
     }
@@ -163,22 +164,22 @@ class RegisterActivity : AppCompatActivity() {
         CoroutineScope(Dispatchers.IO).launch {
             when (val result = authManager.createUserWithEmailAndPassword(email, password)) {
                 is AuthRes.Success -> createAccountSuccess(result, userName, dialog)
-                is AuthRes.Error -> analyticsManager.logError(result.errorMessage)
+                is AuthRes.Error -> analytics.logError(result.errorMessage)
             }
         }
     }
 
     private suspend fun createAccountSuccess(result: AuthRes.Success<FirebaseUser?>, userName: String, dialog: Dialog) {
-        analyticsManager.logLogin(result.data!!)
+        analytics.logLogin(result.data!!)
         when (authManager.updateUserDisplayName(userName)) {
             is AuthRes.Error -> {
-                analyticsManager.logError("No se ha podido actualizar el username")
+                analytics.logError("No se ha podido actualizar el username")
                 runOnUiThread { dialog.dismiss() }
             }
 
             is AuthRes.Success -> {
                 runOnUiThread {
-                    analyticsManager.logCreateAccount(authManager.getCurrentUser()!!)
+                    analytics.logCreateAccount(authManager.getCurrentUser()!!)
                     dialog.dismiss()
                     navigateToIndex()
                     toast("Se ha creado la cuenta")

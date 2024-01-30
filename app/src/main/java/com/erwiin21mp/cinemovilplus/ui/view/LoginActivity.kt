@@ -38,13 +38,14 @@ class LoginActivity : AppCompatActivity() {
     private var isValidPassword = false
     private val win = Win()
     private val auth: AuthManager = AuthManager()
-    private val analyticsManager: AnalyticsManager = AnalyticsManager()
+    private lateinit var analytics: AnalyticsManager
     private lateinit var authGoogle: AuthGoogle
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        analytics = AnalyticsManager(this)
         initTextWatchers()
         setListeners()
         authGoogle = AuthGoogle(this)
@@ -79,9 +80,9 @@ class LoginActivity : AppCompatActivity() {
             btnLoginWithGoogle.setOnClickListener { loginWithGoogle() }
             tvForgotPassword.setOnClickListener { forgotPassword() }
             tvSignUp.setOnClickListener { signUp() }
-            tvSignAnnonymous.setOnClickListener {
-                analyticsManager.logButtonClicked(BUTTON_SIGN_ANONYMOUS)
-                signAnonymous()
+            btnGuest.setOnClickListener {
+                analytics.logButtonClicked(BUTTON_SIGN_ANONYMOUS)
+                signGuest()
             }
 
             etEmail.addTextChangedListener(textWatcherEmail)
@@ -117,12 +118,12 @@ class LoginActivity : AppCompatActivity() {
         authGoogle.signInWithGoogle(googleSignInLauncher)
     }
 
-    private fun signAnonymous() {
+    private fun signGuest() {
         val dialog = win.showAlertOfWaiting(this, R.layout.alert_iniciando_sesion)
 
         CoroutineScope(Dispatchers.IO).launch {
             when (val result = auth.signAnonymously()) {
-                is AuthRes.Error -> analyticsManager.logError(result.errorMessage)
+                is AuthRes.Error -> analytics.logError(result.errorMessage)
                 is AuthRes.Success -> loginSuccess(result)
             }
             dialog.dismiss()
@@ -130,7 +131,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun loginSuccess(result: AuthRes.Success<FirebaseUser>) {
-        analyticsManager.logLogin(result.data)
+        analytics.logLogin(result.data)
         navigateToIndex()
         runOnUiThread { toast("Has iniciado sesión") }
     }
@@ -160,9 +161,9 @@ class LoginActivity : AppCompatActivity() {
         val dialog = win.showAlertOfWaiting(this, R.layout.alert_iniciando_sesion)
         CoroutineScope(Dispatchers.IO).launch {
             when (val result = auth.signInWithEmailAndPassword(email, password)) {
-                is AuthRes.Error -> analyticsManager.logError("Error al iniciar sesión")
+                is AuthRes.Error -> analytics.logError("Error al iniciar sesión")
                 is AuthRes.Success -> {
-                    analyticsManager.logLogin(result.data!!)
+                    analytics.logLogin(result.data!!)
                     runOnUiThread {
                         navigateToIndex()
                         toast("Has iniciado sesión")
@@ -172,4 +173,4 @@ class LoginActivity : AppCompatActivity() {
             runOnUiThread { dialog.dismiss() }
         }
     }
-}
+} // 175 lineas
