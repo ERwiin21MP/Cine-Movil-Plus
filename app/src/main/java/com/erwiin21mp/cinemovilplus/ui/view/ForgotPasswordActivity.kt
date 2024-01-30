@@ -7,6 +7,7 @@ import android.text.TextWatcher
 import com.erwiin21mp.cinemovilplus.R
 import com.erwiin21mp.cinemovilplus.Win
 import com.erwiin21mp.cinemovilplus.core.navigateToLogin
+import com.erwiin21mp.cinemovilplus.core.toast
 import com.erwiin21mp.cinemovilplus.data.model.AuthRes
 import com.erwiin21mp.cinemovilplus.data.network.AnalyticsManager
 import com.erwiin21mp.cinemovilplus.data.network.AuthManager
@@ -69,7 +70,7 @@ class ForgotPasswordActivity : AppCompatActivity() {
                 is AuthRes.Error -> analyticsManager.logError("Error al enviar el correo")
                 is AuthRes.Success -> {
                     navigateToLogin()
-                    runOnUiThread { win.toast(this@ForgotPasswordActivity, "Se ha enviado el correo electronico") }
+                    runOnUiThread { toast("Se ha enviado el correo electronico") }
                 }
             }
             dialog.dismiss()

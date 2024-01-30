@@ -11,6 +11,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.erwiin21mp.cinemovilplus.Win.Companion.MIN_PASSWORD_LENGTH
 import com.erwiin21mp.cinemovilplus.core.navigateToIndex
 import com.erwiin21mp.cinemovilplus.core.navigateToLogin
+import com.erwiin21mp.cinemovilplus.core.toast
 import com.erwiin21mp.cinemovilplus.data.model.AuthRes
 import com.erwiin21mp.cinemovilplus.data.network.AnalyticsManager
 import com.erwiin21mp.cinemovilplus.data.network.AuthManager
@@ -180,7 +181,7 @@ class RegisterActivity : AppCompatActivity() {
                     analyticsManager.logCreateAccount(authManager.getCurrentUser()!!)
                     dialog.dismiss()
                     navigateToIndex()
-                    win.toast(this, "Se ha creado la cuenta")
+                    toast("Se ha creado la cuenta")
                     finish()
                 }
             }

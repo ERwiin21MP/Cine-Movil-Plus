@@ -11,6 +11,7 @@ import com.erwiin21mp.cinemovilplus.Win
 import com.erwiin21mp.cinemovilplus.core.navigateToForgotPassword
 import com.erwiin21mp.cinemovilplus.core.navigateToIndex
 import com.erwiin21mp.cinemovilplus.core.navigateToSignUp
+import com.erwiin21mp.cinemovilplus.core.toast
 import com.erwiin21mp.cinemovilplus.data.model.AuthRes
 import com.erwiin21mp.cinemovilplus.data.network.AnalyticsManager
 import com.erwiin21mp.cinemovilplus.data.network.AuthGoogle
@@ -102,14 +103,14 @@ class LoginActivity : AppCompatActivity() {
                         if (firebaseUser != null) {
                             navigateToIndex()
                             finish()
-                            runOnUiThread { win.toast(this@LoginActivity, "Has iniciado sesión") }
+                            runOnUiThread { toast("Has iniciado sesión") }
                         }
                     }
                 }
 
                 is AuthRes.Error -> {
                     Log.e("ERROR3", account.errorMessage)
-                    win.toast(this, "Error")
+                    toast("Error")
                 }
             }
         }
@@ -131,7 +132,7 @@ class LoginActivity : AppCompatActivity() {
     private fun loginSuccess(result: AuthRes.Success<FirebaseUser>) {
         analyticsManager.logLogin(result.data)
         navigateToIndex()
-        runOnUiThread { win.toast(this, "Has iniciado sesión") }
+        runOnUiThread { toast("Has iniciado sesión") }
     }
 
     private fun signUp() {
@@ -164,7 +165,7 @@ class LoginActivity : AppCompatActivity() {
                     analyticsManager.logLogin(result.data!!)
                     runOnUiThread {
                         navigateToIndex()
-                        win.toast(this@LoginActivity, "Has iniciado sesión")
+                        toast("Has iniciado sesión")
                     }
                 }
             }

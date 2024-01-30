@@ -9,6 +9,7 @@ import androidx.appcompat.app.AlertDialog
 import com.erwiin21mp.cinemovilplus.R
 import com.erwiin21mp.cinemovilplus.Win
 import com.erwiin21mp.cinemovilplus.core.navigateToLogin
+import com.erwiin21mp.cinemovilplus.core.toast
 import com.erwiin21mp.cinemovilplus.data.network.AnalyticsManager
 import com.erwiin21mp.cinemovilplus.data.network.AuthGoogle
 import com.erwiin21mp.cinemovilplus.data.network.AuthManager
@@ -53,7 +54,7 @@ class IndexActivity : AppCompatActivity() {
                 AuthGoogle(this@IndexActivity).signOut()
                 runOnUiThread {
                     dialog.dismiss()
-                    win.toast(this@IndexActivity, "Has cerrado sesión")
+                    toast("Has cerrado sesión")
                     navigateToLogin()
                 }
             }
