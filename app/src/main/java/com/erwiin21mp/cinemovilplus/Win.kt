@@ -19,10 +19,6 @@ class Win {
         const val MIN_USERNAME_LENGTH = 3
     }
 
-    fun log(msj: String) {
-        Log.e("LOGDATA", msj)
-    }
-
     fun isValidEmail(email: String) =
         Patterns.EMAIL_ADDRESS.matcher(email).matches() || email.isEmpty()
 
