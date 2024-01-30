@@ -5,9 +5,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.splashscreen.SplashScreen
-import com.erwiin21mp.cinemovilplus.Navigate
 import com.erwiin21mp.cinemovilplus.R
 import com.erwiin21mp.cinemovilplus.core.isNull
+import com.erwiin21mp.cinemovilplus.core.navigateToIndex
 import com.erwiin21mp.cinemovilplus.data.network.AuthManager
 
 @SuppressLint("CustomSplashScreen")
@@ -27,8 +27,7 @@ class SplashScreenActivity : AppCompatActivity() {
         screenSplash.setKeepOnScreenCondition { true }
         if (user.isNull())
             navigate.toLogin(this)
-        else
-            navigate.toIndex(this)
+        else navigateToIndex()
         finish()
     }
 }

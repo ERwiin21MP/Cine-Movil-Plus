@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import com.erwiin21mp.cinemovilplus.Navigate
 import com.erwiin21mp.cinemovilplus.R
 import com.erwiin21mp.cinemovilplus.Win
 import com.google.firebase.auth.FirebaseUser

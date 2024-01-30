@@ -6,7 +6,6 @@ import android.text.TextWatcher
 import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import com.erwiin21mp.cinemovilplus.Navigate
 import com.erwiin21mp.cinemovilplus.R
 import com.erwiin21mp.cinemovilplus.Win
 import com.erwiin21mp.cinemovilplus.data.model.AuthRes

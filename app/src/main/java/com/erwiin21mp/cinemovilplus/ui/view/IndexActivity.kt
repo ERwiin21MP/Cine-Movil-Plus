@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.Button
 import androidx.appcompat.app.AlertDialog
-import com.erwiin21mp.cinemovilplus.Navigate
 import com.erwiin21mp.cinemovilplus.R
 import com.erwiin21mp.cinemovilplus.Win
 import com.erwiin21mp.cinemovilplus.data.network.AnalyticsManager
