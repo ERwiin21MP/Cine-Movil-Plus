@@ -1,9 +1,15 @@
-package com.erwiin21mp.cinemovilplus
+package com.erwiin21mp.cinemovilplus.ui.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import com.erwiin21mp.cinemovilplus.Navigate
+import com.erwiin21mp.cinemovilplus.R
+import com.erwiin21mp.cinemovilplus.Win
+import com.erwiin21mp.cinemovilplus.data.model.AuthRes
+import com.erwiin21mp.cinemovilplus.data.network.AnalyticsManager
+import com.erwiin21mp.cinemovilplus.data.network.AuthManager
 import com.erwiin21mp.cinemovilplus.databinding.ActivityForgotPasswordBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

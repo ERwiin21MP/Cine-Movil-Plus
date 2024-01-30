@@ -1,12 +1,17 @@
-package com.erwiin21mp.cinemovilplus
+package com.erwiin21mp.cinemovilplus.ui.view
 
-import android.annotation.SuppressLint
 import android.app.Dialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.Button
 import androidx.appcompat.app.AlertDialog
+import com.erwiin21mp.cinemovilplus.Navigate
+import com.erwiin21mp.cinemovilplus.R
+import com.erwiin21mp.cinemovilplus.Win
+import com.erwiin21mp.cinemovilplus.data.network.AnalyticsManager
+import com.erwiin21mp.cinemovilplus.data.network.AuthGoogle
+import com.erwiin21mp.cinemovilplus.data.network.AuthManager
 import com.erwiin21mp.cinemovilplus.databinding.ActivityIndexBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

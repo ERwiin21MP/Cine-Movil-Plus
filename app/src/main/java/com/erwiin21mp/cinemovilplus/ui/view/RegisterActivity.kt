@@ -1,12 +1,18 @@
-package com.erwiin21mp.cinemovilplus
+package com.erwiin21mp.cinemovilplus.ui.view
 
 import android.app.Dialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import com.erwiin21mp.cinemovilplus.Navigate
+import com.erwiin21mp.cinemovilplus.R
+import com.erwiin21mp.cinemovilplus.Win
 import com.google.firebase.auth.FirebaseUser
 import com.erwiin21mp.cinemovilplus.Win.Companion.MIN_PASSWORD_LENGTH
+import com.erwiin21mp.cinemovilplus.data.model.AuthRes
+import com.erwiin21mp.cinemovilplus.data.network.AnalyticsManager
+import com.erwiin21mp.cinemovilplus.data.network.AuthManager
 import com.erwiin21mp.cinemovilplus.databinding.ActivityRegisterBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

@@ -1,4 +1,4 @@
-package com.erwiin21mp.cinemovilplus
+package com.erwiin21mp.cinemovilplus.data.network
 
 import android.os.Bundle
 import com.google.firebase.analytics.FirebaseAnalytics

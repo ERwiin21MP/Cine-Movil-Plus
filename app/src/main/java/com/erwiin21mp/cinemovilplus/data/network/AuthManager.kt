@@ -1,11 +1,11 @@
-package com.erwiin21mp.cinemovilplus
+package com.erwiin21mp.cinemovilplus.data.network
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.auth.userProfileChangeRequest
 import com.google.firebase.ktx.Firebase
-import com.erwiin21mp.cinemovilplus.AuthRes
+import com.erwiin21mp.cinemovilplus.data.model.AuthRes
 import kotlinx.coroutines.tasks.await
 
 class AuthManager {

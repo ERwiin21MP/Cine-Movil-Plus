@@ -1,10 +1,13 @@
-package com.erwiin21mp.cinemovilplus
+package com.erwiin21mp.cinemovilplus.ui.view
 
 import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.splashscreen.SplashScreen
+import com.erwiin21mp.cinemovilplus.Navigate
+import com.erwiin21mp.cinemovilplus.R
+import com.erwiin21mp.cinemovilplus.data.network.AuthManager
 
 @SuppressLint("CustomSplashScreen")
 class SplashScreenActivity : AppCompatActivity() {

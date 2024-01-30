@@ -1,4 +1,4 @@
-package com.erwiin21mp.cinemovilplus
+package com.erwiin21mp.cinemovilplus.ui.view
 
 import android.os.Bundle
 import android.text.Editable
@@ -6,6 +6,13 @@ import android.text.TextWatcher
 import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import com.erwiin21mp.cinemovilplus.Navigate
+import com.erwiin21mp.cinemovilplus.R
+import com.erwiin21mp.cinemovilplus.Win
+import com.erwiin21mp.cinemovilplus.data.model.AuthRes
+import com.erwiin21mp.cinemovilplus.data.network.AnalyticsManager
+import com.erwiin21mp.cinemovilplus.data.network.AuthGoogle
+import com.erwiin21mp.cinemovilplus.data.network.AuthManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
