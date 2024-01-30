@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/toast"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_toast"
+    android:paddingHorizontal="20dp"
+    android:paddingVertical="12dp"
+    android:textColor="@color/black"
+    tools:text="Hola mundoo, este es el toast" />

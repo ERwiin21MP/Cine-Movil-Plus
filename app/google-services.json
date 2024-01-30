@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "543567228818",
+    "project_id": "cine-movil-plus-26-01-2024",
+    "storage_bucket": "cine-movil-plus-26-01-2024.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:543567228818:android:fcb7f842569c8a79311b4b",
+        "android_client_info": {
+          "package_name": "com.erwiin21mp.cinemovilplus"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDoNuLWrQVbgVVkvHUJRsjaQ4wYQqzoeIQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:543567228818:android:9d1b81f3b39f0468311b4b",
+        "android_client_info": {
+          "package_name": "dev.erwiin21mp.cinemovilplus"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDoNuLWrQVbgVVkvHUJRsjaQ4wYQqzoeIQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
