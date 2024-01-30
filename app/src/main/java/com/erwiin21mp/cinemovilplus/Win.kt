@@ -52,18 +52,6 @@ class Win {
     }
 
     @SuppressLint("InflateParams")
-    fun toast(context: Context, message: String) {
-        Toast(context).apply {
-            val viewToast = LayoutInflater.from(context).inflate(R.layout.view_toast, null)
-            view = viewToast
-            val label: TextView = viewToast.findViewById(R.id.toast)
-            label.text = message
-            duration = Toast.LENGTH_LONG
-            show()
-        }
-    }
-
-    @SuppressLint("InflateParams")
     fun showAlertOfWaiting(context: Context, layout: Int): Dialog =
         AlertDialog.Builder(context, R.style.AlertWithOutBackground).apply {
             setView(LayoutInflater.from(context).inflate(layout, null))
