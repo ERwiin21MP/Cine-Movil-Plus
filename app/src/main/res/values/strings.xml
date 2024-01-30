@@ -10,7 +10,7 @@
     <string name="forgotPassword"><u>¿Has olvidado tu contraseña?</u></string>
     <string name="o">o</string>
     <string name="continueWithGoogle">Continuar con Google</string>
-    <string name="signAnonymous"><u>Ingresar como anonimo</u></string>
+    <string name="signGuest">Ingresar como invitado</string>
     <string name="signUpHere"><u>Registrate aqui</u></string>
 
     <!--    Register    -->
