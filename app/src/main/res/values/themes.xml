@@ -5,7 +5,7 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
-    <style name="Theme.App.SplashScreen" parent="Theme.SplashScreen">
+    <style name="Theme.CineMovilPlus.SplashScreen" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/black</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/icon_cine_movil_plus</item>
         <item name="windowSplashScreenAnimationDuration">300</item>
