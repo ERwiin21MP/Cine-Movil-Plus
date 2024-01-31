@@ -10,7 +10,6 @@ import com.erwiin21mp.cinemovilplus.R
 import com.erwiin21mp.cinemovilplus.Win
 import com.erwiin21mp.cinemovilplus.core.navigateToLogin
 import com.erwiin21mp.cinemovilplus.core.toast
-import com.erwiin21mp.cinemovilplus.data.network.AnalyticsManager
 import com.erwiin21mp.cinemovilplus.data.network.AuthGoogle
 import com.erwiin21mp.cinemovilplus.data.network.AuthManager
 import com.erwiin21mp.cinemovilplus.databinding.ActivityIndexBinding
@@ -22,7 +21,6 @@ class IndexActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityIndexBinding
     private val auth = AuthManager()
-    private lateinit var analytics:AnalyticsManager
     private val win = Win()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,7 +28,6 @@ class IndexActivity : AppCompatActivity() {
         binding = ActivityIndexBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        analytics = AnalyticsManager(this)
         binding.btnSignOut.setOnClickListener { logOut() }
     }
 
@@ -50,7 +47,7 @@ class IndexActivity : AppCompatActivity() {
 
         btnVale.setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch {
-                analytics.logSignOut(auth.getCurrentUser()!!)
+//                analytics.logSignOut(auth.getCurrentUser()!!)
                 auth.signOut()
                 AuthGoogle(this@IndexActivity).signOut()
                 runOnUiThread {

@@ -9,7 +9,6 @@ import com.erwiin21mp.cinemovilplus.Win
 import com.erwiin21mp.cinemovilplus.core.navigateToLogin
 import com.erwiin21mp.cinemovilplus.core.toast
 import com.erwiin21mp.cinemovilplus.data.model.AuthRes
-import com.erwiin21mp.cinemovilplus.data.network.AnalyticsManager
 import com.erwiin21mp.cinemovilplus.data.network.AuthManager
 import com.erwiin21mp.cinemovilplus.databinding.ActivityForgotPasswordBinding
 import kotlinx.coroutines.CoroutineScope
@@ -23,14 +22,12 @@ class ForgotPasswordActivity : AppCompatActivity() {
     private var isValidEmail = false
     private val win = Win()
     private val auth: AuthManager = AuthManager()
-    private lateinit var analytics: AnalyticsManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityForgotPasswordBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        analytics = AnalyticsManager(this)
         initTextWatchers()
         setListeners()
     }
@@ -68,7 +65,7 @@ class ForgotPasswordActivity : AppCompatActivity() {
         val dialog = win.showAlertOfWaiting(this, R.layout.alert_enviando_correo)
         CoroutineScope(Dispatchers.IO).launch {
             when (auth.sendPasswordResetEmail(email)) {
-                is AuthRes.Error -> analytics.logError("Error al enviar el correo")
+                is AuthRes.Error -> {}//analytics.logError("Error al enviar el correo")
                 is AuthRes.Success -> {
                     navigateToLogin()
                     runOnUiThread { toast("Se ha enviado el correo electronico") }

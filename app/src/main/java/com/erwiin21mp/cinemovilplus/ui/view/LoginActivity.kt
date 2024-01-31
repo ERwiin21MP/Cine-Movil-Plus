@@ -13,7 +13,6 @@ import com.erwiin21mp.cinemovilplus.core.navigateToIndex
 import com.erwiin21mp.cinemovilplus.core.navigateToSignUp
 import com.erwiin21mp.cinemovilplus.core.toast
 import com.erwiin21mp.cinemovilplus.data.model.AuthRes
-import com.erwiin21mp.cinemovilplus.data.network.AnalyticsManager
 import com.erwiin21mp.cinemovilplus.data.network.AuthGoogle
 import com.erwiin21mp.cinemovilplus.data.network.AuthManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -38,14 +37,13 @@ class LoginActivity : AppCompatActivity() {
     private var isValidPassword = false
     private val win = Win()
     private val auth: AuthManager = AuthManager()
-    private lateinit var analytics: AnalyticsManager
     private lateinit var authGoogle: AuthGoogle
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        analytics = AnalyticsManager(this)
         initTextWatchers()
         setListeners()
         authGoogle = AuthGoogle(this)
@@ -81,7 +79,7 @@ class LoginActivity : AppCompatActivity() {
             tvForgotPassword.setOnClickListener { forgotPassword() }
             tvSignUp.setOnClickListener { signUp() }
             btnGuest.setOnClickListener {
-                analytics.logButtonClicked(BUTTON_SIGN_ANONYMOUS)
+//                analytics.logButtonClicked(BUTTON_SIGN_ANONYMOUS)
                 signGuest()
             }
 
@@ -123,7 +121,7 @@ class LoginActivity : AppCompatActivity() {
 
         CoroutineScope(Dispatchers.IO).launch {
             when (val result = auth.signAnonymously()) {
-                is AuthRes.Error -> analytics.logError(result.errorMessage)
+                is AuthRes.Error -> {}//analytics.logError(result.errorMessage)
                 is AuthRes.Success -> loginSuccess(result)
             }
             dialog.dismiss()
@@ -131,7 +129,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun loginSuccess(result: AuthRes.Success<FirebaseUser>) {
-        analytics.logLogin(result.data)
+//        analytics.logLogin(result.data)
         navigateToIndex()
         runOnUiThread { toast("Has iniciado sesión") }
     }
@@ -161,9 +159,9 @@ class LoginActivity : AppCompatActivity() {
         val dialog = win.showAlertOfWaiting(this, R.layout.alert_iniciando_sesion)
         CoroutineScope(Dispatchers.IO).launch {
             when (val result = auth.signInWithEmailAndPassword(email, password)) {
-                is AuthRes.Error -> analytics.logError("Error al iniciar sesión")
+                is AuthRes.Error -> {}//analytics.logError("Error al iniciar sesión")
                 is AuthRes.Success -> {
-                    analytics.logLogin(result.data!!)
+//                    analytics.logLogin(result.data!!)
                     runOnUiThread {
                         navigateToIndex()
                         toast("Has iniciado sesión")

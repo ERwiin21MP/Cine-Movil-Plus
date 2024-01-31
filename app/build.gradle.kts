@@ -76,4 +76,7 @@ dependencies {
 
     // LiveData
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.3.1")
+
+    // Realtime
+    implementation("com.google.firebase:firebase-database-ktx")
 }

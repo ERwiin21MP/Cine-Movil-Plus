@@ -13,7 +13,6 @@ import com.erwiin21mp.cinemovilplus.core.navigateToIndex
 import com.erwiin21mp.cinemovilplus.core.navigateToLogin
 import com.erwiin21mp.cinemovilplus.core.toast
 import com.erwiin21mp.cinemovilplus.data.model.AuthRes
-import com.erwiin21mp.cinemovilplus.data.network.AnalyticsManager
 import com.erwiin21mp.cinemovilplus.data.network.AuthManager
 import com.erwiin21mp.cinemovilplus.databinding.ActivityRegisterBinding
 import kotlinx.coroutines.CoroutineScope
@@ -33,14 +32,12 @@ class RegisterActivity : AppCompatActivity() {
     private var isEqualsPasswords = false
     private val win = Win()
     private val authManager = AuthManager()
-    private lateinit var analytics:AnalyticsManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        analytics = AnalyticsManager(this)
         initTextWatchers()
         setListeners()
     }
@@ -164,22 +161,22 @@ class RegisterActivity : AppCompatActivity() {
         CoroutineScope(Dispatchers.IO).launch {
             when (val result = authManager.createUserWithEmailAndPassword(email, password)) {
                 is AuthRes.Success -> createAccountSuccess(result, userName, dialog)
-                is AuthRes.Error -> analytics.logError(result.errorMessage)
+                is AuthRes.Error -> {}//analytics.logError(result.errorMessage)
             }
         }
     }
 
     private suspend fun createAccountSuccess(result: AuthRes.Success<FirebaseUser?>, userName: String, dialog: Dialog) {
-        analytics.logLogin(result.data!!)
+//        analytics.logLogin(result.data!!)
         when (authManager.updateUserDisplayName(userName)) {
             is AuthRes.Error -> {
-                analytics.logError("No se ha podido actualizar el username")
+//                analytics.logError("No se ha podido actualizar el username")
                 runOnUiThread { dialog.dismiss() }
             }
 
             is AuthRes.Success -> {
                 runOnUiThread {
-                    analytics.logCreateAccount(authManager.getCurrentUser()!!)
+//                    analytics.logCreateAccount(authManager.getCurrentUser()!!)
                     dialog.dismiss()
                     navigateToIndex()
                     toast("Se ha creado la cuenta")
