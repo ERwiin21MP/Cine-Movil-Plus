@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -12,28 +13,36 @@
         android:id="@+id/tvAlertTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
         android:gravity="center"
-        android:padding="10dp"
         android:textSize="25sp"
+        app:layout_constraintBottom_toTopOf="@id/pbAlert"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:text="Title of example" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <ProgressBar
+        android:id="@+id/pbAlert"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:layout_marginEnd="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/tvAlertMessage"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvAlertTitle" />
+
+    <TextView
+        android:id="@+id/tvAlertMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
         android:gravity="center"
-        android:orientation="horizontal"
-        android:padding="10dp">
-
-        <ProgressBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:id="@+id/tvAlertMessage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:padding="10dp"
-            tools:text="This is a text example of message" />
-    </LinearLayout>
-</LinearLayout>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/pbAlert"
+        app:layout_constraintTop_toBottomOf="@+id/tvAlertTitle"
+        tools:text="This is a text example of message" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -32,6 +32,11 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val dialog = win.getAndShowAlertOfWaiting(
+            this,
+            getString(R.string.loggingIn),
+            getString(R.string.waitAMoment)
+        )
         setListeners()
     }
 
@@ -54,7 +59,11 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun signGuest() {
-        val dialog = win.getAndShowAlertOfWaiting(this, getString(R.string.loggingIn), getString(R.string.waitAMoment))
+        val dialog = win.getAndShowAlertOfWaiting(
+            this,
+            getString(R.string.loggingIn),
+            getString(R.string.waitAMoment)
+        )
 
         CoroutineScope(Dispatchers.IO).launch {
             when (val result = auth.signAnonymously()) {
@@ -66,13 +75,14 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun loginError(result: AuthRes.Error) {
-        dataBase.logErrorLogin(result)
+        dataBase.logErrorLogin(result, binding.etEmail.text.toString().trim(), binding.etPassword.text.toString())
+        toast("Lo sentimos, no pudimos iniciar sesión con la información proporcionada. Por favor, verifica que la información de inicio de sesión sea correcta y vuelve a intentarlo. Si el problema persiste, asegúrate de que la cuenta esté activa y que la contraseña sea la correcta. Si necesitas ayuda adicional, no dudes en contactarnos. ¡Gracias!")
     }
 
-    private fun loginSuccess(result: AuthRes.Success<FirebaseUser>) {
+    private fun loginSuccess(result: AuthRes.Success<FirebaseUser?>) {
         dataBase.logSuccessLogin(result)
+        runOnUiThread { toast(getString(R.string.youHaveSuccessfullyLoggedIn)) }
         navigateToIndex()
-        toast("Has iniciado sesión")
     }
 
     private fun signUp() {
@@ -97,19 +107,17 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun signWithEmailAndPassword(email: String, password: String) {
-        val dialog = win.getAndShowAlertOfWaiting(this, "", "")
+        val dialog = win.getAndShowAlertOfWaiting(
+            this,
+            getString(R.string.loggingIn),
+            getString(R.string.waitAMoment)
+        )
         CoroutineScope(Dispatchers.IO).launch {
             when (val result = auth.signInWithEmailAndPassword(email, password)) {
-                is AuthRes.Error -> {}//analytics.logError("Error al iniciar sesión")
-                is AuthRes.Success -> {
-//                    analytics.logLogin(result.data!!)
-                    runOnUiThread {
-                        navigateToIndex()
-                        toast("Has iniciado sesión")
-                    }
-                }
+                is AuthRes.Error -> loginError(result)
+                is AuthRes.Success -> loginSuccess(result)
             }
-            runOnUiThread { dialog.dismiss() }
+            dialog.dismiss()
         }
     }
 } // 175 lineas

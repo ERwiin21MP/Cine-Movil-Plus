@@ -10,7 +10,7 @@ import kotlinx.coroutines.tasks.await
 
 class AuthManager {
     private val auth: FirebaseAuth by lazy { Firebase.auth }
-    suspend fun signAnonymously(): AuthRes<FirebaseUser> {
+    suspend fun signAnonymously(): AuthRes<FirebaseUser?> {
         return try {
             val result = auth.signInAnonymously().await()
             AuthRes.Success(result.user ?: throw Exception("Error al iniciar sesión"))

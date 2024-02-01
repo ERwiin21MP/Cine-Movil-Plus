@@ -32,5 +32,6 @@
     <string name="vale">Vale</string>
     <string name="registrando_usuario">Registrando usuario</string>
     <string name="api_key">AIzaSyDtR6l2Bsk4EeKqviMhTi0rSFf4oN_s_XQ</string>
+    <string name="youHaveSuccessfullyLoggedIn">¡Has iniciado sesión exitosamente!</string>
 
 </resources>

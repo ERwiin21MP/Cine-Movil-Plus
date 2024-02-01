@@ -23,7 +23,7 @@ fun Activity.toast(message: String) {
         view = viewToast
         val label: TextView = viewToast.findViewById(R.id.toast)
         label.text = message
-        duration = Toast.LENGTH_LONG
+        duration = Toast.LENGTH_SHORT
         show()
     }
 }
