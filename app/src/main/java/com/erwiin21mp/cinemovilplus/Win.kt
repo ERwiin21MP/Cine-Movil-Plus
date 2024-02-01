@@ -3,6 +3,8 @@ package com.erwiin21mp.cinemovilplus
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
@@ -52,14 +54,11 @@ class Win {
     }
 
     @SuppressLint("InflateParams")
-    fun getAndShowAlertOfWaiting(context: Context, title: String, message: String): Dialog =
+    fun getAndShowAlertOfWaiting(context: Context, title: String): Dialog =
         AlertDialog.Builder(context, R.style.AlertWithOutBackground).apply {
             val view = LayoutInflater.from(context).inflate(R.layout.alert_waiting, null)
             val binding = AlertWaitingBinding.bind(view)
-            binding.apply {
-                tvAlertTitle.text = title
-                tvAlertMessage.text = message
-            }
+            binding.apply { tvAlertTitle.text = title }
             setView(view)
             setCancelable(false)
             create()
@@ -76,6 +75,19 @@ class Win {
         }
 
         val dialog = builder.show()
-        binding.btnVale.setOnClickListener { dialog.dismiss() }
+        binding.apply {
+            btnVale.setOnClickListener { dialog.dismiss() }
+            tvAlertContact.setOnClickListener {
+                val intent = Intent(Intent.ACTION_SENDTO).apply {
+                    data = Uri.parse(
+                        "mailto:${context.getString(R.string.email)}?subject=${
+                            Uri.encode("${context.getString(R.string.app_name)} - Error de Inicio de Sesión")
+                        }"
+                    )
+                }
+                context.startActivity(intent)
+                dialog.dismiss()
+            }
+        }
     }
 }

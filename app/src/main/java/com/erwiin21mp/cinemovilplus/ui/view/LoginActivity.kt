@@ -54,11 +54,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun signGuest() {
-        val dialog = win.getAndShowAlertOfWaiting(
-            this,
-            getString(R.string.loggingIn),
-            getString(R.string.waitAMoment)
-        )
+        val dialog = win.getAndShowAlertOfWaiting(this, getString(R.string.loggingIn))
 
         CoroutineScope(Dispatchers.IO).launch {
             when (val result = auth.signAnonymously()) {
@@ -70,8 +66,12 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun loginError(result: AuthRes.Error) {
-        dataBase.logErrorLogin(result, binding.etEmail.text.toString().trim(), binding.etPassword.text.toString())
-        win.showAlertOfErrorLogin()
+        dataBase.logErrorLogin(
+            result,
+            binding.etEmail.text.toString().trim(),
+            binding.etPassword.text.toString()
+        )
+        runOnUiThread { win.showAlertOfErrorLogin(this) }
     }
 
     private fun loginSuccess(result: AuthRes.Success<FirebaseUser?>) {
@@ -102,11 +102,8 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun signWithEmailAndPassword(email: String, password: String) {
-        val dialog = win.getAndShowAlertOfWaiting(
-            this,
-            getString(R.string.loggingIn),
-            getString(R.string.waitAMoment)
-        )
+        val dialog = win.getAndShowAlertOfWaiting(this, getString(R.string.loggingIn))
+
         CoroutineScope(Dispatchers.IO).launch {
             when (val result = auth.signInWithEmailAndPassword(email, password)) {
                 is AuthRes.Error -> loginError(result)

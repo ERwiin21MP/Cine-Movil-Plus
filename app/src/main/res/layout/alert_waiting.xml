@@ -40,9 +40,9 @@
         android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
         android:gravity="center"
+        android:text="@string/waitAMoment"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/pbAlert"
-        app:layout_constraintTop_toBottomOf="@+id/tvAlertTitle"
-        tools:text="This is a text example of message" />
+        app:layout_constraintTop_toBottomOf="@+id/tvAlertTitle" />
 </androidx.constraintlayout.widget.ConstraintLayout>

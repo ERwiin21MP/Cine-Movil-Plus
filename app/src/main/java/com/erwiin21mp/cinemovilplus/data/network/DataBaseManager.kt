@@ -48,6 +48,10 @@ class DataBaseManager {
             .child(getCurrentDateAndHour()).setValue(mapOf(DATE to getCurrentDateAndHour()))
     }
 
+    fun logButtonClicked(buttonName: String, user: FirebaseUser) {
+
+    }
+
     private fun getCleanId(id: String) =
         id.replace(".", "").replace("#", "").replace("\$", "").replace("[", "").replace("]", "")
 

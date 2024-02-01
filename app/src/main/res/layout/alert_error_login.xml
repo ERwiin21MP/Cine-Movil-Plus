@@ -28,10 +28,25 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:gravity="center"
+        android:text="@string/error_login_message"
+        app:layout_constraintBottom_toTopOf="@id/btnVale"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvAlertTitle"
-        tools:text="@string/error_login_message" />
+        app:layout_constraintTop_toBottomOf="@id/tvAlertTitle" />
+
+    <TextView
+        android:id="@+id/tvAlertContact"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:autoLink="email"
+        android:linksClickable="true"
+        android:paddingTop="10dp"
+        android:paddingEnd="10dp"
+        android:text="@string/contact"
+        android:textColor="@color/link_color"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="RtlSymmetry" />
 
     <Button
         android:id="@+id/btnVale"

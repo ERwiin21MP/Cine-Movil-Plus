@@ -35,4 +35,6 @@
     <string name="registrando_usuario">Registrando usuario</string>
     <string name="api_key">AIzaSyDtR6l2Bsk4EeKqviMhTi0rSFf4oN_s_XQ</string>
     <string name="error_login_message">Lo sentimos, no pudimos iniciar sesión con la información proporcionada. Por favor, verifica que la información de inicio de sesión sea correcta y vuelve a intentarlo. Si el problema persiste, asegúrate de que la cuenta esté activa y que la contraseña sea la correcta. Si necesitas ayuda adicional, no dudes en contactarnos. ¡Gracias!</string>
+    <string name="contact"><u>Contacto</u></string>
+    <string name="email">erwindev98@gmail.com</string>
 </resources>

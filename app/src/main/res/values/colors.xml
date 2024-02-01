@@ -11,4 +11,5 @@
     <color name="text_dialog_message">#0584ff</color>
     <color name="view_dialog_line">#2b2b2c</color>
     <color name="btnAlert">#FF5733</color>
+    <color name="link_color">@color/btnAlert</color>
 </resources>
