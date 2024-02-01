@@ -11,6 +11,7 @@ import com.erwiin21mp.cinemovilplus.core.onTextChanged
 import com.erwiin21mp.cinemovilplus.core.toast
 import com.erwiin21mp.cinemovilplus.data.model.AuthRes
 import com.erwiin21mp.cinemovilplus.data.network.AuthManager
+import com.erwiin21mp.cinemovilplus.data.network.DataBaseManager
 import com.google.firebase.auth.FirebaseUser
 import com.erwiin21mp.cinemovilplus.databinding.ActivityLoginBinding
 import kotlinx.coroutines.CoroutineScope
@@ -24,6 +25,7 @@ class LoginActivity : AppCompatActivity() {
     private var isValidPassword = false
     private val win = Win()
     private val auth: AuthManager = AuthManager()
+    private val dataBase = DataBaseManager()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,21 +54,25 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun signGuest() {
-        val dialog = win.getAndShowAlertOfWaiting(this, getString(R.string.LoggingIn), "")
+        val dialog = win.getAndShowAlertOfWaiting(this, getString(R.string.loggingIn), getString(R.string.waitAMoment))
 
         CoroutineScope(Dispatchers.IO).launch {
             when (val result = auth.signAnonymously()) {
-                is AuthRes.Error -> {}//analytics.logError(result.errorMessage)
+                is AuthRes.Error -> loginError(result)
                 is AuthRes.Success -> loginSuccess(result)
             }
             dialog.dismiss()
         }
     }
 
+    private fun loginError(result: AuthRes.Error) {
+        dataBase.logErrorLogin(result)
+    }
+
     private fun loginSuccess(result: AuthRes.Success<FirebaseUser>) {
-//        analytics.logLogin(result.data)
+        dataBase.logSuccessLogin(result)
         navigateToIndex()
-        runOnUiThread { toast("Has iniciado sesión") }
+        toast("Has iniciado sesión")
     }
 
     private fun signUp() {

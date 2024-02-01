@@ -3,7 +3,8 @@
     <string name="app_name">Cine Móvil Plus</string>
 
     <!--    LoginActivity   -->
-    <string name="LoggingIn">Iniciando sesión</string>
+    <string name="loggingIn">Iniciando sesión</string>
+    <string name="waitAMoment">Esperé un momento</string>
 
     <string name="logIn">Iniciar sesión</string>
     <string name="eMail">Correo electrónico</string>
@@ -29,7 +30,6 @@
     <string name="estas_seguro_que_deseas_cerrar_sesion">¿Estas seguro que deseas cerrar sesión?</string>
     <string name="cancel">Cancelar</string>
     <string name="vale">Vale</string>
-    <string name="espere_un_momento">Espere un momento</string>
     <string name="registrando_usuario">Registrando usuario</string>
     <string name="api_key">AIzaSyDtR6l2Bsk4EeKqviMhTi0rSFf4oN_s_XQ</string>
 

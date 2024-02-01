@@ -10,7 +10,7 @@ import com.erwiin21mp.cinemovilplus.core.isNull
 import com.erwiin21mp.cinemovilplus.core.navigateToIndex
 import com.erwiin21mp.cinemovilplus.core.navigateToLogin
 import com.erwiin21mp.cinemovilplus.data.network.AuthManager
-import com.erwiin21mp.cinemovilplus.data.network.RealtimeDataBaseManager
+import com.erwiin21mp.cinemovilplus.data.network.DataBaseManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -20,7 +20,7 @@ class SplashScreenActivity : AppCompatActivity() {
 
     private val auth = AuthManager()
     private val user = auth.getCurrentUser()
-    private val database = RealtimeDataBaseManager()
+    private val database = DataBaseManager()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val screenSplash = installSplashScreen()

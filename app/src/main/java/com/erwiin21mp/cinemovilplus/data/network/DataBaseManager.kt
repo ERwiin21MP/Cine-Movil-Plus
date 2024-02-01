@@ -1,15 +1,15 @@
 package com.erwiin21mp.cinemovilplus.data.network
 
 import android.annotation.SuppressLint
-import android.app.Activity
-import com.erwiin21mp.cinemovilplus.core.getCurrentDateAndHour
+import com.erwiin21mp.cinemovilplus.data.model.AuthRes
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import kotlinx.coroutines.tasks.await
 import java.text.SimpleDateFormat
 import java.util.Date
 
-class RealtimeDataBaseManager {
+class DataBaseManager {
 
     private val db: DatabaseReference = FirebaseDatabase.getInstance().reference
 
@@ -22,10 +22,22 @@ class RealtimeDataBaseManager {
         const val PHONE_NUMBER = "PhoneNumber"
         const val PHOTO_URL = "PhotoURL"
         const val DATE = "Date"
+        const val CHILD_LOG_ERROR_LOGIN = "LogErrorLogin"
+        const val CHILD_LOG_SUCCESS_LOGIN = "LogSuccessLogin"
     }
 
     fun logAppOpen(user: FirebaseUser) {
         db.child(CHILD_LOG_APP_OPEN).child(getCleanId("${user.displayName} - ${user.email}"))
+            .child(getCurrentDateAndHour()).setValue(mapOf(DATE to getCurrentDateAndHour()))
+    }
+
+    fun logErrorLogin(errorMessage: AuthRes.Error) {
+        db.child(CHILD_LOG_ERROR_LOGIN).push().setValue(errorMessage)
+    }
+
+    fun logSuccessLogin(user: AuthRes.Success<FirebaseUser>) {
+        db.child(CHILD_LOG_SUCCESS_LOGIN)
+            .child(getCleanId("${user.data.displayName} - ${user.data.email}"))
             .child(getCurrentDateAndHour()).setValue(mapOf(DATE to getCurrentDateAndHour()))
     }
 
