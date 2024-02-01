@@ -32,11 +32,6 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val dialog = win.getAndShowAlertOfWaiting(
-            this,
-            getString(R.string.loggingIn),
-            getString(R.string.waitAMoment)
-        )
         setListeners()
     }
 
@@ -76,7 +71,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun loginError(result: AuthRes.Error) {
         dataBase.logErrorLogin(result, binding.etEmail.text.toString().trim(), binding.etPassword.text.toString())
-        toast("Lo sentimos, no pudimos iniciar sesión con la información proporcionada. Por favor, verifica que la información de inicio de sesión sea correcta y vuelve a intentarlo. Si el problema persiste, asegúrate de que la cuenta esté activa y que la contraseña sea la correcta. Si necesitas ayuda adicional, no dudes en contactarnos. ¡Gracias!")
+        win.showAlertOfErrorLogin()
     }
 
     private fun loginSuccess(result: AuthRes.Success<FirebaseUser?>) {

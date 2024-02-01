@@ -10,6 +10,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.erwiin21mp.cinemovilplus.databinding.AlertErrorLoginBinding
 import com.erwiin21mp.cinemovilplus.databinding.AlertWaitingBinding
 
 class Win {
@@ -63,4 +64,18 @@ class Win {
             setCancelable(false)
             create()
         }.show()
+
+    @SuppressLint("InflateParams")
+    fun showAlertOfErrorLogin(context: Context) {
+        val view = LayoutInflater.from(context).inflate(R.layout.alert_error_login, null)
+        val binding = AlertErrorLoginBinding.bind(view)
+
+        val builder = AlertDialog.Builder(context, R.style.AlertWithOutBackground).apply {
+            setView(view)
+            create()
+        }
+
+        val dialog = builder.show()
+        binding.btnVale.setOnClickListener { dialog.dismiss() }
+    }
 }
