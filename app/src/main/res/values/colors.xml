@@ -5,6 +5,7 @@
     <color name="red">#FF0000</color>
     <color name="gris">#808080</color>
     <color name="dark_red">#2C0000</color>
+    <color name="alert">#3D0000</color>
     <color name="dark_transparent">#80000000</color>
     <color name="bg_dialog">#1c1c1c</color>
     <color name="text_dialog_message">#0584ff</color>

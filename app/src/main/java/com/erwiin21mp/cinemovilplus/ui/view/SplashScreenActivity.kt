@@ -3,7 +3,6 @@ package com.erwiin21mp.cinemovilplus.ui.view
 import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.splashscreen.SplashScreen
 import com.erwiin21mp.cinemovilplus.R
@@ -21,7 +20,7 @@ class SplashScreenActivity : AppCompatActivity() {
 
     private val auth = AuthManager()
     private val user = auth.getCurrentUser()
-    private val databaseR = RealtimeDataBaseManager()
+    private val database = RealtimeDataBaseManager()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val screenSplash = installSplashScreen()
@@ -35,7 +34,7 @@ class SplashScreenActivity : AppCompatActivity() {
         screenSplash.setKeepOnScreenCondition { true }
         if (user.isNull()) navigateToLogin()
         else {
-            CoroutineScope(Dispatchers.IO).launch { databaseR.logAppOpen(user!!) }
+            CoroutineScope(Dispatchers.IO).launch { database.logAppOpen(user!!) }
             navigateToIndex()
         }
         finish()

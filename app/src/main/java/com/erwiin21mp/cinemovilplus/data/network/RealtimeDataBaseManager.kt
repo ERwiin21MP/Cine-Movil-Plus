@@ -25,16 +25,22 @@ class RealtimeDataBaseManager {
     }
 
     fun logAppOpen(user: FirebaseUser) {
-        val map = getMapUser(user)
-
-        db.child(CHILD_LOG_APP_OPEN)
-            .child(getCleanId("${map[DISPLAY_NAME]} - ${map[EMAIL]}"))
-            .child(map[DATE].toString())
-            .setValue(map)
+        db.child(CHILD_LOG_APP_OPEN).child(getCleanId("${user.displayName} - ${user.email}"))
+            .child(getCurrentDateAndHour()).setValue(mapOf(DATE to getCurrentDateAndHour()))
     }
 
-    private fun getCleanId(id: String) = id.replace(".", "").replace("#", "").replace("\$", "").replace("[", "").replace("]", "")
-    private fun getMapUser(user: FirebaseUser) = mapOf(UID to user.uid, IS_ANONYMOUS to user.isAnonymous.toString(), DISPLAY_NAME to user.displayName.toString(), EMAIL to user.email.toString(), PHONE_NUMBER to user.phoneNumber.toString(), PHOTO_URL to user.photoUrl.toString(), DATE to getCurrentDateAndHour())
+    private fun getCleanId(id: String) =
+        id.replace(".", "").replace("#", "").replace("\$", "").replace("[", "").replace("]", "")
+
+    private fun getMapUser(user: FirebaseUser) = mapOf(
+        UID to user.uid,
+        IS_ANONYMOUS to user.isAnonymous.toString(),
+        DISPLAY_NAME to user.displayName.toString(),
+        EMAIL to user.email.toString(),
+        PHONE_NUMBER to user.phoneNumber.toString(),
+        PHOTO_URL to user.photoUrl.toString(),
+        DATE to getCurrentDateAndHour()
+    )
 
     @SuppressLint("SimpleDateFormat")
     fun getCurrentDateAndHour() =

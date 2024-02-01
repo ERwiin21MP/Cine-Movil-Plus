@@ -157,7 +157,7 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun createAccount(userName: String, email: String, password: String) {
-        val dialog = win.showAlertOfWaiting(this, R.layout.alert_registrando_usuario)
+        val dialog = win.showAlertOfWaiting(this, "", "")
         CoroutineScope(Dispatchers.IO).launch {
             when (val result = authManager.createUserWithEmailAndPassword(email, password)) {
                 is AuthRes.Success -> createAccountSuccess(result, userName, dialog)

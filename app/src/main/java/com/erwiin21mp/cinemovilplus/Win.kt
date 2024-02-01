@@ -13,6 +13,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.erwiin21mp.cinemovilplus.databinding.AlertWaitingBinding
+
 class Win {
     companion object {
         const val MIN_PASSWORD_LENGTH = 6
@@ -52,9 +54,15 @@ class Win {
     }
 
     @SuppressLint("InflateParams")
-    fun showAlertOfWaiting(context: Context, layout: Int): Dialog =
+    fun showAlertOfWaiting(context: Context, title: String, message: String): Dialog =
         AlertDialog.Builder(context, R.style.AlertWithOutBackground).apply {
-            setView(LayoutInflater.from(context).inflate(layout, null))
+            val view = LayoutInflater.from(context).inflate(R.layout.alert_waiting, null)
+            val binding = AlertWaitingBinding.bind(view)
+            binding.apply {
+                tvAlertTitle.text = title
+                tvAlertMessage.text = message
+            }
+            setView(view)
             setCancelable(false)
             create()
         }.show()
