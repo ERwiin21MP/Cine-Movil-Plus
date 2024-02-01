@@ -1,5 +1,4 @@
 <resources>
-
     <style name="Theme.CineMovilPlus" parent="Theme.AppCompat.NoActionBar">
         <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:colorAccent">@color/dark_red</item>

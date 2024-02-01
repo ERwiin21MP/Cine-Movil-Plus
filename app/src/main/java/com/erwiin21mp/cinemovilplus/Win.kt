@@ -3,14 +3,11 @@ package com.erwiin21mp.cinemovilplus
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
-import android.util.Log
 import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.erwiin21mp.cinemovilplus.databinding.AlertWaitingBinding
@@ -54,7 +51,7 @@ class Win {
     }
 
     @SuppressLint("InflateParams")
-    fun showAlertOfWaiting(context: Context, title: String, message: String): Dialog =
+    fun getAndShowAlertOfWaiting(context: Context, title: String, message: String): Dialog =
         AlertDialog.Builder(context, R.style.AlertWithOutBackground).apply {
             val view = LayoutInflater.from(context).inflate(R.layout.alert_waiting, null)
             val binding = AlertWaitingBinding.bind(view)

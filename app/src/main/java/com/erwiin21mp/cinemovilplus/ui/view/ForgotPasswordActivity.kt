@@ -62,7 +62,7 @@ class ForgotPasswordActivity : AppCompatActivity() {
     }
 
     private fun sendEmail(email: String) {
-        val dialog = win.showAlertOfWaiting(this, "", "")
+        val dialog = win.getAndShowAlertOfWaiting(this, "", "")
         CoroutineScope(Dispatchers.IO).launch {
             when (auth.sendPasswordResetEmail(email)) {
                 is AuthRes.Error -> {}//analytics.logError("Error al enviar el correo")

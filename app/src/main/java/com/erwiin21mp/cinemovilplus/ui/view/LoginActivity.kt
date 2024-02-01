@@ -31,11 +31,6 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setListeners()
-        win.showAlertOfWaiting(
-            this,
-            "Parametro",
-            "Este es el mensaje que se esta enviando desde parametro"
-        )
     }
 
     private fun setListeners() {
@@ -57,7 +52,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun signGuest() {
-        val dialog = win.showAlertOfWaiting(this, "", "")
+        val dialog = win.getAndShowAlertOfWaiting(this, getString(R.string.LoggingIn), "")
 
         CoroutineScope(Dispatchers.IO).launch {
             when (val result = auth.signAnonymously()) {
@@ -96,7 +91,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun signWithEmailAndPassword(email: String, password: String) {
-        val dialog = win.showAlertOfWaiting(this, "", "")
+        val dialog = win.getAndShowAlertOfWaiting(this, "", "")
         CoroutineScope(Dispatchers.IO).launch {
             when (val result = auth.signInWithEmailAndPassword(email, password)) {
                 is AuthRes.Error -> {}//analytics.logError("Error al iniciar sesión")
