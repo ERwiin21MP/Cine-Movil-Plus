@@ -47,4 +47,5 @@
     <string name="cancel">Cancelar</string>
 
     <string name="signOut">Cerrar sesión</string>
+    <string name="createAccountSuccessfullyMessage">¡Bienvenido a nuestra comunidad! Tu cuenta ha sido creada con éxito.</string>
 </resources>

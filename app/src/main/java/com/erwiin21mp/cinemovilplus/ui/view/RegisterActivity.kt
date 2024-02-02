@@ -159,10 +159,10 @@ class RegisterActivity : AppCompatActivity() {
                     database.logSuccessCreateAccount(result2)
                     dialog.dismiss()
                     navigateToIndex()
-                    toast("Se ha creado la cuenta")
+                    toast(getString(R.string.createAccountSuccessfullyMessage))
                     finish()
                 }
             }
         }
     }
-} // 188 lineas
+} // 188 lineas -> 168 lineas
