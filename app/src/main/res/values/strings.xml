@@ -15,6 +15,13 @@
     <string name="contact"><u>Contacto</u></string>
     <string name="email">erwindev98@gmail.com</string>
     <string name="forgotPassword"><u>¿Has olvidado tu contraseña?</u></string>
+    <string name="o">o</string>
+    <string name="continueWithGoogle">Continuar con Google</string>
+    <string name="signGuest">Ingresar como invitado</string>
+    <string name="signUpHere"><u>Registrate aqui</u></string>
+    <string name="logIn">Iniciar sesión</string>
+    <string name="eMail">Correo electrónico</string>
+    <string name="password">Contraseña</string>
 
     <!--    Forgot password-->
     <string name="sendingPasswordResetEmail">Enviando correo de Reset de Contraseña</string>
@@ -23,15 +30,6 @@
     <string name="resetEmailSentAlertMessage">Hemos enviado un correo electrónico con instrucciones para restablecer tu contraseña. Por favor, revisa tu bandeja de entrada.</string>
     <string name="forgot_password_message">Por favor, introduce tu dirección de correo electrónico a continuación. Te enviaremos un correo electrónico con instrucciones para restablecer tu contraseña.</string>
     <string name="sendRestoreEmail">Enviar correo de restablecimiento</string>
-
-    <string name="logIn">Iniciar sesión</string>
-    <string name="eMail">Correo electrónico</string>
-    <string name="password">Contraseña</string>
-
-    <string name="o">o</string>
-    <string name="continueWithGoogle">Continuar con Google</string>
-    <string name="signGuest">Ingresar como invitado</string>
-    <string name="signUpHere"><u>Registrate aqui</u></string>
 
     <!--    Register    -->
     <string name="signUp">Registrarse</string>

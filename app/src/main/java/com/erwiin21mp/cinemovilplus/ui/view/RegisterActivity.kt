@@ -9,9 +9,11 @@ import com.erwiin21mp.cinemovilplus.R
 import com.erwiin21mp.cinemovilplus.Win
 import com.erwiin21mp.cinemovilplus.Win.Companion.MIN_PASSWORD_LENGTH
 import com.erwiin21mp.cinemovilplus.core.navigateToIndex
+import com.erwiin21mp.cinemovilplus.core.onTextChanged
 import com.erwiin21mp.cinemovilplus.core.toast
 import com.erwiin21mp.cinemovilplus.data.model.AuthRes
 import com.erwiin21mp.cinemovilplus.data.network.AuthManager
+import com.erwiin21mp.cinemovilplus.data.network.DataBaseManager
 import com.erwiin21mp.cinemovilplus.databinding.ActivityRegisterBinding
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.CoroutineScope
@@ -22,14 +24,12 @@ class RegisterActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRegisterBinding
     private lateinit var textWatcherUserName: TextWatcher
-    private lateinit var textWatcherEmail: TextWatcher
-    private lateinit var textWatcherPassword: TextWatcher
-    private lateinit var textWatcherConfirmed: TextWatcher
     private var isValidUserName = false
     private var isValidEmail = false
     private var isValidPassword = false
     private var isEqualsPasswords = false
     private val win = Win()
+    private val database = DataBaseManager()
     private val authManager = AuthManager()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -74,34 +74,22 @@ class RegisterActivity : AppCompatActivity() {
                 binding.etUserName.setBackgroundResource(if (isValidUserName) R.drawable.bg_edit_text else R.drawable.bg_edit_text_error)
             }
         }
+    }
 
-        textWatcherEmail = object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-
-            override fun afterTextChanged(s: Editable?) {
-                isValidEmail = win.isValidEmail(s.toString())
+    private fun setListeners() {
+        binding.apply {
+            btnRegister.setOnClickListener { register() }
+            etUserName.addTextChangedListener(textWatcherUserName)
+            etEmail.onTextChanged {
+                isValidEmail = win.isValidEmail(it.toString())
                 binding.etEmail.setBackgroundResource(if (isValidEmail) R.drawable.bg_edit_text else R.drawable.bg_edit_text_error)
             }
-        }
-
-        textWatcherPassword = object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-
-            override fun afterTextChanged(s: Editable?) {
-                isValidPassword = win.isValidPassword(s.toString())
+            etPassword.onTextChanged {
+                isValidPassword = win.isValidPassword(it.toString())
                 binding.etPassword.setBackgroundResource(if (isValidPassword) R.drawable.bg_edit_text else R.drawable.bg_edit_text_error)
             }
-        }
-
-        textWatcherConfirmed = object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-
-            override fun afterTextChanged(s: Editable?) {
-                isEqualsPasswords = s.toString() == binding.etPassword.text.toString()
+            etConfirmedPassword.onTextChanged {
+                isEqualsPasswords = it.toString() == binding.etPassword.text.toString()
                 val drawable =
                     if (isEqualsPasswords) R.drawable.bg_edit_text else R.drawable.bg_edit_text_error
                 binding.apply {
@@ -109,16 +97,6 @@ class RegisterActivity : AppCompatActivity() {
                     etPassword.setBackgroundResource(drawable)
                 }
             }
-        }
-    }
-
-    private fun setListeners() {
-        binding.apply {
-            btnRegister.setOnClickListener { register() }
-            etUserName.addTextChangedListener(textWatcherUserName)
-            etEmail.addTextChangedListener(textWatcherEmail)
-            etPassword.addTextChangedListener(textWatcherPassword)
-            etConfirmedPassword.addTextChangedListener(textWatcherConfirmed)
             tvLogin.setOnClickListener { finish() }
         }
     }
@@ -185,4 +163,4 @@ class RegisterActivity : AppCompatActivity() {
             }
         }
     }
-}
+} // 188 lineas
