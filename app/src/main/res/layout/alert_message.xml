@@ -15,12 +15,12 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
         android:gravity="center"
-        android:text="@string/loginError"
         android:textSize="25sp"
         app:layout_constraintBottom_toTopOf="@id/tvAlertMessage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="@string/loginErrorTitle" />
 
     <TextView
         android:id="@+id/tvAlertMessage"
@@ -28,11 +28,11 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:gravity="center"
-        android:text="@string/error_login_message"
         app:layout_constraintBottom_toTopOf="@id/btnVale"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvAlertTitle" />
+        app:layout_constraintTop_toBottomOf="@id/tvAlertTitle"
+        tools:text="@string/login_error_message" />
 
     <TextView
         android:id="@+id/tvAlertContact"

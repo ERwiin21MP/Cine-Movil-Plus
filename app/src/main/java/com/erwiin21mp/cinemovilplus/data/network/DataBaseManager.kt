@@ -28,6 +28,7 @@ class DataBaseManager {
         const val PASSWORD = "Password"
         const val CHILD_LOG_BUTTON_CLICKED = "LogButtonClicked"
         const val BUTTON_NAME = "ButtonName"
+        const val CHILD_LOG_ERROR_SEND_EMAIL = "LogErrorSendEmail"
     }
 
     fun logAppOpen(user: FirebaseUser) {
@@ -60,6 +61,11 @@ class DataBaseManager {
         else db.child(CHILD_LOG_BUTTON_CLICKED).child(buttonName)
             .child(getCurrentDateAndHour())
             .setValue(mapOf(DATE to getCurrentDateAndHour(), BUTTON_NAME to buttonName))
+    }
+
+    fun logErrorSendEmail(result: AuthRes.Error, email: String) {
+        val map = mapOf(ERROR_MESSAGE to result, EMAIL to email)
+        db.child(CHILD_LOG_ERROR_SEND_EMAIL).push().setValue(map)
     }
 
     private fun getCleanId(id: String) =

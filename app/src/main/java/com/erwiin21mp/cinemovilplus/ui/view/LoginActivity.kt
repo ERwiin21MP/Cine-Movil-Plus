@@ -12,8 +12,8 @@ import com.erwiin21mp.cinemovilplus.core.toast
 import com.erwiin21mp.cinemovilplus.data.model.AuthRes
 import com.erwiin21mp.cinemovilplus.data.network.AuthManager
 import com.erwiin21mp.cinemovilplus.data.network.DataBaseManager
-import com.google.firebase.auth.FirebaseUser
 import com.erwiin21mp.cinemovilplus.databinding.ActivityLoginBinding
+import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -89,7 +89,14 @@ class LoginActivity : AppCompatActivity() {
             binding.etEmail.text.toString().trim(),
             binding.etPassword.text.toString()
         )
-        runOnUiThread { win.showAlertOfErrorLogin(this) }
+        runOnUiThread {
+            win.showAlertOfMessage(
+                this,
+                getString(R.string.loginErrorTitle),
+                getString(R.string.login_error_message),
+                true
+            )
+        }
     }
 
     private fun loginSuccess(result: AuthRes.Success<FirebaseUser?>) {

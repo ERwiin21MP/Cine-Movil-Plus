@@ -12,13 +12,20 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import com.erwiin21mp.cinemovilplus.databinding.AlertErrorLoginBinding
+import com.erwiin21mp.cinemovilplus.data.network.AuthManager
+import com.erwiin21mp.cinemovilplus.data.network.DataBaseManager
+import com.erwiin21mp.cinemovilplus.databinding.AlertMessageBinding
 import com.erwiin21mp.cinemovilplus.databinding.AlertWaitingBinding
 
 class Win {
+
+    private val database = DataBaseManager()
+    private val auth = AuthManager()
+
     companion object {
         const val MIN_PASSWORD_LENGTH = 6
         const val MIN_USERNAME_LENGTH = 3
+        const val BUTTON_ALERT_VALE = "AlertVale"
     }
 
     fun isValidEmail(email: String) =
@@ -65,9 +72,14 @@ class Win {
         }.show()
 
     @SuppressLint("InflateParams")
-    fun showAlertOfErrorLogin(context: Context) {
-        val view = LayoutInflater.from(context).inflate(R.layout.alert_error_login, null)
-        val binding = AlertErrorLoginBinding.bind(view)
+    fun showAlertOfMessage(
+        context: Context,
+        title: String,
+        message: String,
+        isVisibleContact: Boolean
+    ) {
+        val view = LayoutInflater.from(context).inflate(R.layout.alert_message, null)
+        val binding = AlertMessageBinding.bind(view)
 
         val builder = AlertDialog.Builder(context, R.style.AlertWithOutBackground).apply {
             setView(view)
@@ -76,8 +88,12 @@ class Win {
 
         val dialog = builder.show()
         binding.apply {
+            tvAlertTitle.text = title
+            tvAlertMessage.text = message
             btnVale.setOnClickListener { dialog.dismiss() }
+
             tvAlertContact.setOnClickListener {
+                database.logButtonClicked(BUTTON_ALERT_VALE, auth.getCurrentUser())
                 val intent = Intent(Intent.ACTION_SENDTO).apply {
                     data = Uri.parse(
                         "mailto:${context.getString(R.string.email)}?subject=${
@@ -88,6 +104,8 @@ class Win {
                 context.startActivity(intent)
                 dialog.dismiss()
             }
+
+            if (!isVisibleContact) tvAlertContact.visibility = View.GONE
         }
     }
 }
