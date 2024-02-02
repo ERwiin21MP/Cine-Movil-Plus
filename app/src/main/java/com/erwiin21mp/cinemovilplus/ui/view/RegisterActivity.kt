@@ -150,13 +150,13 @@ class RegisterActivity : AppCompatActivity() {
         database.logSuccessLogin(result)
         when (val result2 = auth.updateUserDisplayName(userName)) {
             is AuthRes.Error -> {
-                database.logErrorUpdateUserDisplayName(userName, result2, auth.getCurrentUser())
+                database.logErrorUpdateUserDisplayName(userName, result2, result)
                 runOnUiThread { dialog.dismiss() }
             }
 
             is AuthRes.Success -> {
                 runOnUiThread {
-//                    analytics.logCreateAccount(authManager.getCurrentUser()!!)
+                    database.logSuccessCreateAccount(result2)
                     dialog.dismiss()
                     navigateToIndex()
                     toast("Se ha creado la cuenta")
