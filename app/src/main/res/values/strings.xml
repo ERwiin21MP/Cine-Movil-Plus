@@ -22,6 +22,7 @@
     <string name="logIn">Iniciar sesión</string>
     <string name="eMail">Correo electrónico</string>
     <string name="password">Contraseña</string>
+    <string name="api_key">AIzaSyDtR6l2Bsk4EeKqviMhTi0rSFf4oN_s_XQ</string>
 
     <!--    Forgot password-->
     <string name="sendingPasswordResetEmail">Enviando correo de Reset de Contraseña</string>
@@ -32,16 +33,18 @@
     <string name="sendRestoreEmail">Enviar correo de restablecimiento</string>
 
     <!--    Register    -->
+    <string name="enterYourUsername">Ingresa tu nombre de usuario</string>
     <string name="signUp">Registrarse</string>
     <string name="userName">Nombre de usuario</string>
     <string name="confirmedPassword">Confirmar contraseña</string>
+    <string name="passwordLengthWarning">La contraseña debe tener al menos 6 caracteres para garantizar la seguridad de tu cuenta</string>
+    <string name="passwordConfirmedWarning">Las contraseñas ingresadas no coinciden. Asegúrate de que ambas contraseñas seas idénticas para continuar</string>
+    <string name="registeringUser">Registrando usuario</string>
+
     <string name="ya_tienes_cuenta_inicia_sesion">¿Ya tienes cuenta? <u>Inicia sesión</u></string>
-    <string name="ingresa_tu_nombre_de_usuario">Ingresa tu nombre de usuario</string>
-    <string name="password_length_warning">La contraseña debe tener al menos 6 caracteres para garantizar la seguridad de tu cuenta</string>
-    <string name="password_confirmed_warning">Las contraseñas ingresadas no coinciden. Asegúrate de que ambas contraseñas seas idénticas para continuar</string>
-    <string name="sign_out">Cerrar sesión</string>
+
     <string name="estas_seguro_que_deseas_cerrar_sesion">¿Estas seguro que deseas cerrar sesión?</string>
     <string name="cancel">Cancelar</string>
-    <string name="registrando_usuario">Registrando usuario</string>
-    <string name="api_key">AIzaSyDtR6l2Bsk4EeKqviMhTi0rSFf4oN_s_XQ</string>
+
+    <string name="signOut">Cerrar sesión</string>
 </resources>

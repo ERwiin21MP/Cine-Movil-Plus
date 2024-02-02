@@ -108,7 +108,7 @@ class RegisterActivity : AppCompatActivity() {
         val confirmedPassword = binding.etConfirmedPassword.text.toString()
 
         if (userName.isEmpty())
-            win.setError(binding.etUserName, getString(R.string.ingresa_tu_nombre_de_usuario))
+            win.setError(binding.etUserName, getString(R.string.enterYourUsername))
         else if (email.isEmpty())
             win.setError(binding.etEmail, getString(R.string.enterYourEmail))
         else if (!win.isValidEmail(email))
@@ -116,14 +116,11 @@ class RegisterActivity : AppCompatActivity() {
         else if (password.isEmpty())
             win.setError(binding.etPassword, getString(R.string.enterYourPassword))
         else if (password.length < MIN_PASSWORD_LENGTH)
-            win.setError(binding.etPassword, getString(R.string.password_length_warning))
+            win.setError(binding.etPassword, getString(R.string.passwordLengthWarning))
         else if (confirmedPassword.isEmpty())
             win.setError(binding.etConfirmedPassword, getString(R.string.enterYourPassword))
         else if (password != confirmedPassword)
-            win.setError(
-                binding.etConfirmedPassword,
-                getString(R.string.password_confirmed_warning)
-            )
+            win.setError(binding.etConfirmedPassword, getString(R.string.passwordConfirmedWarning))
         else {
             win.hideSoftKeyboard(binding.etUserName)
             createAccount(userName, email, password)
@@ -131,11 +128,11 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun createAccount(userName: String, email: String, password: String) {
-        val dialog = win.getAndShowAlertOfWaiting(this, "")
+        val dialog = win.getAndShowAlertOfWaiting(this, getString(R.string.registeringUser))
         CoroutineScope(Dispatchers.IO).launch {
             when (val result = authManager.createUserWithEmailAndPassword(email, password)) {
                 is AuthRes.Success -> createAccountSuccess(result, userName, dialog)
-                is AuthRes.Error -> {}//analytics.logError(result.errorMessage)
+                is AuthRes.Error -> database.logErrorCreateAccount(result, userName, email, password)
             }
         }
     }

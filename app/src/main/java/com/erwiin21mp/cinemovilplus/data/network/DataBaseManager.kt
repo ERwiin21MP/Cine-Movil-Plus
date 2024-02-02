@@ -11,7 +11,7 @@ import java.util.Date
 
 class DataBaseManager {
 
-    private val db: DatabaseReference = FirebaseDatabase.getInstance().reference
+    private val database: DatabaseReference = FirebaseDatabase.getInstance().reference
 
     private companion object {
         const val CHILD_LOG_APP_OPEN = "LogAppOpen"
@@ -29,10 +29,11 @@ class DataBaseManager {
         const val CHILD_LOG_BUTTON_CLICKED = "LogButtonClicked"
         const val BUTTON_NAME = "ButtonName"
         const val CHILD_LOG_ERROR_SEND_EMAIL = "LogErrorSendEmail"
+        const val CHILD_LOG_ERROR_CREATE_ACCOUNT = "LogErrorCreateAccount"
     }
 
     fun logAppOpen(user: FirebaseUser) {
-        db.child(CHILD_LOG_APP_OPEN).child(getCleanId("${user.displayName} - ${user.email}"))
+        database.child(CHILD_LOG_APP_OPEN).child(getCleanId("${user.displayName} - ${user.email}"))
             .child(getCurrentDateAndHour()).setValue(mapOf(DATE to getCurrentDateAndHour()))
     }
 
@@ -43,29 +44,29 @@ class DataBaseManager {
             PASSWORD to password,
             DATE to getCurrentDateAndHour()
         )
-        db.child(CHILD_LOG_ERROR_LOGIN).push().setValue(map)
+        database.child(CHILD_LOG_ERROR_LOGIN).push().setValue(map)
     }
 
     fun logSuccessLogin(user: AuthRes.Success<FirebaseUser?>) {
-        db.child(CHILD_LOG_SUCCESS_LOGIN)
+        database.child(CHILD_LOG_SUCCESS_LOGIN)
             .child(getCleanId("${user.data?.displayName} - ${user.data?.email}"))
             .child(getCurrentDateAndHour()).setValue(mapOf(DATE to getCurrentDateAndHour()))
     }
 
     fun logButtonClicked(buttonName: String, user: FirebaseUser?) {
-        if (!user.isNull()) db.child(CHILD_LOG_BUTTON_CLICKED).child(buttonName)
+        if (!user.isNull()) database.child(CHILD_LOG_BUTTON_CLICKED).child(buttonName)
             .child(getCleanId("${user!!.displayName} - ${user.email}"))
             .child(getCurrentDateAndHour()).setValue(
                 mapOf(DATE to getCurrentDateAndHour(), BUTTON_NAME to buttonName)
             )
-        else db.child(CHILD_LOG_BUTTON_CLICKED).child(buttonName)
+        else database.child(CHILD_LOG_BUTTON_CLICKED).child(buttonName)
             .child(getCurrentDateAndHour())
             .setValue(mapOf(DATE to getCurrentDateAndHour(), BUTTON_NAME to buttonName))
     }
 
     fun logErrorSendEmail(result: AuthRes.Error, email: String) {
-        val map = mapOf(ERROR_MESSAGE to result, EMAIL to email)
-        db.child(CHILD_LOG_ERROR_SEND_EMAIL).push().setValue(map)
+        val map = mapOf(ERROR_MESSAGE to result, EMAIL to email, DATE to getCurrentDateAndHour())
+        database.child(CHILD_LOG_ERROR_SEND_EMAIL).push().setValue(map)
     }
 
     private fun getCleanId(id: String) =
@@ -84,4 +85,20 @@ class DataBaseManager {
     @SuppressLint("SimpleDateFormat")
     fun getCurrentDateAndHour() =
         SimpleDateFormat("d MMM yyyy, EEE, HH:mm:ss z").format(Date()).toString()
+
+    fun logErrorCreateAccount(
+        result: AuthRes.Error,
+        userName: String,
+        email: String,
+        password: String
+    ) {
+        val map = mapOf(
+            ERROR_MESSAGE to result,
+            DATE to getCurrentDateAndHour(),
+            DISPLAY_NAME to userName,
+            EMAIL to email,
+            PASSWORD to password
+        )
+        database.child(CHILD_LOG_ERROR_CREATE_ACCOUNT).push().setValue(map)
+    }
 }
