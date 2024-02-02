@@ -18,7 +18,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="10dp"
-        android:text="@string/estas_seguro_que_deseas_cerrar_sesion" />
+        android:text="@string/areYouSureYouWantToLogOut" />
 
     <LinearLayout
         android:layout_width="match_parent"
