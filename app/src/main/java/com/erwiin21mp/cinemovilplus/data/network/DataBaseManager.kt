@@ -1,6 +1,7 @@
 package com.erwiin21mp.cinemovilplus.data.network
 
 import android.annotation.SuppressLint
+import com.erwiin21mp.cinemovilplus.core.isNull
 import com.erwiin21mp.cinemovilplus.data.model.AuthRes
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
@@ -50,8 +51,13 @@ class DataBaseManager {
             .child(getCurrentDateAndHour()).setValue(mapOf(DATE to getCurrentDateAndHour()))
     }
 
-    fun logButtonClicked(buttonName: String, user: FirebaseUser) {
-        db.child(CHILD_LOG_BUTTON_CLICKED).child(getCleanId("${user.displayName} - ${user.email}"))
+    fun logButtonClicked(buttonName: String, user: FirebaseUser?) {
+        if (!user.isNull()) db.child(CHILD_LOG_BUTTON_CLICKED).child(buttonName)
+            .child(getCleanId("${user!!.displayName} - ${user.email}"))
+            .child(getCurrentDateAndHour()).setValue(
+                mapOf(DATE to getCurrentDateAndHour(), BUTTON_NAME to buttonName)
+            )
+        else db.child(CHILD_LOG_BUTTON_CLICKED).child(buttonName)
             .child(getCurrentDateAndHour())
             .setValue(mapOf(DATE to getCurrentDateAndHour(), BUTTON_NAME to buttonName))
     }

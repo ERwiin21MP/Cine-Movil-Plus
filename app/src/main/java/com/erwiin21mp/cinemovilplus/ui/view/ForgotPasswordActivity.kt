@@ -55,9 +55,9 @@ class ForgotPasswordActivity : AppCompatActivity() {
         val email = binding.etEmail.text.toString().trim()
 
         if (email.isEmpty())
-            win.setError(binding.etEmail, getString(R.string.ingresa_tu_correo))
+            win.setError(binding.etEmail, getString(R.string.enterYourEmail))
         else if (!win.isValidEmail(email))
-            win.setError(binding.etEmail, getString(R.string.ingresa_un_correo_valido))
+            win.setError(binding.etEmail, getString(R.string.enterAValidEmail))
         else sendEmail(email)
     }
 

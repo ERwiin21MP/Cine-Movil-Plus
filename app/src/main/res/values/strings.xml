@@ -8,6 +8,9 @@
     <string name="youHaveSuccessfullyLoggedIn">¡Has iniciado sesión exitosamente!</string>
     <string name="loginError">Error de Inicio de Sesión</string>
     <string name="vale">Vale</string>
+    <string name="enterYourEmail">Ingresa tu correo electrónico</string>
+    <string name="enterAValidEmail">Ingresa un correo válido</string>
+    <string name="enterYourPassword">Ingresa tu contraseña</string>
 
     <string name="logIn">Iniciar sesión</string>
     <string name="eMail">Correo electrónico</string>
@@ -24,9 +27,6 @@
     <string name="confirmedPassword">Confirmar contraseña</string>
     <string name="ya_tienes_cuenta_inicia_sesion">¿Ya tienes cuenta? <u>Inicia sesión</u></string>
     <string name="ingresa_tu_nombre_de_usuario">Ingresa tu nombre de usuario</string>
-    <string name="ingresa_tu_correo">Ingresa tu correo electrónico</string>
-    <string name="ingresa_tu_contraseña">Ingresa tu contraseña</string>
-    <string name="ingresa_un_correo_valido">Ingresa un correo válido</string>
     <string name="password_length_warning">La contraseña debe tener al menos 6 caracteres para garantizar la seguridad de tu cuenta</string>
     <string name="password_confirmed_warning">Las contraseñas ingresadas no coinciden. Asegúrate de que ambas contraseñas seas idénticas para continuar</string>
     <string name="sign_out">Cerrar sesión</string>

@@ -27,6 +27,13 @@ class LoginActivity : AppCompatActivity() {
     private val auth: AuthManager = AuthManager()
     private val dataBase = DataBaseManager()
 
+    private companion object {
+        const val BUTTON_LOGIN = "Login"
+        const val BUTTON_FORGOT_PASSWORD = "ForgotPassword"
+        const val BUTTON_SIGN_GUEST = "Guest"
+        const val BUTTON_SIGN_UP = "SignUp"
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
@@ -37,11 +44,22 @@ class LoginActivity : AppCompatActivity() {
 
     private fun setListeners() {
         binding.apply {
-            btnLogin.setOnClickListener { login() }
-            tvForgotPassword.setOnClickListener { forgotPassword() }
-            tvSignUp.setOnClickListener { signUp() }
-            btnGuest.setOnClickListener { signGuest() }
-
+            btnLogin.setOnClickListener {
+                dataBase.logButtonClicked(BUTTON_LOGIN, auth.getCurrentUser())
+                login()
+            }
+            tvForgotPassword.setOnClickListener {
+                dataBase.logButtonClicked(BUTTON_FORGOT_PASSWORD, auth.getCurrentUser())
+                navigateToForgotPassword()
+            }
+            tvSignUp.setOnClickListener {
+                dataBase.logButtonClicked(BUTTON_SIGN_UP, auth.getCurrentUser())
+                navigateToSignUp()
+            }
+            btnGuest.setOnClickListener {
+                dataBase.logButtonClicked(BUTTON_SIGN_GUEST, auth.getCurrentUser())
+                signGuest()
+            }
             etEmail.onTextChanged {
                 isValidEmail = win.isValidEmail(it)
                 etEmail.setBackgroundResource(if (isValidEmail) R.drawable.bg_edit_text else R.drawable.bg_edit_text_error)
@@ -80,24 +98,16 @@ class LoginActivity : AppCompatActivity() {
         navigateToIndex()
     }
 
-    private fun signUp() {
-        navigateToSignUp()
-    }
-
-    private fun forgotPassword() {
-        navigateToForgotPassword()
-    }
-
     private fun login() {
         val email = binding.etEmail.text.toString().trim()
         val password = binding.etPassword.text.toString()
 
         if (email.isEmpty())
-            win.setError(binding.etEmail, getString(R.string.ingresa_tu_correo))
+            win.setError(binding.etEmail, getString(R.string.enterYourEmail))
         else if (!win.isValidEmail(email))
-            win.setError(binding.etEmail, getString(R.string.ingresa_un_correo_valido))
+            win.setError(binding.etEmail, getString(R.string.enterAValidEmail))
         else if (password.isEmpty())
-            win.setError(binding.etPassword, getString(R.string.ingresa_tu_contraseña))
+            win.setError(binding.etPassword, getString(R.string.enterYourPassword))
         else signWithEmailAndPassword(email, password)
     }
 
@@ -112,4 +122,4 @@ class LoginActivity : AppCompatActivity() {
             dialog.dismiss()
         }
     }
-} // 175 lineas
+} // 175 lines -> 125 lines
