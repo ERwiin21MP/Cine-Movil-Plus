@@ -30,7 +30,7 @@ class RegisterActivity : AppCompatActivity() {
     private var isEqualsPasswords = false
     private val win = Win()
     private val database = DataBaseManager()
-    private val authManager = AuthManager()
+    private val auth = AuthManager()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -130,9 +130,14 @@ class RegisterActivity : AppCompatActivity() {
     private fun createAccount(userName: String, email: String, password: String) {
         val dialog = win.getAndShowAlertOfWaiting(this, getString(R.string.registeringUser))
         CoroutineScope(Dispatchers.IO).launch {
-            when (val result = authManager.createUserWithEmailAndPassword(email, password)) {
+            when (val result = auth.createUserWithEmailAndPassword(email, password)) {
                 is AuthRes.Success -> createAccountSuccess(result, userName, dialog)
-                is AuthRes.Error -> database.logErrorCreateAccount(result, userName, email, password)
+                is AuthRes.Error -> database.logErrorCreateAccount(
+                    result,
+                    userName,
+                    email,
+                    password
+                )
             }
         }
     }
@@ -142,10 +147,10 @@ class RegisterActivity : AppCompatActivity() {
         userName: String,
         dialog: Dialog
     ) {
-//        analytics.logLogin(result.data!!)
-        when (authManager.updateUserDisplayName(userName)) {
+        database.logSuccessLogin(result)
+        when (val result2 = auth.updateUserDisplayName(userName)) {
             is AuthRes.Error -> {
-//                analytics.logError("No se ha podido actualizar el username")
+                database.logErrorUpdateUserDisplayName(userName, result2, auth.getCurrentUser())
                 runOnUiThread { dialog.dismiss() }
             }
 
