@@ -14,9 +14,11 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.erwiin21mp.cinemovilplus.data.network.AuthManager
 import com.erwiin21mp.cinemovilplus.data.network.DataBaseManager
-import com.erwiin21mp.cinemovilplus.databinding.AlertMessageBinding
+import com.erwiin21mp.cinemovilplus.databinding.AlertErrorLoginBinding
+import com.erwiin21mp.cinemovilplus.databinding.AlertForgotPasswordSuccessfullyMessageBinding
 import com.erwiin21mp.cinemovilplus.databinding.AlertWaitingBinding
 
+@SuppressLint("InflateParams")
 class Win {
 
     private val database = DataBaseManager()
@@ -60,7 +62,6 @@ class Win {
         imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
-    @SuppressLint("InflateParams")
     fun getAndShowAlertOfWaiting(context: Context, title: String): Dialog =
         AlertDialog.Builder(context, R.style.AlertWithOutBackground).apply {
             val view = LayoutInflater.from(context).inflate(R.layout.alert_waiting, null)
@@ -71,15 +72,9 @@ class Win {
             create()
         }.show()
 
-    @SuppressLint("InflateParams")
-    fun showAlertOfMessage(
-        context: Context,
-        title: String,
-        message: String,
-        isVisibleContact: Boolean
-    ) {
-        val view = LayoutInflater.from(context).inflate(R.layout.alert_message, null)
-        val binding = AlertMessageBinding.bind(view)
+    fun showAlertOfMessage(context: Context) {
+        val view = LayoutInflater.from(context).inflate(R.layout.alert_error_login, null)
+        val binding = AlertErrorLoginBinding.bind(view)
 
         val builder = AlertDialog.Builder(context, R.style.AlertWithOutBackground).apply {
             setView(view)
@@ -88,8 +83,6 @@ class Win {
 
         val dialog = builder.show()
         binding.apply {
-            tvAlertTitle.text = title
-            tvAlertMessage.text = message
             btnVale.setOnClickListener { dialog.dismiss() }
 
             tvAlertContact.setOnClickListener {
@@ -104,8 +97,24 @@ class Win {
                 context.startActivity(intent)
                 dialog.dismiss()
             }
+        }
+    }
 
-            if (!isVisibleContact) tvAlertContact.visibility = View.GONE
+    fun showAlertOfResetEmailSent(context: Context, onClickListener: () -> Unit) {
+        val view = LayoutInflater.from(context)
+            .inflate(R.layout.alert_forgot_password_successfully_message, null)
+        val binding = AlertForgotPasswordSuccessfullyMessageBinding.bind(view)
+
+        val builder = AlertDialog.Builder(context, R.style.AlertWithOutBackground).apply {
+            setView(view)
+            create()
+        }
+
+        val dialog = builder.show()
+
+        binding.btnVale.setOnClickListener {
+            dialog.dismiss()
+            onClickListener()
         }
     }
 }

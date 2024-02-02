@@ -80,6 +80,7 @@ class LoginActivity : AppCompatActivity() {
                 is AuthRes.Success -> loginSuccess(result)
             }
             dialog.dismiss()
+            finish()
         }
     }
 
@@ -89,14 +90,7 @@ class LoginActivity : AppCompatActivity() {
             binding.etEmail.text.toString().trim(),
             binding.etPassword.text.toString()
         )
-        runOnUiThread {
-            win.showAlertOfMessage(
-                this,
-                getString(R.string.loginErrorTitle),
-                getString(R.string.login_error_message),
-                true
-            )
-        }
+        runOnUiThread { win.showAlertOfMessage(this) }
     }
 
     private fun loginSuccess(result: AuthRes.Success<FirebaseUser?>) {

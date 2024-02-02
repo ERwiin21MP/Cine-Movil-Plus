@@ -14,14 +14,20 @@
     <string name="login_error_message">Lo sentimos, no pudimos iniciar sesión con la información proporcionada. Por favor, verifica que la información de inicio de sesión sea correcta y vuelve a intentarlo. Si el problema persiste, asegúrate de que la cuenta esté activa y que la contraseña sea la correcta. Si necesitas ayuda adicional, no dudes en contactarnos. ¡Gracias!</string>
     <string name="contact"><u>Contacto</u></string>
     <string name="email">erwindev98@gmail.com</string>
+    <string name="forgotPassword"><u>¿Has olvidado tu contraseña?</u></string>
 
     <!--    Forgot password-->
     <string name="sendingPasswordResetEmail">Enviando correo de Reset de Contraseña</string>
+    <string name="forgotPasswordTitle">¿Has olvidado tu contraseña?</string>
+    <string name="resetEmailSentAlertTitle">¡Correo de restablecimiento enviado!</string>
+    <string name="resetEmailSentAlertMessage">Hemos enviado un correo electrónico con instrucciones para restablecer tu contraseña. Por favor, revisa tu bandeja de entrada.</string>
+    <string name="forgot_password_message">Por favor, introduce tu dirección de correo electrónico a continuación. Te enviaremos un correo electrónico con instrucciones para restablecer tu contraseña.</string>
+    <string name="sendRestoreEmail">Enviar correo de restablecimiento</string>
 
     <string name="logIn">Iniciar sesión</string>
     <string name="eMail">Correo electrónico</string>
     <string name="password">Contraseña</string>
-    <string name="forgotPassword"><u>¿Has olvidado tu contraseña?</u></string>
+
     <string name="o">o</string>
     <string name="continueWithGoogle">Continuar con Google</string>
     <string name="signGuest">Ingresar como invitado</string>

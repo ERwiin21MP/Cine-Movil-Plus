@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.erwiin21mp.cinemovilplus.R
 import com.erwiin21mp.cinemovilplus.Win
-import com.erwiin21mp.cinemovilplus.core.navigateToLogin
 import com.erwiin21mp.cinemovilplus.core.onTextChanged
 import com.erwiin21mp.cinemovilplus.data.model.AuthRes
 import com.erwiin21mp.cinemovilplus.data.network.AuthManager
@@ -69,17 +68,11 @@ class ForgotPasswordActivity : AppCompatActivity() {
 
                 is AuthRes.Success -> {
                     runOnUiThread {
-                        win.showAlertOfMessage(
-                            this@ForgotPasswordActivity,
-                            getString(R.string.loginErrorTitle),
-                            "Hemos enviado un correo electrónico con instrucciones para restablecer tu contraseña. Por favor, revisa tu bandeja de entrada.",
-                            false
-                        )
+                        dialog.dismiss()
+                        win.showAlertOfResetEmailSent(this@ForgotPasswordActivity) { finish() }
                     }
-                    navigateToLogin()
                 }
             }
-            dialog.dismiss()
         }
     }
 }
