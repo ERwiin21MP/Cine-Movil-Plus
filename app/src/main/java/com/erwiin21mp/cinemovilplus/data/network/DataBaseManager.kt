@@ -25,6 +25,8 @@ class DataBaseManager {
         const val CHILD_LOG_SUCCESS_LOGIN = "LogSuccessLogin"
         const val ERROR_MESSAGE = "ErrorMessage"
         const val PASSWORD = "Password"
+        const val CHILD_LOG_BUTTON_CLICKED = "LogButtonClicked"
+        const val BUTTON_NAME = "ButtonName"
     }
 
     fun logAppOpen(user: FirebaseUser) {
@@ -49,7 +51,9 @@ class DataBaseManager {
     }
 
     fun logButtonClicked(buttonName: String, user: FirebaseUser) {
-
+        db.child(CHILD_LOG_BUTTON_CLICKED).child(getCleanId("${user.displayName} - ${user.email}"))
+            .child(getCurrentDateAndHour())
+            .setValue(mapOf(DATE to getCurrentDateAndHour(), BUTTON_NAME to buttonName))
     }
 
     private fun getCleanId(id: String) =
