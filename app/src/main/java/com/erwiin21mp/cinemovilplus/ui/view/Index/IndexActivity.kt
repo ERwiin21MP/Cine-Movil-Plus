@@ -1,4 +1,4 @@
-package com.erwiin21mp.cinemovilplus.ui.view
+package com.erwiin21mp.cinemovilplus.ui.view.Index
 
 import android.app.Dialog
 import android.os.Bundle
@@ -7,13 +7,13 @@ import android.widget.Button
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.erwiin21mp.cinemovilplus.R
-import com.erwiin21mp.cinemovilplus.Win
 import com.erwiin21mp.cinemovilplus.core.navigateToLogin
 import com.erwiin21mp.cinemovilplus.core.toast
 import com.erwiin21mp.cinemovilplus.data.network.AuthGoogle
 import com.erwiin21mp.cinemovilplus.data.network.AuthManager
 import com.erwiin21mp.cinemovilplus.data.network.DataBaseManager
 import com.erwiin21mp.cinemovilplus.databinding.ActivityIndexBinding
+import com.erwiin21mp.cinemovilplus.ui.utils.Win
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.view.LoginActivity">
+    tools:context=".ui.view.login.LoginActivity">
 
     <ImageView
         android:layout_width="0dp"
@@ -165,7 +165,7 @@
         android:id="@+id/tvSignUp"
         style="@style/TextViewsLinks"
         android:layout_marginTop="8dp"
-        android:text="@string/signUpHere"
+        android:text="@string/youDoNotHaveAnAccountSignUpHere"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cvRegister" />

@@ -1,4 +1,4 @@
-package com.erwiin21mp.cinemovilplus.ui.view
+package com.erwiin21mp.cinemovilplus.ui.view.signUp
 
 import android.app.Dialog
 import android.os.Bundle
@@ -6,8 +6,6 @@ import android.text.Editable
 import android.text.TextWatcher
 import androidx.appcompat.app.AppCompatActivity
 import com.erwiin21mp.cinemovilplus.R
-import com.erwiin21mp.cinemovilplus.Win
-import com.erwiin21mp.cinemovilplus.Win.Companion.MIN_PASSWORD_LENGTH
 import com.erwiin21mp.cinemovilplus.core.navigateToIndex
 import com.erwiin21mp.cinemovilplus.core.onTextChanged
 import com.erwiin21mp.cinemovilplus.core.toast
@@ -15,6 +13,8 @@ import com.erwiin21mp.cinemovilplus.data.model.AuthRes
 import com.erwiin21mp.cinemovilplus.data.network.AuthManager
 import com.erwiin21mp.cinemovilplus.data.network.DataBaseManager
 import com.erwiin21mp.cinemovilplus.databinding.ActivityRegisterBinding
+import com.erwiin21mp.cinemovilplus.ui.utils.Win
+import com.erwiin21mp.cinemovilplus.ui.utils.Win.Companion.MIN_PASSWORD_LENGTH
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

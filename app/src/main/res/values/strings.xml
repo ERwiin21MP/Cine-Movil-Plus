@@ -17,7 +17,7 @@
     <string name="o">o</string>
     <string name="continueWithGoogle">Continuar con Google</string>
     <string name="signGuest">Ingresar como invitado</string>
-    <string name="signUpHere"><u>Registrate aqui</u></string>
+    <string name="youDoNotHaveAnAccountSignUpHere">¿No tienes cuenta? <u>Regístrate aquí</u></string>
     <string name="logIn">Iniciar sesión</string>
     <string name="eMail">Correo electrónico</string>
     <string name="password">Contraseña</string>

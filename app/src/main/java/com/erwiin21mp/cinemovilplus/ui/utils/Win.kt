@@ -1,4 +1,4 @@
-package com.erwiin21mp.cinemovilplus
+package com.erwiin21mp.cinemovilplus.ui.utils
 
 import android.annotation.SuppressLint
 import android.app.Dialog
@@ -12,6 +12,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.erwiin21mp.cinemovilplus.R
 import com.erwiin21mp.cinemovilplus.data.network.AuthManager
 import com.erwiin21mp.cinemovilplus.data.network.DataBaseManager
 import com.erwiin21mp.cinemovilplus.databinding.AlertErrorLoginBinding

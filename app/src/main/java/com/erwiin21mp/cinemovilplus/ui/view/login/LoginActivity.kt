@@ -1,10 +1,9 @@
-package com.erwiin21mp.cinemovilplus.ui.view
+package com.erwiin21mp.cinemovilplus.ui.view.login
 
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.appcompat.app.AppCompatActivity
 import com.erwiin21mp.cinemovilplus.R
-import com.erwiin21mp.cinemovilplus.Win
 import com.erwiin21mp.cinemovilplus.core.logData
 import com.erwiin21mp.cinemovilplus.core.navigateToForgotPassword
 import com.erwiin21mp.cinemovilplus.core.navigateToIndex
@@ -16,6 +15,7 @@ import com.erwiin21mp.cinemovilplus.data.network.AuthGoogle
 import com.erwiin21mp.cinemovilplus.data.network.AuthManager
 import com.erwiin21mp.cinemovilplus.data.network.DataBaseManager
 import com.erwiin21mp.cinemovilplus.databinding.ActivityLoginBinding
+import com.erwiin21mp.cinemovilplus.ui.utils.Win
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider

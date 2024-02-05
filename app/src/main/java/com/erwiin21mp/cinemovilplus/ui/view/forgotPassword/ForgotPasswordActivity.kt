@@ -1,14 +1,14 @@
-package com.erwiin21mp.cinemovilplus.ui.view
+package com.erwiin21mp.cinemovilplus.ui.view.forgotPassword
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.erwiin21mp.cinemovilplus.R
-import com.erwiin21mp.cinemovilplus.Win
 import com.erwiin21mp.cinemovilplus.core.onTextChanged
 import com.erwiin21mp.cinemovilplus.data.model.AuthRes
 import com.erwiin21mp.cinemovilplus.data.network.AuthManager
 import com.erwiin21mp.cinemovilplus.data.network.DataBaseManager
 import com.erwiin21mp.cinemovilplus.databinding.ActivityForgotPasswordBinding
+import com.erwiin21mp.cinemovilplus.ui.utils.Win
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

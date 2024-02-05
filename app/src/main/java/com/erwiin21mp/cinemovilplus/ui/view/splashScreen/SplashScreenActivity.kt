@@ -1,10 +1,10 @@
-package com.erwiin21mp.cinemovilplus.ui.view
+package com.erwiin21mp.cinemovilplus.ui.view.splashScreen
 
 import android.annotation.SuppressLint
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.erwiin21mp.cinemovilplus.R
 import com.erwiin21mp.cinemovilplus.core.isNull
 import com.erwiin21mp.cinemovilplus.core.navigateToIndex
