@@ -32,6 +32,11 @@ class RegisterActivity : AppCompatActivity() {
     private val database = DataBaseManager()
     private val auth = AuthManager()
 
+    private companion object {
+        const val BUTTON_ARE_YOU_A_ACCOUNT = "AreYouAAccount"
+        const val BUTTON_REGISTER = "Register"
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRegisterBinding.inflate(layoutInflater)
@@ -78,7 +83,10 @@ class RegisterActivity : AppCompatActivity() {
 
     private fun setListeners() {
         binding.apply {
-            btnRegister.setOnClickListener { register() }
+            btnRegister.setOnClickListener {
+                database.logButtonClicked(BUTTON_REGISTER, auth.getCurrentUser())
+                register()
+            }
             etUserName.addTextChangedListener(textWatcherUserName)
             etEmail.onTextChanged {
                 isValidEmail = win.isValidEmail(it.toString())
@@ -97,7 +105,10 @@ class RegisterActivity : AppCompatActivity() {
                     etPassword.setBackgroundResource(drawable)
                 }
             }
-            tvLogin.setOnClickListener { finish() }
+            tvLogin.setOnClickListener {
+                database.logButtonClicked(BUTTON_ARE_YOU_A_ACCOUNT, auth.getCurrentUser())
+                finish()
+            }
         }
     }
 

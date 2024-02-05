@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import androidx.activity.result.ActivityResultLauncher
+import com.erwiin21mp.cinemovilplus.R
+import com.erwiin21mp.cinemovilplus.data.model.AuthRes
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -16,8 +18,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import com.erwiin21mp.cinemovilplus.data.model.AuthRes
-import com.erwiin21mp.cinemovilplus.R
 import kotlinx.coroutines.tasks.await
 
 class AuthGoogle(context: Context) {
@@ -44,8 +44,7 @@ class AuthGoogle(context: Context) {
     suspend fun signInWithGoogleCredential(credential: AuthCredential): AuthRes<FirebaseUser>? {
         return try {
             val firebaseUser = auth.signInWithCredential(credential).await()
-            firebaseUser.user?.let { AuthRes.Success(it) }
-                ?: throw Exception("Sign in with Google failed")
+            firebaseUser.user?.let { AuthRes.Success(it) } ?: throw Exception("Sign in with Google failed")
         } catch (e: Exception) {
             Log.e("ERROR2", e.message.toString())
             AuthRes.Error(e.message ?: "Sign in with Google failed")

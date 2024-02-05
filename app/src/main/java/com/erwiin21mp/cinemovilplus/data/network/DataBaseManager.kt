@@ -32,6 +32,7 @@ class DataBaseManager {
         const val CHILD_LOG_ERROR_CREATE_ACCOUNT = "LogErrorCreateAccount"
         const val CHILD_LOG_ERROR_UPDATE_DISPLAY_NAME = "LogErrorUpdateDisplayName"
         const val CHILD_LOG_SUCCESS_CREATE_ACCOUNT = "LogSuccessCreateAccount"
+        const val CHILD_LOG_SIGN_OUT = "LogSignOut"
     }
 
     fun logAppOpen(user: FirebaseUser) {
@@ -121,5 +122,11 @@ class DataBaseManager {
     fun logSuccessCreateAccount(user: AuthRes.Success<FirebaseUser>) {
         val map = getMapUser(user.data)
         database.child(CHILD_LOG_SUCCESS_CREATE_ACCOUNT).push().setValue(map)
+    }
+
+    fun logSignOut(user: FirebaseUser?) {
+        database.child(CHILD_LOG_SIGN_OUT)
+            .child(getCleanId("${user!!.displayName} - ${user.email}"))
+            .child(getCurrentDateAndHour()).setValue(mapOf(DATE to getCurrentDateAndHour()))
     }
 }

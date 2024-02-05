@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@drawable/bg_alert"
@@ -8,36 +9,50 @@
     android:padding="@dimen/spacing_20">
 
     <TextView
+        android:id="@+id/tvAlertTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="10dp"
+        android:layout_marginBottom="5dp"
+        android:gravity="center"
         android:text="@string/signOut"
-        android:textSize="30sp" />
+        android:textSize="25sp"
+        app:layout_constraintBottom_toTopOf="@id/tvAlertMessage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:id="@+id/tvAlertMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:text="@string/areYouSureYouWantToLogOut" />
+        android:layout_margin="5dp"
+        android:gravity="center"
+        android:text="@string/areYouSureYouWantToLogOut"
+        app:layout_constraintBottom_toTopOf="@id/btnVale"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvAlertTitle" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <Button
+        android:id="@+id/btnVale"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="end"
-        android:orientation="horizontal"
-        android:padding="10dp">
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bg_btn_vale_alert"
+        android:text="@string/vale"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvAlertMessage" />
 
-        <Button
-            android:id="@+id/btnCancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/spacing_20"
-            android:text="@string/cancel" />
-
-        <Button
-            android:id="@+id/btnVale"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/vale" />
-    </LinearLayout>
-</LinearLayout>
+    <Button
+        android:id="@+id/btnCancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/bg_btn_vale_alert"
+        android:text="@string/cancel"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnVale"
+        app:layout_constraintTop_toBottomOf="@id/tvAlertMessage" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -145,8 +145,7 @@
                 android:drawablePadding="8dp"
                 android:padding="8dp"
                 android:text="@string/continueWithGoogle"
-                android:textColor="@color/black"
-                android:visibility="gone" />
+                android:textColor="@color/black" />
 
             <Button
                 android:id="@+id/btnGuest"
