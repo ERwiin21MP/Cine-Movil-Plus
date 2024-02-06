@@ -12,4 +12,8 @@
     <color name="view_dialog_line">#2b2b2c</color>
     <color name="btnAlert">#FF5733</color>
     <color name="link_color">@color/btnAlert</color>
+    <color name="bottomNavigationView">#140B0B</color>
+    <color name="background">#0F0808</color>
+    <color name="state_checked_on">#f9f9f9</color>
+    <color name="state_checked_off">#9b999d</color>
 </resources>

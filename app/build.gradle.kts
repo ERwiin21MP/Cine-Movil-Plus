@@ -79,4 +79,9 @@ dependencies {
 
     // Realtime
     implementation("com.google.firebase:firebase-database-ktx")
+
+    //Nav Component
+    val navVersion = "2.7.1"
+    implementation("androidx.navigation:navigation-fragment-ktx:$navVersion")
+    implementation("androidx.navigation:navigation-ui-ktx:$navVersion")
 }

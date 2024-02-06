@@ -6,6 +6,9 @@ import android.view.LayoutInflater
 import android.widget.Button
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
 import com.erwiin21mp.cinemovilplus.R
 import com.erwiin21mp.cinemovilplus.core.navigateToLogin
 import com.erwiin21mp.cinemovilplus.core.toast
@@ -24,6 +27,7 @@ class IndexActivity : AppCompatActivity() {
     private val auth = AuthManager()
     private val win = Win()
     private val database = DataBaseManager()
+    private lateinit var navController: NavController
 
     private companion object {
         const val BUTTON_CANCEL = "Cancel"
@@ -36,10 +40,22 @@ class IndexActivity : AppCompatActivity() {
         binding = ActivityIndexBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
+        initUI()
         binding.btnSignOut.setOnClickListener {
             database.logButtonClicked(BUTTON_SIGN_OUT, auth.getCurrentUser())
             logOut()
         }
+    }
+
+    private fun initUI() {
+        initNavigation()
+    }
+
+    private fun initNavigation() {
+        val navHost = supportFragmentManager.findFragmentById(R.id.fcvContainer) as NavHostFragment
+        navController = navHost.navController
+        binding.bnvMenu.setupWithNavController(navController)
     }
 
     private fun logOut() {
