@@ -11,11 +11,13 @@ import com.erwiin21mp.cinemovilplus.core.navigateToIndex
 import com.erwiin21mp.cinemovilplus.core.navigateToLogin
 import com.erwiin21mp.cinemovilplus.data.network.AuthManager
 import com.erwiin21mp.cinemovilplus.data.network.DataBaseManager
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @SuppressLint("CustomSplashScreen")
+@AndroidEntryPoint
 class SplashScreenActivity : AppCompatActivity() {
 
     private val auth = AuthManager()

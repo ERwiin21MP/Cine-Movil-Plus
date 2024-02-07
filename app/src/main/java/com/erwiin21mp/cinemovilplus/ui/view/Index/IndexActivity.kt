@@ -17,10 +17,12 @@ import com.erwiin21mp.cinemovilplus.data.network.AuthManager
 import com.erwiin21mp.cinemovilplus.data.network.DataBaseManager
 import com.erwiin21mp.cinemovilplus.databinding.ActivityIndexBinding
 import com.erwiin21mp.cinemovilplus.ui.utils.Win
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class IndexActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityIndexBinding

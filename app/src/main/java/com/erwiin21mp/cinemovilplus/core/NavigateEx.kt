@@ -5,7 +5,7 @@ import android.content.Intent
 import com.erwiin21mp.cinemovilplus.ui.view.Index.IndexActivity
 import com.erwiin21mp.cinemovilplus.ui.view.forgotPassword.ForgotPasswordActivity
 import com.erwiin21mp.cinemovilplus.ui.view.login.LoginActivity
-import com.erwiin21mp.cinemovilplus.ui.view.signUp.RegisterActivity
+import com.erwiin21mp.cinemovilplus.ui.view.signUp.SignUpActivity
 
 fun Activity.navigateToIndex() {
     startActivity(Intent(this, IndexActivity::class.java))
@@ -16,7 +16,7 @@ fun Activity.navigateToLogin() {
 }
 
 fun Activity.navigateToSignUp() {
-    startActivity(Intent(this, RegisterActivity::class.java))
+    startActivity(Intent(this, SignUpActivity::class.java))
 }
 
 fun Activity.navigateToForgotPassword() {

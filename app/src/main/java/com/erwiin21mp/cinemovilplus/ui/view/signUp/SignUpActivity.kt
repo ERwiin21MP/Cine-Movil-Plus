@@ -16,11 +16,13 @@ import com.erwiin21mp.cinemovilplus.databinding.ActivityRegisterBinding
 import com.erwiin21mp.cinemovilplus.ui.utils.Win
 import com.erwiin21mp.cinemovilplus.ui.utils.Win.Companion.MIN_PASSWORD_LENGTH
 import com.google.firebase.auth.FirebaseUser
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class RegisterActivity : AppCompatActivity() {
+@AndroidEntryPoint
+class SignUpActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRegisterBinding
     private lateinit var textWatcherUserName: TextWatcher
