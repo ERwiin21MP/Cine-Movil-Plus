@@ -9,6 +9,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor() : ViewModel() {
+
     private var _home = MutableStateFlow<List<ContentModel>>(emptyList())
     val home:StateFlow<List<ContentModel>> = _home
 
