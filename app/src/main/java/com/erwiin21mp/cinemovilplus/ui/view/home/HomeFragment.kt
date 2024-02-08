@@ -1,11 +1,9 @@
 package com.erwiin21mp.cinemovilplus.ui.view.home
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle.State.STARTED
@@ -37,18 +35,8 @@ class HomeFragment : Fragment() {
     private fun initUIState() {
         lifecycleScope.launch {
             repeatOnLifecycle(STARTED) {
-//                homeViewModel.home.collect {
-//                    it.forEach { content ->
-//                        binding.tvList.text = (content.title).plus("\n")
-//                        Log.e("Erwin", content.toString())
-//                    }
-//                }
                 homeViewModel.listContentInitModel.observe(viewLifecycleOwner, Observer {
-                    it.forEach { item ->
-                        Log.e("Erwin 3", item.toString())
-                        binding.tvList.text = binding.tvList.text.toString().plus(item.title).plus("\n")
-                        Toast.makeText(context, it.size.toString(), Toast.LENGTH_LONG).show()
-                    }
+
                 })
             }
         }
