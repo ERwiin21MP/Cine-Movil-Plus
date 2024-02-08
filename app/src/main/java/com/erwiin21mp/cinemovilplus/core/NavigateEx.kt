@@ -2,8 +2,8 @@ package com.erwiin21mp.cinemovilplus.core
 
 import android.app.Activity
 import android.content.Intent
-import com.erwiin21mp.cinemovilplus.ui.view.Index.IndexActivity
 import com.erwiin21mp.cinemovilplus.ui.view.forgotPassword.ForgotPasswordActivity
+import com.erwiin21mp.cinemovilplus.ui.view.index.IndexActivity
 import com.erwiin21mp.cinemovilplus.ui.view.login.LoginActivity
 import com.erwiin21mp.cinemovilplus.ui.view.signUp.SignUpActivity
 

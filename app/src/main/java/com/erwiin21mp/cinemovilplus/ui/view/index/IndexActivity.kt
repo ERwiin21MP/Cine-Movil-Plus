@@ -1,8 +1,9 @@
-package com.erwiin21mp.cinemovilplus.ui.view.Index
+package com.erwiin21mp.cinemovilplus.ui.view.index
 
 import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
 import android.widget.Button
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -30,6 +31,7 @@ class IndexActivity : AppCompatActivity() {
     private val win = Win()
     private val database = DataBaseManager()
     private lateinit var navController: NavController
+    private lateinit var menu: Menu
 
     private companion object {
         const val BUTTON_CANCEL = "Cancel"

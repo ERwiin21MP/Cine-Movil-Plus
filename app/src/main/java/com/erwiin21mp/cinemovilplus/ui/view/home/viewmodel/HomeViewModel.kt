@@ -9,7 +9,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(contentInitProvider: ContentInitProvider) : ViewModel() {
+class HomeViewModel @Inject constructor() : ViewModel() {
 
     private val db = FirebaseFirestore.getInstance()
     val listContentInitModel = MutableLiveData<List<ContentInitModel>>(emptyList())

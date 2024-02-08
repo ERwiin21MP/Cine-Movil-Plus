@@ -22,7 +22,7 @@
             android:name=".ui.view.login.LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.view.Index.IndexActivity"
+            android:name=".ui.view.index.IndexActivity"
             android:exported="false" />
         <activity
             android:name=".ui.view.forgotPassword.ForgotPasswordActivity"
