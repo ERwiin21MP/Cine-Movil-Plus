@@ -15,7 +15,7 @@ data class ContentModel(
     val contentUrl: String,
     val rating: Int,
     val platformsList: List<String>,
-    val uploadDate: Int,
+    val uploadDate: Long,
     val producersList: List<String>,
     val type: String,
     val distribution: String,
