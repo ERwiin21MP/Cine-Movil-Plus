@@ -1,7 +1,7 @@
 package com.erwiin21mp.cinemovilplus.data.network
 
 import android.annotation.SuppressLint
-import com.erwiin21mp.cinemovilplus.core.isNull
+import com.erwiin21mp.cinemovilplus.core.extensions.isNull
 import com.erwiin21mp.cinemovilplus.data.model.AuthRes
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference

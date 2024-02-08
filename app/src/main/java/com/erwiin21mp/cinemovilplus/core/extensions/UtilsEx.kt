@@ -1,4 +1,4 @@
-package com.erwiin21mp.cinemovilplus.core
+package com.erwiin21mp.cinemovilplus.core.extensions
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -14,7 +14,7 @@ fun Any?.isNull() = this == null
 
 
 fun Activity.logData(message: String) {
-    Log.e("LOG-DATA", message)
+    Log.e("LOGDATA", message)
 }
 
 fun Activity.toast(message: String) {

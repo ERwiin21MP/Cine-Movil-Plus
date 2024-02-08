@@ -90,4 +90,8 @@ dependencies {
     //Dagger Hilt
     implementation("com.google.dagger:hilt-android:2.48")
     kapt("com.google.dagger:hilt-compiler:2.48")
+
+    //Picasso
+    implementation("com.squareup.picasso:picasso:2.8")
+    implementation("jp.wasabeef:picasso-transformations:2.4.0")
 }

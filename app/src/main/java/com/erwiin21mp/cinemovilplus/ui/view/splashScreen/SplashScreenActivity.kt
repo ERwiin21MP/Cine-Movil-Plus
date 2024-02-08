@@ -6,9 +6,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.erwiin21mp.cinemovilplus.R
-import com.erwiin21mp.cinemovilplus.core.isNull
-import com.erwiin21mp.cinemovilplus.core.navigateToIndex
-import com.erwiin21mp.cinemovilplus.core.navigateToLogin
+import com.erwiin21mp.cinemovilplus.core.extensions.isNull
+import com.erwiin21mp.cinemovilplus.core.extensions.navigateToIndex
+import com.erwiin21mp.cinemovilplus.core.extensions.navigateToLogin
 import com.erwiin21mp.cinemovilplus.data.network.AuthManager
 import com.erwiin21mp.cinemovilplus.data.network.DataBaseManager
 import dagger.hilt.android.AndroidEntryPoint

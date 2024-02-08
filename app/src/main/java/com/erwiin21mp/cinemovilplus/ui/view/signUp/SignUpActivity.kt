@@ -6,9 +6,9 @@ import android.text.Editable
 import android.text.TextWatcher
 import androidx.appcompat.app.AppCompatActivity
 import com.erwiin21mp.cinemovilplus.R
-import com.erwiin21mp.cinemovilplus.core.navigateToIndex
-import com.erwiin21mp.cinemovilplus.core.onTextChanged
-import com.erwiin21mp.cinemovilplus.core.toast
+import com.erwiin21mp.cinemovilplus.core.extensions.navigateToIndex
+import com.erwiin21mp.cinemovilplus.core.extensions.onTextChanged
+import com.erwiin21mp.cinemovilplus.core.extensions.toast
 import com.erwiin21mp.cinemovilplus.data.model.AuthRes
 import com.erwiin21mp.cinemovilplus.data.network.AuthManager
 import com.erwiin21mp.cinemovilplus.data.network.DataBaseManager
