@@ -3,6 +3,7 @@ package com.erwiin21mp.cinemovilplus.ui.view.home.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.erwiin21mp.cinemovilplus.domain.model.ContentInitModel
+import com.erwiin21mp.cinemovilplus.domain.model.PlatformModel
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -12,7 +13,7 @@ class HomeViewModel @Inject constructor() : ViewModel() {
 
     private val db = FirebaseFirestore.getInstance()
     val listOfContent = MutableLiveData<List<ContentInitModel>>(emptyList())
-    val listOfPlatforms = MutableLiveData<List<>>
+    val listOfPlatforms = MutableLiveData<List<PlatformModel>>(emptyList())
 
     private companion object {
         const val COLLECTION_PLATFORM_IMAGE_URLS = "PlatformImageURLs"
@@ -41,10 +42,13 @@ class HomeViewModel @Inject constructor() : ViewModel() {
         const val KEYWORDS = "PalabrasClave"
         const val RELEASE_DATE = "FechaDeEstreno"
         const val CALIDAD_CAM = "CalidadCam"
+        const val NAME = "Name"
+        const val URL = "URL"
     }
 
     init {
         getInitContent()
+        getPlatforms()
     }
 
     private fun getInitContent() {
@@ -82,35 +86,12 @@ class HomeViewModel @Inject constructor() : ViewModel() {
     }
 
     private fun getPlatforms() {
-        val list = mutableListOf<ContentInitModel>()
-        db.collection(COLLECTION_CONTENIDO).get().addOnSuccessListener { documents ->
+        val list = mutableListOf<PlatformModel>()
+        db.collection(COLLECTION_PLATFORM_IMAGE_URLS).get().addOnSuccessListener { documents ->
             for (document in documents) {
                 val data = document.data
-                list.add(
-                    ContentInitModel(
-                        id = data[ID].toString().toInt(),
-                        title = data[TITLE].toString(),
-                        synopsis = data[SYNOPSIS].toString(),
-                        genres = data[GENRES].toString().replace("[", "")
-                            .replace("]", "").plus(" ").split(", ").map { it.trim() },
-                        duration = data[DURATION].toString().toInt(),
-                        releaseDate = data[RELEASE_DATE].toString(),
-                        verticalImageUrl = data[VERTICAL_IMAGE_URL].toString(),
-                        horizontalImageUrl = data[HORIZONTAL_IMAGE_URL].toString(),
-                        rating = data[RATING].toString().toInt(),
-                        platformsList = data[PLATFORMS_LIST].toString()
-                            .replace("[", "").replace("]", "").plus(" ").split(", ")
-                            .map { it.trim() },
-                        uploadDate = data[UPLOAD_DATE].toString().toLong(),
-                        producersList = data[PRODUCERS_LIST].toString()
-                            .replace("[", "").replace("]", "").plus(" ").split(", ")
-                            .map { it.trim() },
-                        type = data[TYPE].toString(),
-                        keywords = data[KEYWORDS].toString(),
-                        isCamQuality = data[CALIDAD_CAM].toString().toBoolean()
-                    )
-                )
-                listOfContent.postValue(list)
+                list.add(PlatformModel(name = data[NAME].toString(), url = data[URL].toString()))
+                listOfPlatforms.postValue(list)
             }
         }
     }
