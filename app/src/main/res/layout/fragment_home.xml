@@ -17,24 +17,47 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+        <LinearLayout
+            android:id="@+id/llContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/vp2_featuredContent"
-                android:layout_width="match_parent"
-                android:layout_height="210dp"
-                android:layout_centerInParent="true" />
-
-            <me.relex.circleindicator.CircleIndicator3
-                android:id="@+id/ci3"
+            <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="24dp"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                app:ci_animator="@animator/scale_with_alpha" />
-        </RelativeLayout>
+                android:layout_height="wrap_content">
+
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/vp2_featuredContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="210dp"
+                    android:layout_centerInParent="true" />
+
+                <me.relex.circleindicator.CircleIndicator3
+                    android:id="@+id/ci3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="24dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    app:ci_animator="@animator/scale_with_alpha" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tvTest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_20"
+                android:fontFamily="@font/montserrat"
+                android:text="@string/streamingPlatforms"
+                android:textSize="@dimen/text_subtitle"
+                android:textStyle="bold" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvPlatforms"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_8" />
+        </LinearLayout>
     </ScrollView>
 
     <View

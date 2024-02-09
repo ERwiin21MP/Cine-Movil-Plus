@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
+import com.erwiin21mp.cinemovilplus.core.logData
 import com.erwiin21mp.cinemovilplus.databinding.FragmentHomeBinding
 import com.erwiin21mp.cinemovilplus.domain.model.ContentInitModel
 import com.erwiin21mp.cinemovilplus.ui.view.home.viewmodel.HomeViewModel
@@ -31,6 +32,7 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private lateinit var runnable: Runnable
     private var listOfInitContent: List<ContentInitModel> = emptyList()
+    private var listOfPlatforms: List<String> = emptyList()
     private lateinit var handler: Handler
     private lateinit var adapterViewPager: ViewPagerAdapter
 
@@ -85,9 +87,13 @@ class HomeFragment : Fragment() {
 
     }
 
-    private fun setUpIndicator() { binding.ci3.setViewPager(binding.vp2FeaturedContent) }
+    private fun setUpIndicator() {
+        binding.ci3.setViewPager(binding.vp2FeaturedContent)
+    }
 
-    private fun initHandler() { handler = Handler(Looper.myLooper()!!) }
+    private fun initHandler() {
+        handler = Handler(Looper.myLooper()!!)
+    }
 
     private fun initRunnable() {
         runnable = Runnable {
@@ -105,13 +111,27 @@ class HomeFragment : Fragment() {
     private fun initUIState() {
         lifecycleScope.launch {
             repeatOnLifecycle(STARTED) {
-                homeViewModel.listContentInitModel.observe(viewLifecycleOwner) {
+                homeViewModel.listOfContent.observe(viewLifecycleOwner) {
                     listOfInitContent = it
                     adapterViewPager.updateList(listOfInitContent)
                     setUpIndicator()
+                    listOfPlatforms = getPlatforms(listOfInitContent)
                 }
             }
         }
+    }
+
+    private fun getPlatforms(content: List<ContentInitModel>): List<String> {
+        val list: ArrayList<String> = arrayListOf()
+        content.forEach {
+            it.platformsList.forEach { it2 ->
+                list.add(it2)
+            }
+        }
+        list.sort()
+        val list2 = list.distinct().toMutableList()
+        logData(list2.toString())
+        return list2
     }
 
     override fun onCreateView(

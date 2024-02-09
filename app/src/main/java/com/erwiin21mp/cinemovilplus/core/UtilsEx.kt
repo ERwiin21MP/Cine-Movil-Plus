@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.widget.TextView
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import com.erwiin21mp.cinemovilplus.R
 import java.text.SimpleDateFormat
 import java.util.*
@@ -13,8 +14,12 @@ import java.util.*
 fun Any?.isNull() = this == null
 
 
-fun Activity.logData(message: String) {
-    Log.e("LOG-DATA", message)
+fun Activity.logData(message: String, tag: String = "") {
+    Log.e("Erwin $tag", message)
+}
+
+fun Fragment.logData(message: String, tag: String = "") {
+    Log.e("Erwin $tag", message)
 }
 
 fun Activity.toast(message: String) {
@@ -29,4 +34,5 @@ fun Activity.toast(message: String) {
 }
 
 @SuppressLint("SimpleDateFormat")
-fun Activity.getCurrentDateAndHour() = SimpleDateFormat("d MMM yyyy, EEE, HH:mm:ss z").format(Date()).toString()
+fun Activity.getCurrentDateAndHour() =
+    SimpleDateFormat("d MMM yyyy, EEE, HH:mm:ss z").format(Date()).toString()
