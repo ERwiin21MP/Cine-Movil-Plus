@@ -30,6 +30,11 @@ class HomeFragment : Fragment() {
 
     private fun initUI() {
         initUIState()
+        initViewPager2()
+    }
+
+    private fun initViewPager2() {
+
     }
 
     private fun initUIState() {
