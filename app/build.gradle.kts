@@ -97,4 +97,10 @@ dependencies {
     //Picasso
     implementation("com.squareup.picasso:picasso:2.8")
     implementation("jp.wasabeef:picasso-transformations:2.4.0")
+
+    //ViewPager2
+    implementation("androidx.viewpager2:viewpager2:1.0.0")
+
+    //CircleIndicator
+    implementation("me.relex:circleindicator:2.1.6")
 }

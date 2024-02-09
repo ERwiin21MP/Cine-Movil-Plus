@@ -1,5 +1,6 @@
 package com.erwiin21mp.cinemovilplus.ui.view.home.viewpager2
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -7,7 +8,7 @@ import com.erwiin21mp.cinemovilplus.R
 import com.erwiin21mp.cinemovilplus.domain.model.ContentInitModel
 
 class ViewPagerAdapter(
-    private val list: List<ContentInitModel>,
+    private var list: List<ContentInitModel>,
     private val onItemSelected: (Int) -> Unit
 ) :
     RecyclerView.Adapter<ViewPagerViewHolder>() {
@@ -23,5 +24,11 @@ class ViewPagerAdapter(
 
     override fun onBindViewHolder(holder: ViewPagerViewHolder, position: Int) {
         holder.render(list[position], onItemSelected)
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun updateList(listUpdate: List<ContentInitModel>) {
+        list = listUpdate
+        notifyDataSetChanged()
     }
 }
