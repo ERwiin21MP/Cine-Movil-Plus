@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
+import com.erwiin21mp.cinemovilplus.core.isNull
 import com.erwiin21mp.cinemovilplus.core.logData
 import com.erwiin21mp.cinemovilplus.databinding.FragmentHomeBinding
 import com.erwiin21mp.cinemovilplus.domain.model.ContentInitModel
@@ -49,9 +50,9 @@ class HomeFragment : Fragment() {
 
     private fun initUI() {
         initUIState()
-        initViewPager2()
         initHandler()
         initRunnable()
+        initViewPager2()
     }
 
     private fun initViewPager2() {
@@ -70,8 +71,10 @@ class HomeFragment : Fragment() {
                 ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
                     super.onPageSelected(position)
-                    handler.removeCallbacks(runnable)
-                    handler.postDelayed(runnable, TIME_VIEW_PAGER_CHANGE_ITEM.toLong())
+                    if (!handler.isNull()) {
+                        handler.removeCallbacks(runnable)
+                        handler.postDelayed(runnable, TIME_VIEW_PAGER_CHANGE_ITEM.toLong())
+                    }
                 }
             })
             offscreenPageLimit = 3
@@ -117,6 +120,9 @@ class HomeFragment : Fragment() {
                     setUpIndicator()
                     listOfPlatforms = getPlatforms(listOfInitContent)
                 }
+                homeViewModel.listOfPlatforms.observe(viewLifecycleOwner) {
+                    logData(it.toString())
+                }
             }
         }
     }
@@ -141,5 +147,15 @@ class HomeFragment : Fragment() {
     ): View {
         _binding = FragmentHomeBinding.inflate(layoutInflater, container, false)
         return binding.root
+    }
+
+    override fun onPause() {
+        handler.removeCallbacks(runnable)
+        super.onPause()
+    }
+
+    override fun onResume() {
+        handler.postDelayed(runnable, TIME_VIEW_PAGER_CHANGE_ITEM.toLong())
+        super.onResume()
     }
 }
