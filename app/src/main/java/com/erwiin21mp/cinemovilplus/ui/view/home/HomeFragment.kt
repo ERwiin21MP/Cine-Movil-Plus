@@ -53,42 +53,41 @@ class HomeFragment : Fragment() {
     }
 
     private fun initViewPager2() {
-        val transformer = CompositePageTransformer()
-        transformer.addTransformer(MarginPageTransformer(40))
-        transformer.addTransformer { page, position ->
-            page.scaleY = 0.85f + (1 - kotlin.math.abs(position)) * 0.14f
+        val transformer = CompositePageTransformer().apply {
+            addTransformer(MarginPageTransformer(40))
+            addTransformer { page, position ->
+                page.scaleY = 0.85f + (1 - kotlin.math.abs(position)) * 0.14f
+            }
         }
         adapterViewPager = ViewPagerAdapter(listOfInitContent) { navigateToContent(it) }
-        binding.vp2FeaturedContent.adapter = adapterViewPager
-        binding.vp2FeaturedContent.offscreenPageLimit = 3
-        binding.vp2FeaturedContent.setPageTransformer(transformer)
-        binding.vp2FeaturedContent.registerOnPageChangeCallback(object :
-            ViewPager2.OnPageChangeCallback() {
-            override fun onPageSelected(position: Int) {
-                super.onPageSelected(position)
-                handler.removeCallbacks(runnable)
-                handler.postDelayed(runnable, TIME_VIEW_PAGER_CHANGE_ITEM.toLong())
-            }
-        })
-        binding.vp2FeaturedContent.offscreenPageLimit = 3
-        binding.vp2FeaturedContent.clipToPadding = false
-        binding.vp2FeaturedContent.clipChildren = false
-        binding.vp2FeaturedContent.getChildAt(0).overScrollMode = RecyclerView.OVER_SCROLL_NEVER
+        binding.vp2FeaturedContent.apply {
+            adapter = adapterViewPager
+            offscreenPageLimit = 3
+            setPageTransformer(transformer)
+            registerOnPageChangeCallback(object :
+                ViewPager2.OnPageChangeCallback() {
+                override fun onPageSelected(position: Int) {
+                    super.onPageSelected(position)
+                    handler.removeCallbacks(runnable)
+                    handler.postDelayed(runnable, TIME_VIEW_PAGER_CHANGE_ITEM.toLong())
+                }
+            })
+            offscreenPageLimit = 3
+            clipToPadding = false
+            clipChildren = false
+            getChildAt(0).overScrollMode = RecyclerView.OVER_SCROLL_NEVER
+        }
 
         setUpIndicator()
     }
 
-    private fun navigateToContent(it: Int) {
+    private fun navigateToContent(id: Int) {
 
     }
 
-    private fun setUpIndicator() {
-        binding.ci3.setViewPager(binding.vp2FeaturedContent)
-    }
+    private fun setUpIndicator() { binding.ci3.setViewPager(binding.vp2FeaturedContent) }
 
-    private fun initHandler() {
-        handler = Handler(Looper.myLooper()!!)
-    }
+    private fun initHandler() { handler = Handler(Looper.myLooper()!!) }
 
     private fun initRunnable() {
         runnable = Runnable {
