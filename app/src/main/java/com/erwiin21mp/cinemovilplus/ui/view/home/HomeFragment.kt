@@ -11,14 +11,19 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle.State.STARTED
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
+import com.erwiin21mp.cinemovilplus.R
 import com.erwiin21mp.cinemovilplus.core.isNull
 import com.erwiin21mp.cinemovilplus.core.logData
 import com.erwiin21mp.cinemovilplus.databinding.FragmentHomeBinding
 import com.erwiin21mp.cinemovilplus.domain.model.ContentInitModel
+import com.erwiin21mp.cinemovilplus.domain.model.PlatformModel
+import com.erwiin21mp.cinemovilplus.ui.utils.SpacingItemDecoration
+import com.erwiin21mp.cinemovilplus.ui.view.home.platforms.PlatformAdapter
 import com.erwiin21mp.cinemovilplus.ui.view.home.viewmodel.HomeViewModel
 import com.erwiin21mp.cinemovilplus.ui.view.home.viewpager2.ViewPagerAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,15 +34,16 @@ import kotlinx.coroutines.withContext
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
 
-    private val homeViewModel: HomeViewModel by viewModels()
-    private var _binding: FragmentHomeBinding? = null
-    private lateinit var runnable: Runnable
-    private var listOfInitContent: List<ContentInitModel> = emptyList()
-    private var listOfPlatforms: List<String> = emptyList()
-    private lateinit var handler: Handler
-    private lateinit var adapterViewPager: ViewPagerAdapter
-
     private val binding get() = _binding!!
+    private lateinit var adapterViewPager: ViewPagerAdapter
+    private lateinit var adapterPlatform: PlatformAdapter
+    private lateinit var runnable: Runnable
+    private lateinit var handler: Handler
+    private var _binding: FragmentHomeBinding? = null
+    private val homeViewModel: HomeViewModel by viewModels()
+    private var listOfInitContent: List<ContentInitModel> = emptyList()
+    private var listOfPlatforms: List<PlatformModel> = emptyList()
+    private var listOfGenders: List<String> = emptyList()
 
     companion object {
         const val TIME_VIEW_PAGER_CHANGE_ITEM = 3000
@@ -53,6 +59,26 @@ class HomeFragment : Fragment() {
         initHandler()
         initRunnable()
         initViewPager2()
+        initPlatforms()
+    }
+
+    private fun navigateToPlatform(platform: String) {
+
+    }
+
+    private fun initPlatforms() {
+        adapterPlatform = PlatformAdapter(listOfPlatforms) { navigateToPlatform(it) }
+
+        binding.rvPlatforms.addItemDecoration(
+            SpacingItemDecoration(
+                resources.getDimensionPixelSize(
+                    R.dimen.spacing_8
+                )
+            )
+        )
+        binding.rvPlatforms.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        binding.rvPlatforms.adapter = adapterPlatform
     }
 
     private fun initViewPager2() {
@@ -118,10 +144,11 @@ class HomeFragment : Fragment() {
                     listOfInitContent = it
                     adapterViewPager.updateList(listOfInitContent)
                     setUpIndicator()
-                    listOfPlatforms = getPlatforms(listOfInitContent)
                 }
+
                 homeViewModel.listOfPlatforms.observe(viewLifecycleOwner) {
-                    logData(it.toString())
+                    listOfPlatforms = it
+                    adapterPlatform.updateList(listOfPlatforms)
                 }
             }
         }
