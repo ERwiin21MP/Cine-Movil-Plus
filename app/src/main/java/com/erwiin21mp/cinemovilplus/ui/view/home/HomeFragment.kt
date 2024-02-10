@@ -21,8 +21,10 @@ import com.erwiin21mp.cinemovilplus.core.isNull
 import com.erwiin21mp.cinemovilplus.core.logData
 import com.erwiin21mp.cinemovilplus.databinding.FragmentHomeBinding
 import com.erwiin21mp.cinemovilplus.domain.model.ContentInitModel
+import com.erwiin21mp.cinemovilplus.domain.model.GenderModel
 import com.erwiin21mp.cinemovilplus.domain.model.PlatformModel
 import com.erwiin21mp.cinemovilplus.ui.utils.SpacingItemDecoration
+import com.erwiin21mp.cinemovilplus.ui.view.home.genders.GendersAdapter
 import com.erwiin21mp.cinemovilplus.ui.view.home.platforms.PlatformAdapter
 import com.erwiin21mp.cinemovilplus.ui.view.home.viewmodel.HomeViewModel
 import com.erwiin21mp.cinemovilplus.ui.view.home.viewpager2.ViewPagerAdapter
@@ -37,13 +39,14 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var adapterViewPager: ViewPagerAdapter
     private lateinit var adapterPlatform: PlatformAdapter
+    private lateinit var adapterGender: GendersAdapter
     private lateinit var runnable: Runnable
     private lateinit var handler: Handler
     private var _binding: FragmentHomeBinding? = null
     private val homeViewModel: HomeViewModel by viewModels()
     private var listOfInitContent: List<ContentInitModel> = emptyList()
     private var listOfPlatforms: List<PlatformModel> = emptyList()
-    private var listOfGenders: List<String> = emptyList()
+    private var listOfGenders: List<GenderModel> = emptyList()
 
     companion object {
         const val TIME_VIEW_PAGER_CHANGE_ITEM = 3000
@@ -60,6 +63,17 @@ class HomeFragment : Fragment() {
         initRunnable()
         initViewPager2()
         initPlatforms()
+        initGenders()
+    }
+
+    private fun initGenders() {
+        adapterGender = GendersAdapter(listOfGenders) {
+            navigateToGender(it)
+        }
+    }
+
+    private fun navigateToGender(gender: String) {
+
     }
 
     private fun navigateToPlatform(platform: String) {
