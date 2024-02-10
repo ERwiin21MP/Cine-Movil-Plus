@@ -15,12 +15,12 @@ class HomeViewModel @Inject constructor() : ViewModel() {
     val listOfContent = MutableLiveData<List<ContentInitModel>>(emptyList())
     val listOfPlatforms = MutableLiveData<List<PlatformModel>>(emptyList())
 
-    private companion object {
+    companion object {
         const val COLLECTION_PLATFORM_IMAGE_URLS = "PlatformImageURLs"
         const val ID = "Id"
         const val TYPE = "Tipo"
-        const val GENERO_PREFIJO = "G"
-        const val SAGA_PREFIJO = "S"
+        const val PREFIX_GENDER = "G"
+        const val PREFIX_SAGA = "S"
         const val TITLE = "Titulo"
         const val SYNOPSIS = "Sinopsis"
         const val GENRES = "Generos"

@@ -8,7 +8,7 @@ import com.erwiin21mp.cinemovilplus.R
 import com.erwiin21mp.cinemovilplus.domain.model.ContentInitModel
 
 class ViewPagerAdapter(
-    private var list: List<ContentInitModel>,
+    private var list: List<ContentInitModel> = emptyList(),
     private val onItemSelected: (Int) -> Unit
 ) :
     RecyclerView.Adapter<ViewPagerViewHolder>() {

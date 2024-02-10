@@ -7,7 +7,7 @@ import com.erwiin21mp.cinemovilplus.R
 import com.erwiin21mp.cinemovilplus.domain.model.GenderModel
 
 class GendersAdapter(
-    private var list: List<GenderModel>,
+    private var list: List<GenderModel> = emptyList(),
     private val onItemSelected: (String) -> Unit
 ) :
     RecyclerView.Adapter<GenderViewHolder>() {

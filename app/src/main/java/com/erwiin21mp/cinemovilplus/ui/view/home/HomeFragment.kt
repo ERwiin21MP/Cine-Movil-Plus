@@ -27,6 +27,7 @@ import com.erwiin21mp.cinemovilplus.ui.utils.SpacingItemDecoration
 import com.erwiin21mp.cinemovilplus.ui.view.home.genders.GendersAdapter
 import com.erwiin21mp.cinemovilplus.ui.view.home.platforms.PlatformAdapter
 import com.erwiin21mp.cinemovilplus.ui.view.home.viewmodel.HomeViewModel
+import com.erwiin21mp.cinemovilplus.ui.view.home.viewmodel.HomeViewModel.Companion.PREFIX_SAGA
 import com.erwiin21mp.cinemovilplus.ui.view.home.viewpager2.ViewPagerAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
@@ -44,9 +45,8 @@ class HomeFragment : Fragment() {
     private lateinit var handler: Handler
     private var _binding: FragmentHomeBinding? = null
     private val homeViewModel: HomeViewModel by viewModels()
-    private var listOfInitContent: List<ContentInitModel> = emptyList()
+    private var listOfContentFeatured: List<ContentInitModel> = emptyList()
     private var listOfPlatforms: List<PlatformModel> = emptyList()
-    private var listOfGenders: List<GenderModel> = emptyList()
 
     companion object {
         const val TIME_VIEW_PAGER_CHANGE_ITEM = 3000
@@ -66,18 +66,60 @@ class HomeFragment : Fragment() {
         initGenders()
     }
 
-    private fun initGenders() {
-        adapterGender = GendersAdapter(listOfGenders) {
-            navigateToGender(it)
+    private fun initUIState() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(STARTED) {
+                homeViewModel.listOfContent.observe(viewLifecycleOwner) {
+                    listOfContentFeatured = it
+                    adapterViewPager.updateList(listOfContentFeatured)
+                    setUpIndicator()
+                    getGendersList(it)
+                }
+
+                homeViewModel.listOfPlatforms.observe(viewLifecycleOwner) {
+                    listOfPlatforms = it
+                    adapterPlatform.updateList(listOfPlatforms)
+                }
+            }
         }
     }
 
-    private fun navigateToGender(gender: String) {
+    private fun getGendersList(list: List<ContentInitModel>) {
+        var listOfGenders: MutableList<GenderModel> = mutableListOf()
+        list.forEach { content ->
+            content.genres.forEach { gender ->
+                if (gender[0].toString() != PREFIX_SAGA) {
+                    listOfGenders.add(
+                        GenderModel(
+                            gender = gender.removeRange(0, 1),
+                            urlPicture = content.horizontalImageUrl
+                        )
+                    )
+                }
+            }
+        }
+        listOfGenders.sortBy { it.gender }
+        listOfGenders = listOfGenders.distinctBy { it.gender }.toMutableList()
+        listOfGenders.forEach {
+            logData(it.toString())
+        }
 
+        adapterGender.updateList(listOfGenders)
     }
 
-    private fun navigateToPlatform(platform: String) {
-
+    private fun initGenders() {
+        adapterGender = GendersAdapter { navigateToGender(it) }
+        binding.rvGenders.apply {
+            addItemDecoration(
+                SpacingItemDecoration(
+                    resources.getDimensionPixelSize(
+                        R.dimen.spacing_8
+                    )
+                )
+            )
+            adapter = adapterGender
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        }
     }
 
     private fun initPlatforms() {
@@ -95,6 +137,14 @@ class HomeFragment : Fragment() {
         binding.rvPlatforms.adapter = adapterPlatform
     }
 
+    private fun navigateToGender(gender: String) {
+
+    }
+
+    private fun navigateToPlatform(platform: String) {
+
+    }
+
     private fun initViewPager2() {
         val transformer = CompositePageTransformer().apply {
             addTransformer(MarginPageTransformer(40))
@@ -102,7 +152,7 @@ class HomeFragment : Fragment() {
                 page.scaleY = 0.85f + (1 - kotlin.math.abs(position)) * 0.14f
             }
         }
-        adapterViewPager = ViewPagerAdapter(listOfInitContent) { navigateToContent(it) }
+        adapterViewPager = ViewPagerAdapter() { navigateToContent(it) }
         binding.vp2FeaturedContent.apply {
             adapter = adapterViewPager
             offscreenPageLimit = 3
@@ -141,7 +191,7 @@ class HomeFragment : Fragment() {
     private fun initRunnable() {
         runnable = Runnable {
             binding.vp2FeaturedContent.currentItem = binding.vp2FeaturedContent.currentItem + 1
-            if ((binding.vp2FeaturedContent.currentItem + 1) == listOfInitContent.size)
+            if ((binding.vp2FeaturedContent.currentItem + 1) == listOfContentFeatured.size)
                 lifecycleScope.launch {
                     withContext(Dispatchers.IO) {
                         Thread.sleep(TIME_VIEW_PAGER_CHANGE_ITEM.toLong())
@@ -149,36 +199,6 @@ class HomeFragment : Fragment() {
                     binding.vp2FeaturedContent.currentItem = 0
                 }
         }
-    }
-
-    private fun initUIState() {
-        lifecycleScope.launch {
-            repeatOnLifecycle(STARTED) {
-                homeViewModel.listOfContent.observe(viewLifecycleOwner) {
-                    listOfInitContent = it
-                    adapterViewPager.updateList(listOfInitContent)
-                    setUpIndicator()
-                }
-
-                homeViewModel.listOfPlatforms.observe(viewLifecycleOwner) {
-                    listOfPlatforms = it
-                    adapterPlatform.updateList(listOfPlatforms)
-                }
-            }
-        }
-    }
-
-    private fun getPlatforms(content: List<ContentInitModel>): List<String> {
-        val list: ArrayList<String> = arrayListOf()
-        content.forEach {
-            it.platformsList.forEach { it2 ->
-                list.add(it2)
-            }
-        }
-        list.sort()
-        val list2 = list.distinct().toMutableList()
-        logData(list2.toString())
-        return list2
     }
 
     override fun onCreateView(
