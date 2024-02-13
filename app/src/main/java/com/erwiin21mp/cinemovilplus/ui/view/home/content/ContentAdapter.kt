@@ -21,4 +21,9 @@ class ContentAdapter(
     override fun onBindViewHolder(holder: ContentViewHolder, position: Int) {
         holder.render(list[position], onItemSelected)
     }
+
+    fun updateList(listUpdated: List<ContentInitModel>) {
+        list = listUpdated
+        notifyDataSetChanged()
+    }
 }

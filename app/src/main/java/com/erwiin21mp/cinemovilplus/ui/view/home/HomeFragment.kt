@@ -9,6 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.size
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle.State.STARTED
@@ -54,6 +56,7 @@ class HomeFragment : Fragment() {
     private var listOfPlatforms: List<PlatformModel> = emptyList()
     private var listOfYears: List<String> = emptyList()
     private var listOfSagas: List<String> = emptyList()
+    private var listOfLabels: List<LabelContentModel> = emptyList()
 
     companion object {
         const val TIME_VIEW_PAGER_CHANGE_ITEM = 3000
@@ -83,7 +86,21 @@ class HomeFragment : Fragment() {
                     getGendersList(contentList)
                     listOfYears = getYears(contentList)
                     listOfSagas = getListOfSagas(contentList)
-                    setContent(contentList)
+                    listOfLabels = getListOfLabels(contentList, listOfSagas, listOfYears)
+
+                    listOfLabels.forEach {
+                        logData(it.titleList, "Title")
+                        logData(it.contentList.toString(), "List")
+//                        logData(it.adapter.toString(), "adapter")
+                    }
+                    logData(listOfLabels.size.toString(), "Size labels")
+                    logData(binding.llContainer.size.toString(), "size views antes")
+                    binding.llContainer.removeAllViews()
+                    listOfLabels.forEach { item ->
+                        binding.llContainer.addView(setUpTextViewGender(item.titleList))
+                        binding.llContainer.addView(setUpRecyclerView(item.contentList))
+                    }
+                    logData(binding.llContainer.size.toString(), "size views despues")
                 }
 
                 homeViewModel.listOfPlatforms.observe(viewLifecycleOwner) {
@@ -94,25 +111,7 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun setContent(contentList: List<ContentInitModel>) {
-        var listOfLabelsAndContent: MutableList<LabelContentModel> = mutableListOf()
-        listOfLabelsAndContent.add(
-            LabelContentModel(
-                titleList = getString(R.string.allContent),
-                contentList = contentList.sortedBy { it.title })
-        )
-
-        setViews(listOfLabelsAndContent)
-    }
-
-    private fun setViews(listOfLabels: MutableList<LabelContentModel>) {
-        listOfLabels.forEach { item ->
-            binding.llContainer.addView(setUpTextViewGender(item.titleList))
-            binding.llContainer.addView(setUpRecyclerView(item.contentList))
-        }
-    }
-
-    private fun setUpRecyclerView(contentList: List<ContentInitModel>): RecyclerView {
+    private fun setUpRecyclerView(listContent: List<ContentInitModel>): RecyclerView {
         val rvGender = RecyclerView(requireContext())
         rvGender.layoutParams = LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.MATCH_PARENT,
@@ -120,14 +119,11 @@ class HomeFragment : Fragment() {
         )
 
         rvGender.setPadding(0, resources.getDimensionPixelSize(R.dimen.spacing_8), 0, 0)
-        setLabelsAdapters(rvGender, contentList)
+        rvGender.addItemDecoration(SpacingItemDecoration(resources.getDimensionPixelSize(R.dimen.spacing_8)))
+        rvGender.layoutManager =
+            LinearLayoutManager(rvGender.context, LinearLayoutManager.HORIZONTAL, false)
+        rvGender.adapter = ContentAdapter(listContent) { navigateToContent(it) }
         return rvGender
-    }
-
-    private fun setLabelsAdapters(rv: RecyclerView, contentList: List<ContentInitModel>) {
-        rv.addItemDecoration(SpacingItemDecoration(resources.getDimensionPixelSize(R.dimen.spacing_8)))
-        rv.layoutManager = LinearLayoutManager(rv.context, LinearLayoutManager.HORIZONTAL, false)
-        rv.adapter = ContentAdapter(contentList) { navigateToContent(it) }
     }
 
     private fun setUpTextViewGender(titleList: String): TextView {
@@ -141,9 +137,64 @@ class HomeFragment : Fragment() {
             getString(R.string.moviesAndSeries).plus(" ").plus(titleList)
         else tvGender.text = titleList
         tvGender.textSize = 17f
-        tvGender.setTypeface(null, Typeface.BOLD)
+        tvGender.setTypeface(
+            ResourcesCompat.getFont(tvGender.context, R.font.montserrat),
+            Typeface.BOLD
+        )
         tvGender.setPadding(0, resources.getDimensionPixelSize(R.dimen.spacing_20), 0, 0)
         return tvGender
+    }
+
+    private fun getListOfLabels(
+        contentList: List<ContentInitModel>,
+        listOfSagas: List<String>,
+        listOfYears: List<String>
+    ): List<LabelContentModel> {
+        val list = mutableListOf<LabelContentModel>()
+        list.add(
+            LabelContentModel(
+                titleList = getString(R.string.allContent),
+                contentList = contentList
+            )
+        )
+        listOfSagas.forEach {
+            list.add(
+                LabelContentModel(
+                    titleList = it,
+                    contentList = filterSaga(it, contentList)
+                )
+            )
+        }
+        listOfYears.forEach {
+            list.add(
+                LabelContentModel(
+                    titleList = it,
+                    contentList = contentList.filter { itFilter ->
+                        it == itFilter.releaseDate.split(
+                            "/"
+                        )[2]
+                    })
+            )
+        }
+        return list
+    }
+
+    private fun filterSaga(
+        genero: String,
+        contentList: List<ContentInitModel>
+    ): List<ContentInitModel> {
+        val listOfContentReturn: ArrayList<ContentInitModel> = arrayListOf()
+        contentList.forEach { content ->
+            content.genres.forEach { generoList ->
+                logData(generoList, "generoList")
+                logData(genero, "genero")
+                if (generoList.removeRange(0, 1) == genero) {
+                    listOfContentReturn.add(content)
+                }
+            }
+        }
+        listOfContentReturn.distinct()
+        return listOfContentReturn
     }
 
     private fun getListOfSagas(content: List<ContentInitModel>): List<String> {
@@ -183,10 +234,6 @@ class HomeFragment : Fragment() {
         }
         listOfGenders.sortBy { it.gender }
         listOfGenders = listOfGenders.distinctBy { it.gender }.toMutableList()
-        listOfGenders.forEach {
-            logData(it.toString())
-        }
-
         adapterGender.updateList(listOfGenders)
     }
 
