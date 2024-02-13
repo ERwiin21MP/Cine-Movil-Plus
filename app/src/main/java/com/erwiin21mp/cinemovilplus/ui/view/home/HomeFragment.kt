@@ -47,6 +47,9 @@ class HomeFragment : Fragment() {
     private val homeViewModel: HomeViewModel by viewModels()
     private var listOfContentFeatured: List<ContentInitModel> = emptyList()
     private var listOfPlatforms: List<PlatformModel> = emptyList()
+    private var listOfYears: List<String> = emptyList()
+    private var listOfSagas: List<String> = emptyList()
+    private var listOfLabels: List<String> = emptyList()
 
     companion object {
         const val TIME_VIEW_PAGER_CHANGE_ITEM = 3000
@@ -69,11 +72,15 @@ class HomeFragment : Fragment() {
     private fun initUIState() {
         lifecycleScope.launch {
             repeatOnLifecycle(STARTED) {
-                homeViewModel.listOfContent.observe(viewLifecycleOwner) {
-                    listOfContentFeatured = it
+                homeViewModel.listOfContent.observe(viewLifecycleOwner) { contentList ->
+                    listOfContentFeatured = contentList
                     adapterViewPager.updateList(listOfContentFeatured)
                     setUpIndicator()
-                    getGendersList(it)
+                    getGendersList(contentList)
+                    listOfYears = getYears(contentList)
+                    listOfSagas = getListOfSagas(contentList)
+                    logData(listOfYears.toString(), "Years")
+                    logData(listOfSagas.toString(), "Sagas")
                 }
 
                 homeViewModel.listOfPlatforms.observe(viewLifecycleOwner) {
@@ -82,6 +89,27 @@ class HomeFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun getListOfSagas(content: List<ContentInitModel>): List<String> {
+        val list = arrayListOf<String>()
+        content.forEach { contentModel ->
+            contentModel.genres.forEach { gender ->
+                if (gender[0].toString() == PREFIX_SAGA) list.add(
+                    gender.removeRange(0, 1)
+                )
+            }
+        }
+        return list.distinct().toList().sorted()
+    }
+
+    private fun getYears(content: List<ContentInitModel>): List<String> {
+        val list = arrayListOf<Short>()
+        val years = arrayListOf<String>()
+        content.forEach { list.add(it.releaseDate.split("/")[2].toShort()) }
+        list.sortDescending()
+        list.forEach { years.add(it.toString()) }
+        return years.distinct().toList()
     }
 
     private fun getGendersList(list: List<ContentInitModel>) {
