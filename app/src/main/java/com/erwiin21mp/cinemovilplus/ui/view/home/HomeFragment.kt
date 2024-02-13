@@ -1,11 +1,14 @@
 package com.erwiin21mp.cinemovilplus.ui.view.home
 
+import android.graphics.Typeface
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle.State.STARTED
@@ -22,8 +25,10 @@ import com.erwiin21mp.cinemovilplus.core.logData
 import com.erwiin21mp.cinemovilplus.databinding.FragmentHomeBinding
 import com.erwiin21mp.cinemovilplus.domain.model.ContentInitModel
 import com.erwiin21mp.cinemovilplus.domain.model.GenderModel
+import com.erwiin21mp.cinemovilplus.domain.model.LabelContentModel
 import com.erwiin21mp.cinemovilplus.domain.model.PlatformModel
 import com.erwiin21mp.cinemovilplus.ui.utils.SpacingItemDecoration
+import com.erwiin21mp.cinemovilplus.ui.view.home.content.ContentAdapter
 import com.erwiin21mp.cinemovilplus.ui.view.home.genders.GendersAdapter
 import com.erwiin21mp.cinemovilplus.ui.view.home.platforms.PlatformAdapter
 import com.erwiin21mp.cinemovilplus.ui.view.home.viewmodel.HomeViewModel
@@ -49,7 +54,6 @@ class HomeFragment : Fragment() {
     private var listOfPlatforms: List<PlatformModel> = emptyList()
     private var listOfYears: List<String> = emptyList()
     private var listOfSagas: List<String> = emptyList()
-    private var listOfLabels: List<String> = emptyList()
 
     companion object {
         const val TIME_VIEW_PAGER_CHANGE_ITEM = 3000
@@ -79,8 +83,7 @@ class HomeFragment : Fragment() {
                     getGendersList(contentList)
                     listOfYears = getYears(contentList)
                     listOfSagas = getListOfSagas(contentList)
-                    logData(listOfYears.toString(), "Years")
-                    logData(listOfSagas.toString(), "Sagas")
+                    setContent(contentList)
                 }
 
                 homeViewModel.listOfPlatforms.observe(viewLifecycleOwner) {
@@ -89,6 +92,58 @@ class HomeFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun setContent(contentList: List<ContentInitModel>) {
+        var listOfLabelsAndContent: MutableList<LabelContentModel> = mutableListOf()
+        listOfLabelsAndContent.add(
+            LabelContentModel(
+                titleList = getString(R.string.allContent),
+                contentList = contentList.sortedBy { it.title })
+        )
+
+        setViews(listOfLabelsAndContent)
+    }
+
+    private fun setViews(listOfLabels: MutableList<LabelContentModel>) {
+        listOfLabels.forEach { item ->
+            binding.llContainer.addView(setUpTextViewGender(item.titleList))
+            binding.llContainer.addView(setUpRecyclerView(item.contentList))
+        }
+    }
+
+    private fun setUpRecyclerView(contentList: List<ContentInitModel>): RecyclerView {
+        val rvGender = RecyclerView(requireContext())
+        rvGender.layoutParams = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        )
+
+        rvGender.setPadding(0, resources.getDimensionPixelSize(R.dimen.spacing_8), 0, 0)
+        setLabelsAdapters(rvGender, contentList)
+        return rvGender
+    }
+
+    private fun setLabelsAdapters(rv: RecyclerView, contentList: List<ContentInitModel>) {
+        rv.addItemDecoration(SpacingItemDecoration(resources.getDimensionPixelSize(R.dimen.spacing_8)))
+        rv.layoutManager = LinearLayoutManager(rv.context, LinearLayoutManager.HORIZONTAL, false)
+        rv.adapter = ContentAdapter(contentList) { navigateToContent(it) }
+    }
+
+    private fun setUpTextViewGender(titleList: String): TextView {
+        val tvGender = TextView(context)
+        tvGender.layoutParams = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.WRAP_CONTENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        )
+
+        if (titleList.length == 4) tvGender.text =
+            getString(R.string.moviesAndSeries).plus(" ").plus(titleList)
+        else tvGender.text = titleList
+        tvGender.textSize = 17f
+        tvGender.setTypeface(null, Typeface.BOLD)
+        tvGender.setPadding(0, resources.getDimensionPixelSize(R.dimen.spacing_20), 0, 0)
+        return tvGender
     }
 
     private fun getListOfSagas(content: List<ContentInitModel>): List<String> {

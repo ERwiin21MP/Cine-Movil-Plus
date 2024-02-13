@@ -53,4 +53,6 @@
     <string name="streamingPlatforms">Plataformas de streaming</string>
     <string name="genders">Géneros</string>
     <string name="recommendations">Recomendaciones</string>
+    <string name="allContent">Todo el contenido</string>
+    <string name="moviesAndSeries">Películas y series de</string>
 </resources>
