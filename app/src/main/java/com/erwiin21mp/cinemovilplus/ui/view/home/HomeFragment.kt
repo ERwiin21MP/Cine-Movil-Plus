@@ -10,7 +10,6 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.view.size
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle.State.STARTED
@@ -48,6 +47,7 @@ class HomeFragment : Fragment() {
     private lateinit var adapterViewPager: ViewPagerAdapter
     private lateinit var adapterPlatform: PlatformAdapter
     private lateinit var adapterGender: GendersAdapter
+    private lateinit var adapterContent: ContentAdapter
     private lateinit var runnable: Runnable
     private lateinit var handler: Handler
     private var _binding: FragmentHomeBinding? = null
@@ -88,19 +88,12 @@ class HomeFragment : Fragment() {
                     listOfSagas = getListOfSagas(contentList)
                     listOfLabels = getListOfLabels(contentList, listOfSagas, listOfYears)
 
-                    listOfLabels.forEach {
-                        logData(it.titleList, "Title")
-                        logData(it.contentList.toString(), "List")
-//                        logData(it.adapter.toString(), "adapter")
-                    }
-                    logData(listOfLabels.size.toString(), "Size labels")
-                    logData(binding.llContainer.size.toString(), "size views antes")
                     binding.llContainer.removeAllViews()
+
                     listOfLabels.forEach { item ->
                         binding.llContainer.addView(setUpTextViewGender(item.titleList))
                         binding.llContainer.addView(setUpRecyclerView(item.contentList))
                     }
-                    logData(binding.llContainer.size.toString(), "size views despues")
                 }
 
                 homeViewModel.listOfPlatforms.observe(viewLifecycleOwner) {
