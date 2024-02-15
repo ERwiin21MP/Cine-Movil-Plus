@@ -103,4 +103,7 @@ dependencies {
 
     //CircleIndicator
     implementation("me.relex:circleindicator:2.1.6")
+
+    //Shimmer Effect
+    implementation("com.facebook.shimmer:shimmer:0.5.0")
 }

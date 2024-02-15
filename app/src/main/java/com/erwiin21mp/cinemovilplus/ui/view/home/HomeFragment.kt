@@ -22,7 +22,6 @@ import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import com.erwiin21mp.cinemovilplus.R
 import com.erwiin21mp.cinemovilplus.core.isNull
-import com.erwiin21mp.cinemovilplus.core.logData
 import com.erwiin21mp.cinemovilplus.databinding.FragmentHomeBinding
 import com.erwiin21mp.cinemovilplus.domain.model.ContentInitModel
 import com.erwiin21mp.cinemovilplus.domain.model.GenderModel
@@ -93,6 +92,11 @@ class HomeFragment : Fragment() {
                     listOfLabels.forEach { item ->
                         binding.llContainer.addView(setUpTextViewGender(item.titleList))
                         binding.llContainer.addView(setUpRecyclerView(item.contentList))
+                    }
+
+                    if (contentList.isNotEmpty()) {
+                        binding.llLoading.visibility = View.GONE
+                        binding.rlContainer.visibility = View.VISIBLE
                     }
                 }
 
@@ -179,8 +183,6 @@ class HomeFragment : Fragment() {
         val listOfContentReturn: ArrayList<ContentInitModel> = arrayListOf()
         contentList.forEach { content ->
             content.genres.forEach { generoList ->
-                logData(generoList, "generoList")
-                logData(genero, "genero")
                 if (generoList.removeRange(0, 1) == genero) {
                     listOfContentReturn.add(content)
                 }

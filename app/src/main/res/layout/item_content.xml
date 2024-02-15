@@ -26,8 +26,24 @@
                 android:layout_width="119.7dp"
                 android:layout_height="180dp"
                 android:scaleType="centerCrop"
+                android:visibility="gone"
                 tools:ignore="ContentDescription"
                 tools:src="@drawable/about_time" />
+
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/ivPosterVerticalLoading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:shimmer_auto_start="true">
+
+                <View
+                    android:layout_width="119.7dp"
+                    android:layout_height="180dp"
+                    android:background="@color/loading"
+                    android:scaleType="centerCrop"
+                    tools:ignore="ContentDescription"
+                    tools:src="@drawable/about_time" />
+            </com.facebook.shimmer.ShimmerFrameLayout>
         </RelativeLayout>
 
     </androidx.cardview.widget.CardView>

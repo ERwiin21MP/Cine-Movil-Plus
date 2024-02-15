@@ -3,6 +3,9 @@ package com.erwiin21mp.cinemovilplus.data.network
 import android.annotation.SuppressLint
 import com.erwiin21mp.cinemovilplus.core.isNull
 import com.erwiin21mp.cinemovilplus.data.model.AuthRes
+import com.erwiin21mp.cinemovilplus.ui.view.home.viewmodel.HomeViewModel.Companion.NAME
+import com.erwiin21mp.cinemovilplus.ui.view.home.viewmodel.HomeViewModel.Companion.URL
+import com.erwiin21mp.cinemovilplus.ui.view.home.viewmodel.HomeViewModel.Companion.VERTICAL_IMAGE_URL
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -13,8 +16,19 @@ class DataBaseManager {
 
     private val database: DatabaseReference = FirebaseDatabase.getInstance().reference
 
-    private companion object {
+    companion object {
         const val CHILD_LOG_APP_OPEN = "LogAppOpen"
+        const val CHILD_LOG_ERROR_SEND_EMAIL = "LogErrorSendEmail"
+        const val CHILD_LOG_ERROR_CREATE_ACCOUNT = "LogErrorCreateAccount"
+        const val CHILD_LOG_ERROR_UPDATE_DISPLAY_NAME = "LogErrorUpdateDisplayName"
+        const val CHILD_LOG_SUCCESS_CREATE_ACCOUNT = "LogSuccessCreateAccount"
+        const val CHILD_LOG_SIGN_OUT = "LogSignOut"
+        const val CHILD_LOG_ERROR_LOGIN = "LogErrorLogin"
+        const val CHILD_LOG_SUCCESS_LOGIN = "LogSuccessLogin"
+        const val CHILD_LOG_BUTTON_CLICKED = "LogButtonClicked"
+        const val CHILD_LOG_ERROR_LOAD_POSTER_IMAGE_CONTENT_VERTICAL =
+            "LogErrorLoadPosterImageContentVertical"
+        const val CHILD_LO_ERROR_LOAD_IMAGE_PLATFORM = "LogErrorLoadImagePlatform"
         const val UID = "Uid"
         const val IS_ANONYMOUS = "IsAnonymous"
         const val DISPLAY_NAME = "DisplayName"
@@ -22,17 +36,10 @@ class DataBaseManager {
         const val PHONE_NUMBER = "PhoneNumber"
         const val PHOTO_URL = "PhotoURL"
         const val DATE = "Date"
-        const val CHILD_LOG_ERROR_LOGIN = "LogErrorLogin"
-        const val CHILD_LOG_SUCCESS_LOGIN = "LogSuccessLogin"
         const val ERROR_MESSAGE = "ErrorMessage"
         const val PASSWORD = "Password"
-        const val CHILD_LOG_BUTTON_CLICKED = "LogButtonClicked"
         const val BUTTON_NAME = "ButtonName"
-        const val CHILD_LOG_ERROR_SEND_EMAIL = "LogErrorSendEmail"
-        const val CHILD_LOG_ERROR_CREATE_ACCOUNT = "LogErrorCreateAccount"
-        const val CHILD_LOG_ERROR_UPDATE_DISPLAY_NAME = "LogErrorUpdateDisplayName"
-        const val CHILD_LOG_SUCCESS_CREATE_ACCOUNT = "LogSuccessCreateAccount"
-        const val CHILD_LOG_SIGN_OUT = "LogSignOut"
+        const val ID_CONTENT = "IdContent"
     }
 
     fun logAppOpen(user: FirebaseUser) {
@@ -128,5 +135,23 @@ class DataBaseManager {
         database.child(CHILD_LOG_SIGN_OUT)
             .child(getCleanId("${user!!.displayName} - ${user.email}"))
             .child(getCurrentDateAndHour()).setValue(mapOf(DATE to getCurrentDateAndHour()))
+    }
+
+    fun logErrorLoadPosterImageContentVertical(
+        message: Exception?,
+        idContent: Int,
+        verticalImageUlr: String
+    ) {
+        val map = mapOf(
+            ERROR_MESSAGE to message.toString(),
+            ID_CONTENT to idContent,
+            VERTICAL_IMAGE_URL to verticalImageUlr
+        )
+        database.child(CHILD_LOG_ERROR_LOAD_POSTER_IMAGE_CONTENT_VERTICAL).push().setValue(map)
+    }
+
+    fun logErrorLoadImagePlatform(message: Exception?, name: String, url: String) {
+        val map = mapOf(ERROR_MESSAGE to message.toString(), NAME to name, URL to url)
+        database.child(CHILD_LO_ERROR_LOAD_IMAGE_PLATFORM).push().setValue(map)
     }
 }
