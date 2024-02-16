@@ -11,8 +11,9 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import java.text.SimpleDateFormat
 import java.util.Date
+import javax.inject.Inject
 
-class DataBaseManager {
+class DataBaseManager @Inject constructor() {
 
     private val database: DatabaseReference = FirebaseDatabase.getInstance().reference
 

@@ -33,5 +33,4 @@ class ContentViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         }
         itemView.setOnClickListener { onItemSelected(item.id) }
     }
-
 }

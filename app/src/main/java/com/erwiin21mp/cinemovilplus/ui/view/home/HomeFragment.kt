@@ -22,9 +22,9 @@ import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import com.erwiin21mp.cinemovilplus.R
 import com.erwiin21mp.cinemovilplus.core.isNull
+import com.erwiin21mp.cinemovilplus.data.home.GendersListProvider
 import com.erwiin21mp.cinemovilplus.databinding.FragmentHomeBinding
 import com.erwiin21mp.cinemovilplus.domain.model.ContentInitModel
-import com.erwiin21mp.cinemovilplus.domain.model.GenderModel
 import com.erwiin21mp.cinemovilplus.domain.model.LabelContentModel
 import com.erwiin21mp.cinemovilplus.domain.model.PlatformModel
 import com.erwiin21mp.cinemovilplus.ui.utils.SpacingItemDecoration
@@ -38,6 +38,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -56,6 +57,9 @@ class HomeFragment : Fragment() {
     private var listOfYears: List<String> = emptyList()
     private var listOfSagas: List<String> = emptyList()
     private var listOfLabels: List<LabelContentModel> = emptyList()
+
+    @Inject
+    lateinit var gendersListProvider: GendersListProvider
 
     companion object {
         const val TIME_VIEW_PAGER_CHANGE_ITEM = 3000
@@ -80,9 +84,12 @@ class HomeFragment : Fragment() {
             repeatOnLifecycle(STARTED) {
                 homeViewModel.listOfContent.observe(viewLifecycleOwner) { contentList ->
                     listOfContentFeatured = contentList
+
                     adapterViewPager.updateList(listOfContentFeatured)
                     setUpIndicator()
-                    getGendersList(contentList)
+
+                    adapterGender.updateList(gendersListProvider.getGendersList(contentList)) //Provider
+
                     listOfYears = getYears(contentList)
                     listOfSagas = getListOfSagas(contentList)
                     listOfLabels = getListOfLabels(contentList, listOfSagas, listOfYears)
@@ -211,25 +218,6 @@ class HomeFragment : Fragment() {
         list.sortDescending()
         list.forEach { years.add(it.toString()) }
         return years.distinct().toList()
-    }
-
-    private fun getGendersList(list: List<ContentInitModel>) {
-        var listOfGenders: MutableList<GenderModel> = mutableListOf()
-        list.forEach { content ->
-            content.genres.forEach { gender ->
-                if (gender[0].toString() != PREFIX_SAGA) {
-                    listOfGenders.add(
-                        GenderModel(
-                            gender = gender.removeRange(0, 1),
-                            urlPicture = content.horizontalImageUrl
-                        )
-                    )
-                }
-            }
-        }
-        listOfGenders.sortBy { it.gender }
-        listOfGenders = listOfGenders.distinctBy { it.gender }.toMutableList()
-        adapterGender.updateList(listOfGenders)
     }
 
     private fun initGenders() {
