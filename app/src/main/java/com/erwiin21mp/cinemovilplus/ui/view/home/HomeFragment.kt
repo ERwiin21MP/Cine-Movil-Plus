@@ -22,18 +22,19 @@ import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import com.erwiin21mp.cinemovilplus.R
 import com.erwiin21mp.cinemovilplus.core.isNull
+import com.erwiin21mp.cinemovilplus.data.homeProviders.ContentFeaturedProvider
 import com.erwiin21mp.cinemovilplus.data.homeProviders.GendersListProvider
+import com.erwiin21mp.cinemovilplus.data.homeProviders.LabelsListProvider
+import com.erwiin21mp.cinemovilplus.data.homeProviders.SagasListProvider
 import com.erwiin21mp.cinemovilplus.data.homeProviders.YearsListProvider
 import com.erwiin21mp.cinemovilplus.databinding.FragmentHomeBinding
 import com.erwiin21mp.cinemovilplus.domain.model.ContentInitModel
 import com.erwiin21mp.cinemovilplus.domain.model.LabelContentModel
-import com.erwiin21mp.cinemovilplus.domain.model.PlatformModel
 import com.erwiin21mp.cinemovilplus.ui.utils.SpacingItemDecoration
 import com.erwiin21mp.cinemovilplus.ui.view.home.content.ContentAdapter
 import com.erwiin21mp.cinemovilplus.ui.view.home.genders.GendersAdapter
 import com.erwiin21mp.cinemovilplus.ui.view.home.platforms.PlatformAdapter
 import com.erwiin21mp.cinemovilplus.ui.view.home.viewmodel.HomeViewModel
-import com.erwiin21mp.cinemovilplus.ui.view.home.viewmodel.HomeViewModel.Companion.PREFIX_SAGA
 import com.erwiin21mp.cinemovilplus.ui.view.home.viewpager2.ViewPagerAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
@@ -54,15 +55,21 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val homeViewModel: HomeViewModel by viewModels()
     private var listOfContentFeatured: List<ContentInitModel> = emptyList()
-    private var listOfPlatforms: List<PlatformModel> = emptyList()
-    private var listOfSagas: List<String> = emptyList()
-    private var listOfLabels: List<LabelContentModel> = emptyList()
 
     @Inject
     lateinit var gendersListProvider: GendersListProvider
 
     @Inject
     lateinit var yearsListProvider: YearsListProvider
+
+    @Inject
+    lateinit var sagasListProvider: SagasListProvider
+
+    @Inject
+    lateinit var labelsListProvider: LabelsListProvider
+
+    @Inject
+    lateinit var contentFeatured: ContentFeaturedProvider
 
     companion object {
         const val TIME_VIEW_PAGER_CHANGE_ITEM = 3000
@@ -86,7 +93,7 @@ class HomeFragment : Fragment() {
         lifecycleScope.launch {
             repeatOnLifecycle(STARTED) {
                 homeViewModel.listOfContent.observe(viewLifecycleOwner) { contentList ->
-                    listOfContentFeatured = contentList
+                    val listOfContentFeatured = contentFeatured.getContentFeatured(contentList)
 
                     adapterViewPager.updateList(listOfContentFeatured)
                     setUpIndicator()
@@ -95,16 +102,12 @@ class HomeFragment : Fragment() {
                     adapterGender.updateList(listOfGenders)
 
                     val listOfYears = yearsListProvider.getYearsList(contentList)
-
-                    listOfSagas = getListOfSagas(contentList)
-                    listOfLabels = getListOfLabels(contentList, listOfSagas, listOfYears)
+                    val listOfSagas = sagasListProvider.getListOfSagas(contentList)
+                    val listOfLabels =
+                        labelsListProvider.getListOfLabels(contentList, listOfSagas, listOfYears)
 
                     binding.llContainer.removeAllViews()
-
-                    listOfLabels.forEach { item ->
-                        binding.llContainer.addView(setUpTextViewGender(item.titleList))
-                        binding.llContainer.addView(setUpRecyclerView(item.contentList))
-                    }
+                    setUpLabels(listOfLabels)
 
                     if (contentList.isNotEmpty()) {
                         binding.llLoading.visibility = View.GONE
@@ -113,10 +116,16 @@ class HomeFragment : Fragment() {
                 }
 
                 homeViewModel.listOfPlatforms.observe(viewLifecycleOwner) {
-                    listOfPlatforms = it
-                    adapterPlatform.updateList(listOfPlatforms)
+                    adapterPlatform.updateList(it)
                 }
             }
+        }
+    }
+
+    private fun setUpLabels(listOfLabels: List<LabelContentModel>) {
+        listOfLabels.forEach { item ->
+            binding.llContainer.addView(setUpTextViewGender(item.titleList))
+            binding.llContainer.addView(setUpRecyclerView(item.contentList))
         }
     }
 
@@ -154,68 +163,6 @@ class HomeFragment : Fragment() {
         return tvGender
     }
 
-    private fun getListOfLabels(
-        contentList: List<ContentInitModel>,
-        listOfSagas: List<String>,
-        listOfYears: List<String>
-    ): List<LabelContentModel> {
-        val list = mutableListOf<LabelContentModel>()
-        list.add(
-            LabelContentModel(
-                titleList = getString(R.string.allContent),
-                contentList = contentList
-            )
-        )
-        listOfSagas.forEach {
-            list.add(
-                LabelContentModel(
-                    titleList = it,
-                    contentList = filterSaga(it, contentList)
-                )
-            )
-        }
-        listOfYears.forEach {
-            list.add(
-                LabelContentModel(
-                    titleList = it,
-                    contentList = contentList.filter { itFilter ->
-                        it == itFilter.releaseDate.split(
-                            "/"
-                        )[2]
-                    })
-            )
-        }
-        return list
-    }
-
-    private fun filterSaga(
-        genero: String,
-        contentList: List<ContentInitModel>
-    ): List<ContentInitModel> {
-        val listOfContentReturn: ArrayList<ContentInitModel> = arrayListOf()
-        contentList.forEach { content ->
-            content.genres.forEach { generoList ->
-                if (generoList.removeRange(0, 1) == genero) {
-                    listOfContentReturn.add(content)
-                }
-            }
-        }
-        listOfContentReturn.distinct()
-        return listOfContentReturn
-    }
-
-    fun getListOfSagas(content: List<ContentInitModel>): List<String> {
-        val list = arrayListOf<String>()
-        content.forEach { contentModel ->
-            contentModel.genres.forEach { gender ->
-                if (gender[0].toString() == PREFIX_SAGA) list.add(
-                    gender.removeRange(0, 1)
-                )
-            }
-        }
-        return list.distinct().toList().sorted()
-    }
-
     private fun initGenders() {
         adapterGender = GendersAdapter { navigateToGender(it) }
         binding.rvGenders.apply {
@@ -232,7 +179,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun initPlatforms() {
-        adapterPlatform = PlatformAdapter(listOfPlatforms) { navigateToPlatform(it) }
+        adapterPlatform = PlatformAdapter { navigateToPlatform(it) }
 
         binding.rvPlatforms.addItemDecoration(
             SpacingItemDecoration(

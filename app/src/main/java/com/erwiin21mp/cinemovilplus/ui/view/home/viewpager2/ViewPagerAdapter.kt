@@ -27,7 +27,7 @@ class ViewPagerAdapter(
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun updateList(listUpdate: List<ContentInitModel>) {
+    fun updateList(listUpdate: Unit) {
         list = listUpdate
         notifyDataSetChanged()
     }
