@@ -1,11 +1,11 @@
-package com.erwiin21mp.cinemovilplus.data.home
+package com.erwiin21mp.cinemovilplus.data.homeProviders
 
 import com.erwiin21mp.cinemovilplus.domain.model.ContentInitModel
 import com.erwiin21mp.cinemovilplus.domain.model.GenderModel
 import com.erwiin21mp.cinemovilplus.ui.view.home.viewmodel.HomeViewModel.Companion.PREFIX_SAGA
 import javax.inject.Inject
 
-class GendersListProvider @Inject constructor(){
+class GendersListProvider @Inject constructor() {
     fun getGendersList(listOfContent: List<ContentInitModel>): MutableList<GenderModel> {
         val listOfGenders: MutableList<GenderModel> = mutableListOf()
         listOfContent.forEach { content ->

@@ -22,7 +22,8 @@ import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import com.erwiin21mp.cinemovilplus.R
 import com.erwiin21mp.cinemovilplus.core.isNull
-import com.erwiin21mp.cinemovilplus.data.home.GendersListProvider
+import com.erwiin21mp.cinemovilplus.data.homeProviders.GendersListProvider
+import com.erwiin21mp.cinemovilplus.data.homeProviders.YearsListProvider
 import com.erwiin21mp.cinemovilplus.databinding.FragmentHomeBinding
 import com.erwiin21mp.cinemovilplus.domain.model.ContentInitModel
 import com.erwiin21mp.cinemovilplus.domain.model.LabelContentModel
@@ -54,12 +55,14 @@ class HomeFragment : Fragment() {
     private val homeViewModel: HomeViewModel by viewModels()
     private var listOfContentFeatured: List<ContentInitModel> = emptyList()
     private var listOfPlatforms: List<PlatformModel> = emptyList()
-    private var listOfYears: List<String> = emptyList()
     private var listOfSagas: List<String> = emptyList()
     private var listOfLabels: List<LabelContentModel> = emptyList()
 
     @Inject
     lateinit var gendersListProvider: GendersListProvider
+
+    @Inject
+    lateinit var yearsListProvider: YearsListProvider
 
     companion object {
         const val TIME_VIEW_PAGER_CHANGE_ITEM = 3000
@@ -88,9 +91,11 @@ class HomeFragment : Fragment() {
                     adapterViewPager.updateList(listOfContentFeatured)
                     setUpIndicator()
 
-                    adapterGender.updateList(gendersListProvider.getGendersList(contentList)) //Provider
+                    val listOfGenders = gendersListProvider.getGendersList(contentList)
+                    adapterGender.updateList(listOfGenders)
 
-                    listOfYears = getYears(contentList)
+                    val listOfYears = yearsListProvider.getYearsList(contentList)
+
                     listOfSagas = getListOfSagas(contentList)
                     listOfLabels = getListOfLabels(contentList, listOfSagas, listOfYears)
 
@@ -199,7 +204,7 @@ class HomeFragment : Fragment() {
         return listOfContentReturn
     }
 
-    private fun getListOfSagas(content: List<ContentInitModel>): List<String> {
+    fun getListOfSagas(content: List<ContentInitModel>): List<String> {
         val list = arrayListOf<String>()
         content.forEach { contentModel ->
             contentModel.genres.forEach { gender ->
@@ -209,15 +214,6 @@ class HomeFragment : Fragment() {
             }
         }
         return list.distinct().toList().sorted()
-    }
-
-    private fun getYears(content: List<ContentInitModel>): List<String> {
-        val list = arrayListOf<Short>()
-        val years = arrayListOf<String>()
-        content.forEach { list.add(it.releaseDate.split("/")[2].toShort()) }
-        list.sortDescending()
-        list.forEach { years.add(it.toString()) }
-        return years.distinct().toList()
     }
 
     private fun initGenders() {
@@ -332,4 +328,4 @@ class HomeFragment : Fragment() {
         handler.postDelayed(runnable, TIME_VIEW_PAGER_CHANGE_ITEM.toLong())
         super.onResume()
     }
-}
+} //331 lineas
