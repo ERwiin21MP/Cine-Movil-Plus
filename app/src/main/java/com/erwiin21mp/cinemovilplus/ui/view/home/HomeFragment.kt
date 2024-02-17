@@ -29,6 +29,7 @@ import com.erwiin21mp.cinemovilplus.data.homeProviders.SagasListProvider
 import com.erwiin21mp.cinemovilplus.data.homeProviders.YearsListProvider
 import com.erwiin21mp.cinemovilplus.databinding.FragmentHomeBinding
 import com.erwiin21mp.cinemovilplus.domain.model.ContentInitModel
+import com.erwiin21mp.cinemovilplus.domain.model.GenderModel
 import com.erwiin21mp.cinemovilplus.domain.model.LabelContentModel
 import com.erwiin21mp.cinemovilplus.ui.utils.SpacingItemDecoration
 import com.erwiin21mp.cinemovilplus.ui.view.home.content.ContentAdapter
@@ -54,7 +55,6 @@ class HomeFragment : Fragment() {
     private lateinit var handler: Handler
     private var _binding: FragmentHomeBinding? = null
     private val homeViewModel: HomeViewModel by viewModels()
-    private var listOfContentFeatured: List<ContentInitModel> = emptyList()
 
     @Inject
     lateinit var gendersListProvider: GendersListProvider
@@ -93,26 +93,7 @@ class HomeFragment : Fragment() {
         lifecycleScope.launch {
             repeatOnLifecycle(STARTED) {
                 homeViewModel.listOfContent.observe(viewLifecycleOwner) { contentList ->
-                    val listOfContentFeatured = contentFeatured.getContentFeatured(contentList)
-
-                    adapterViewPager.updateList(listOfContentFeatured)
-                    setUpIndicator()
-
-                    val listOfGenders = gendersListProvider.getGendersList(contentList)
-                    adapterGender.updateList(listOfGenders)
-
-                    val listOfYears = yearsListProvider.getYearsList(contentList)
-                    val listOfSagas = sagasListProvider.getListOfSagas(contentList)
-                    val listOfLabels =
-                        labelsListProvider.getListOfLabels(contentList, listOfSagas, listOfYears)
-
-                    binding.llContainer.removeAllViews()
-                    setUpLabels(listOfLabels)
-
-                    if (contentList.isNotEmpty()) {
-                        binding.llLoading.visibility = View.GONE
-                        binding.rlContainer.visibility = View.VISIBLE
-                    }
+                    getData(contentList)
                 }
 
                 homeViewModel.listOfPlatforms.observe(viewLifecycleOwner) {
@@ -122,10 +103,38 @@ class HomeFragment : Fragment() {
         }
     }
 
+    private fun getData(contentList: List<ContentInitModel>) {
+        val listOfContentFeatured = contentFeatured.getContentFeatured(contentList)
+        val listOfGenders = gendersListProvider.getGendersList(contentList)
+        val listOfYears = yearsListProvider.getYearsList(contentList)
+        val listOfSagas = sagasListProvider.getListOfSagas(contentList)
+        val listOfLabels = labelsListProvider.getListOfLabels(contentList, listOfSagas, listOfYears)
+
+        if (contentList.isNotEmpty()) {
+            binding.apply {
+                llLoading.visibility = View.GONE
+                rlContainer.visibility = View.VISIBLE
+            }
+        }
+
+        setData(listOfContentFeatured, listOfGenders, listOfLabels)
+    }
+
+    private fun setData(listOfContentFeatured: List<ContentInitModel>, listOfGenders: MutableList<GenderModel>, listOfLabels: List<LabelContentModel>) {
+        adapterViewPager.updateList(listOfContentFeatured)
+        setUpIndicator()
+        adapterGender.updateList(listOfGenders)
+        setUpLabels(listOfLabels)
+    }
+
     private fun setUpLabels(listOfLabels: List<LabelContentModel>) {
-        listOfLabels.forEach { item ->
-            binding.llContainer.addView(setUpTextViewGender(item.titleList))
-            binding.llContainer.addView(setUpRecyclerView(item.contentList))
+        binding.llContainer.apply {
+            removeAllViews()
+
+            listOfLabels.forEach { item ->
+                addView(setUpTextViewGender(item.titleList))
+                addView(setUpRecyclerView(item.contentList))
+            }
         }
     }
 
