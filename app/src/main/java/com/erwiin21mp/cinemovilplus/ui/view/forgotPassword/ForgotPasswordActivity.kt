@@ -3,7 +3,7 @@ package com.erwiin21mp.cinemovilplus.ui.view.forgotPassword
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.erwiin21mp.cinemovilplus.R
-import com.erwiin21mp.cinemovilplus.core.onTextChanged
+import com.erwiin21mp.cinemovilplus.core.ext.onTextChanged
 import com.erwiin21mp.cinemovilplus.data.model.AuthRes
 import com.erwiin21mp.cinemovilplus.data.network.AuthManager
 import com.erwiin21mp.cinemovilplus.data.network.DataBaseManager

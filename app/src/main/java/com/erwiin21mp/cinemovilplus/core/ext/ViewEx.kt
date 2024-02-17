@@ -1,4 +1,4 @@
-package com.erwiin21mp.cinemovilplus.core
+package com.erwiin21mp.cinemovilplus.core.ext
 
 import android.content.Context
 import android.view.View

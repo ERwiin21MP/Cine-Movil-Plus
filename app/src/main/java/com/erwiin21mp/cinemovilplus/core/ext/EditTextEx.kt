@@ -1,4 +1,4 @@
-package com.erwiin21mp.cinemovilplus.core
+package com.erwiin21mp.cinemovilplus.core.ext
 
 import android.text.Editable
 import android.text.TextWatcher

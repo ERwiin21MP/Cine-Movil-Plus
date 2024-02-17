@@ -11,8 +11,8 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.erwiin21mp.cinemovilplus.R
-import com.erwiin21mp.cinemovilplus.core.navigateToLogin
-import com.erwiin21mp.cinemovilplus.core.toast
+import com.erwiin21mp.cinemovilplus.core.ext.navigateToLogin
+import com.erwiin21mp.cinemovilplus.core.ext.toast
 import com.erwiin21mp.cinemovilplus.data.network.AuthGoogle
 import com.erwiin21mp.cinemovilplus.data.network.AuthManager
 import com.erwiin21mp.cinemovilplus.data.network.DataBaseManager

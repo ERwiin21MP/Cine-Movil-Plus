@@ -1,7 +1,7 @@
 package com.erwiin21mp.cinemovilplus.data.network
 
 import android.annotation.SuppressLint
-import com.erwiin21mp.cinemovilplus.core.isNull
+import com.erwiin21mp.cinemovilplus.core.ext.isNull
 import com.erwiin21mp.cinemovilplus.data.model.AuthRes
 import com.erwiin21mp.cinemovilplus.ui.view.home.viewmodel.HomeViewModel.Companion.NAME
 import com.erwiin21mp.cinemovilplus.ui.view.home.viewmodel.HomeViewModel.Companion.URL

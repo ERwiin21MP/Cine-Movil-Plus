@@ -21,7 +21,7 @@ import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import com.erwiin21mp.cinemovilplus.R
-import com.erwiin21mp.cinemovilplus.core.isNull
+import com.erwiin21mp.cinemovilplus.core.ext.isNull
 import com.erwiin21mp.cinemovilplus.data.homeProviders.ContentFeaturedProvider
 import com.erwiin21mp.cinemovilplus.data.homeProviders.GendersListProvider
 import com.erwiin21mp.cinemovilplus.data.homeProviders.LabelsListProvider
@@ -47,14 +47,14 @@ import javax.inject.Inject
 class HomeFragment : Fragment() {
 
     private val binding get() = _binding!!
-    private lateinit var adapterViewPager: ViewPagerAdapter
-    private lateinit var adapterPlatform: PlatformAdapter
-    private lateinit var adapterGender: GendersAdapter
-    private lateinit var adapterContent: ContentAdapter
+    private val adapterViewPager = ViewPagerAdapter { navigateToContent(it) }
+    private val adapterGender = GendersAdapter { navigateToGenderOrPlatform(it) }
+    private val adapterPlatform = PlatformAdapter { navigateToGenderOrPlatform(it) }
     private lateinit var runnable: Runnable
     private lateinit var handler: Handler
     private var _binding: FragmentHomeBinding? = null
     private val homeViewModel: HomeViewModel by viewModels()
+    private var sizeOfListContentFeatured = 0
 
     @Inject
     lateinit var gendersListProvider: GendersListProvider
@@ -109,6 +109,7 @@ class HomeFragment : Fragment() {
         val listOfYears = yearsListProvider.getYearsList(contentList)
         val listOfSagas = sagasListProvider.getListOfSagas(contentList)
         val listOfLabels = labelsListProvider.getListOfLabels(contentList, listOfSagas, listOfYears)
+        sizeOfListContentFeatured = listOfContentFeatured.size
 
         if (contentList.isNotEmpty()) {
             binding.apply {
@@ -120,7 +121,11 @@ class HomeFragment : Fragment() {
         setData(listOfContentFeatured, listOfGenders, listOfLabels)
     }
 
-    private fun setData(listOfContentFeatured: List<ContentInitModel>, listOfGenders: MutableList<GenderModel>, listOfLabels: List<LabelContentModel>) {
+    private fun setData(
+        listOfContentFeatured: List<ContentInitModel>,
+        listOfGenders: MutableList<GenderModel>,
+        listOfLabels: List<LabelContentModel>
+    ) {
         adapterViewPager.updateList(listOfContentFeatured)
         setUpIndicator()
         adapterGender.updateList(listOfGenders)
@@ -139,91 +144,59 @@ class HomeFragment : Fragment() {
     }
 
     private fun setUpRecyclerView(listContent: List<ContentInitModel>): RecyclerView {
-        val rvGender = RecyclerView(requireContext())
-        rvGender.layoutParams = LinearLayout.LayoutParams(
-            LinearLayout.LayoutParams.MATCH_PARENT,
-            LinearLayout.LayoutParams.WRAP_CONTENT
-        )
-
-        rvGender.setPadding(0, resources.getDimensionPixelSize(R.dimen.spacing_8), 0, 0)
-        rvGender.addItemDecoration(SpacingItemDecoration(resources.getDimensionPixelSize(R.dimen.spacing_8)))
-        rvGender.layoutManager =
-            LinearLayoutManager(rvGender.context, LinearLayoutManager.HORIZONTAL, false)
-        rvGender.adapter = ContentAdapter(listContent) { navigateToContent(it) }
-        return rvGender
+        return RecyclerView(requireContext()).apply {
+            layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            )
+            setPadding(0, resources.getDimensionPixelSize(R.dimen.spacing_8), 0, 0)
+            addItemDecoration(SpacingItemDecoration(resources.getDimensionPixelSize(R.dimen.spacing_8)))
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            adapter = ContentAdapter(listContent) { navigateToContent(it) }
+        }
     }
 
     private fun setUpTextViewGender(titleList: String): TextView {
-        val tvGender = TextView(context)
-        tvGender.layoutParams = LinearLayout.LayoutParams(
-            LinearLayout.LayoutParams.WRAP_CONTENT,
-            LinearLayout.LayoutParams.WRAP_CONTENT
-        )
-
-        if (titleList.length == 4) tvGender.text =
-            getString(R.string.moviesAndSeries).plus(" ").plus(titleList)
-        else tvGender.text = titleList
-        tvGender.textSize = 17f
-        tvGender.setTypeface(
-            ResourcesCompat.getFont(tvGender.context, R.font.montserrat),
-            Typeface.BOLD
-        )
-        tvGender.setPadding(0, resources.getDimensionPixelSize(R.dimen.spacing_20), 0, 0)
-        return tvGender
+        return TextView(context).apply {
+            layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            )
+            text = if (titleList.length == 4) getString(R.string.moviesAndSeries).plus(" ")
+                .plus(titleList) else titleList
+            textSize = 17f
+            setTypeface(ResourcesCompat.getFont(context, R.font.montserrat), Typeface.BOLD)
+            setPadding(0, resources.getDimensionPixelSize(R.dimen.spacing_20), 0, 0)
+        }
     }
 
     private fun initGenders() {
-        adapterGender = GendersAdapter { navigateToGender(it) }
         binding.rvGenders.apply {
-            addItemDecoration(
-                SpacingItemDecoration(
-                    resources.getDimensionPixelSize(
-                        R.dimen.spacing_8
-                    )
-                )
-            )
+            setDecorationAndLayoutManagerToRecyclerView(this)
             adapter = adapterGender
-            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         }
     }
 
     private fun initPlatforms() {
-        adapterPlatform = PlatformAdapter { navigateToPlatform(it) }
-
-        binding.rvPlatforms.addItemDecoration(
-            SpacingItemDecoration(
-                resources.getDimensionPixelSize(
-                    R.dimen.spacing_8
-                )
-            )
-        )
-        binding.rvPlatforms.layoutManager =
-            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        binding.rvPlatforms.adapter = adapterPlatform
+        binding.rvPlatforms.apply {
+            setDecorationAndLayoutManagerToRecyclerView(this)
+            adapter = adapterPlatform
+        }
     }
 
-    private fun navigateToGender(gender: String) {
-
-    }
-
-    private fun navigateToPlatform(platform: String) {
-
+    private fun setDecorationAndLayoutManagerToRecyclerView(recyclerView: RecyclerView) {
+        recyclerView.apply {
+            addItemDecoration(SpacingItemDecoration(resources.getDimensionPixelSize(R.dimen.spacing_8)))
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        }
     }
 
     private fun initViewPager2() {
-        val transformer = CompositePageTransformer().apply {
-            addTransformer(MarginPageTransformer(40))
-            addTransformer { page, position ->
-                page.scaleY = 0.85f + (1 - kotlin.math.abs(position)) * 0.14f
-            }
-        }
-        adapterViewPager = ViewPagerAdapter() { navigateToContent(it) }
         binding.vp2FeaturedContent.apply {
             adapter = adapterViewPager
             offscreenPageLimit = 3
-            setPageTransformer(transformer)
-            registerOnPageChangeCallback(object :
-                ViewPager2.OnPageChangeCallback() {
+            setPageTransformer(getTransformer())
+            registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
                     super.onPageSelected(position)
                     if (!handler.isNull()) {
@@ -232,17 +205,20 @@ class HomeFragment : Fragment() {
                     }
                 }
             })
-            offscreenPageLimit = 3
             clipToPadding = false
             clipChildren = false
             getChildAt(0).overScrollMode = RecyclerView.OVER_SCROLL_NEVER
         }
-
         setUpIndicator()
     }
 
-    private fun navigateToContent(id: Int) {
-
+    private fun getTransformer(): ViewPager2.PageTransformer {
+        return CompositePageTransformer().apply {
+            addTransformer(MarginPageTransformer(40))
+            addTransformer { page, position ->
+                page.scaleY = 0.85f + (1 - kotlin.math.abs(position)) * 0.14f
+            }
+        }
     }
 
     private fun setUpIndicator() {
@@ -256,7 +232,7 @@ class HomeFragment : Fragment() {
     private fun initRunnable() {
         runnable = Runnable {
             binding.vp2FeaturedContent.currentItem = binding.vp2FeaturedContent.currentItem + 1
-            if ((binding.vp2FeaturedContent.currentItem + 1) == listOfContentFeatured.size)
+            if ((binding.vp2FeaturedContent.currentItem + 1) == sizeOfListContentFeatured)
                 lifecycleScope.launch {
                     withContext(Dispatchers.IO) {
                         Thread.sleep(TIME_VIEW_PAGER_CHANGE_ITEM.toLong())
@@ -266,13 +242,17 @@ class HomeFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentHomeBinding.inflate(layoutInflater, container, false)
         return binding.root
+    }
+
+    private fun navigateToContent(id: Int) {
+
+    }
+
+    private fun navigateToGenderOrPlatform(word: String) {
+
     }
 
     override fun onPause() {
@@ -284,4 +264,4 @@ class HomeFragment : Fragment() {
         handler.postDelayed(runnable, TIME_VIEW_PAGER_CHANGE_ITEM.toLong())
         super.onResume()
     }
-} //331 lineas
+}
