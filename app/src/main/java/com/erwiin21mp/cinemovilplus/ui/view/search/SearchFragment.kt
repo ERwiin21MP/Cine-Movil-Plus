@@ -48,8 +48,26 @@ class SearchFragment : Fragment() {
     private fun search(search: String) {
         val list = if (search.isEmpty()) listOfContent
         else listOfContent.filter { content ->
-            with(content) { listOf(title, synopsis, keywords) }.any {
-                it.lowercase().removeAccents().contains(search.lowercase().removeAccents())
+            with(content) {
+                listOf(
+                    id.toString(),
+                    title,
+                    synopsis,
+                    genres.toString(),
+                    platformsList.toString(),
+                    producersList.toString(),
+                    type,
+                    keywords
+                )
+            }.any {
+                it
+                    .lowercase()
+                    .removeAccents()
+                    .contains(
+                        search
+                            .lowercase()
+                            .removeAccents()
+                    )
             }
         }
 
