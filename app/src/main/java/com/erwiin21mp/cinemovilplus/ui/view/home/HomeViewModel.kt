@@ -1,4 +1,4 @@
-package com.erwiin21mp.cinemovilplus.ui.view.home.viewmodel
+package com.erwiin21mp.cinemovilplus.ui.view.home
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

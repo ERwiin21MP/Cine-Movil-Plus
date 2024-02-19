@@ -2,7 +2,7 @@ package com.erwiin21mp.cinemovilplus.data.homeProviders
 
 import com.erwiin21mp.cinemovilplus.domain.model.ContentInitModel
 import com.erwiin21mp.cinemovilplus.domain.model.GenderModel
-import com.erwiin21mp.cinemovilplus.ui.view.home.viewmodel.HomeViewModel.Companion.PREFIX_SAGA
+import com.erwiin21mp.cinemovilplus.ui.view.home.HomeViewModel.Companion.PREFIX_SAGA
 import javax.inject.Inject
 
 class GendersListProvider @Inject constructor() {

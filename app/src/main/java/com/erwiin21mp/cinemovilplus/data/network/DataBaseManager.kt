@@ -3,9 +3,9 @@ package com.erwiin21mp.cinemovilplus.data.network
 import android.annotation.SuppressLint
 import com.erwiin21mp.cinemovilplus.core.ext.isNull
 import com.erwiin21mp.cinemovilplus.data.model.AuthRes
-import com.erwiin21mp.cinemovilplus.ui.view.home.viewmodel.HomeViewModel.Companion.NAME
-import com.erwiin21mp.cinemovilplus.ui.view.home.viewmodel.HomeViewModel.Companion.URL
-import com.erwiin21mp.cinemovilplus.ui.view.home.viewmodel.HomeViewModel.Companion.VERTICAL_IMAGE_URL
+import com.erwiin21mp.cinemovilplus.ui.view.home.HomeViewModel.Companion.NAME
+import com.erwiin21mp.cinemovilplus.ui.view.home.HomeViewModel.Companion.URL
+import com.erwiin21mp.cinemovilplus.ui.view.home.HomeViewModel.Companion.VERTICAL_IMAGE_URL
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase

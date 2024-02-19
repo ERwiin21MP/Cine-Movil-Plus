@@ -35,7 +35,6 @@ import com.erwiin21mp.cinemovilplus.ui.utils.SpacingItemDecoration
 import com.erwiin21mp.cinemovilplus.ui.view.home.content.ContentAdapter
 import com.erwiin21mp.cinemovilplus.ui.view.home.genders.GendersAdapter
 import com.erwiin21mp.cinemovilplus.ui.view.home.platforms.PlatformAdapter
-import com.erwiin21mp.cinemovilplus.ui.view.home.viewmodel.HomeViewModel
 import com.erwiin21mp.cinemovilplus.ui.view.home.viewpager2.ViewPagerAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers

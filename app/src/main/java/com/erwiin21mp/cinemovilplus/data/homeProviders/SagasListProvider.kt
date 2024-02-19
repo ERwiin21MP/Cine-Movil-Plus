@@ -1,7 +1,7 @@
 package com.erwiin21mp.cinemovilplus.data.homeProviders
 
 import com.erwiin21mp.cinemovilplus.domain.model.ContentInitModel
-import com.erwiin21mp.cinemovilplus.ui.view.home.viewmodel.HomeViewModel
+import com.erwiin21mp.cinemovilplus.ui.view.home.HomeViewModel
 import javax.inject.Inject
 
 class SagasListProvider @Inject constructor() {
