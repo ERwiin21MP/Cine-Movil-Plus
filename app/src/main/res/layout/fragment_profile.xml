@@ -32,7 +32,7 @@
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_marginHorizontal="@dimen/spacing_20"
-                    tools:src="@mipmap/ic_app_round" />
+                    android:src="@drawable/ic_guest" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -64,18 +64,26 @@
                 android:layout_marginTop="@dimen/spacing_12"
                 android:textColor="@color/loading"
                 android:textSize="12sp"
+                app:layout_constraintBottom_toTopOf="@id/llBtns"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/llUserImageAndUserNameAndUserEmail"
                 tools:text="HGmb7GT2iSUcUrMrpEW0vEEZudl1" />
 
             <LinearLayout
+                android:id="@+id/llBtns"
                 android:layout_width="0dp"
+                android:layout_marginTop="@dimen/spacing_12"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvUID">
+
+                <com.google.android.material.divider.MaterialDivider
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/darker_gray" />
 
                 <TextView
                     android:id="@+id/tvAccount"
@@ -134,7 +142,7 @@
                     android:background="@android:color/darker_gray" />
 
                 <TextView
-                    android:id="@+id/logOut"
+                    android:id="@+id/btnSignOut"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/montserrat"

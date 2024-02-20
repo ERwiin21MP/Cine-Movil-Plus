@@ -33,6 +33,17 @@ fun Activity.toast(message: String) {
     }
 }
 
+fun Fragment.toast(message: String) {
+    Toast(context).apply {
+        val viewToast = LayoutInflater.from(context).inflate(R.layout.view_toast, null)
+        view = viewToast
+        val label: TextView = viewToast.findViewById(R.id.toast)
+        label.text = message
+        duration = Toast.LENGTH_SHORT
+        show()
+    }
+}
+
 @SuppressLint("SimpleDateFormat")
 fun Activity.getCurrentDateAndHour() =
     SimpleDateFormat("d MMM yyyy, EEE, HH:mm:ss z").format(Date()).toString()

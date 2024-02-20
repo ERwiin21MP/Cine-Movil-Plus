@@ -155,6 +155,7 @@
                 android:background="@drawable/bg_btn_white"
                 android:drawableStart="@drawable/ic_guest"
                 android:drawablePadding="8dp"
+                android:drawableTint="@color/black"
                 android:padding="8dp"
                 android:text="@string/signGuest"
                 android:textColor="@color/black" />

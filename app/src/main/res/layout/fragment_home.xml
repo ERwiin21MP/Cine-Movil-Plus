@@ -10,11 +10,12 @@
         android:id="@+id/llLoading"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="@dimen/spacing_8"
         android:layout_centerInParent="true"
         android:gravity="center"
         android:orientation="vertical"
-        app:shimmer_auto_start="true">
+        android:paddingHorizontal="@dimen/spacing_8"
+        app:shimmer_auto_start="true"
+        tools:visibility="gone">
 
         <include layout="@layout/fragment_home_loading" />
     </com.facebook.shimmer.ShimmerFrameLayout>

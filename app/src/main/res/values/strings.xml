@@ -47,9 +47,7 @@
     <string name="cancel">Cancelar</string>
     <string name="signOut">Cerrar sesión</string>
     <string name="signOutMessage">Has cerrado sesión exitosamente. ¡Esperamos verte pronto de nuevo!</string>
-    <string name="home">Home</string>
-    <string name="search">Search</string>
-    <string name="profile">Profile</string>
+
     <string name="streamingPlatforms">Plataformas de streaming</string>
     <string name="genders">Géneros</string>
     <string name="recommendations">Recomendaciones</string>
@@ -60,4 +58,10 @@
     <string name="favoritesList">Lista de favoritos</string>
     <string name="aviso_legal">Aviso legal</string>
     <string name="licencias_de_c_digo_abierto">Licencias de código abierto</string>
+    <string name="userAnonymous">Usuario anonimo</string>
+
+    <!-- BottomNavigationView -->
+    <string name="home">Inicio</string>
+    <string name="search">Buscar</string>
+    <string name="profile">Perfil</string>
 </resources>
