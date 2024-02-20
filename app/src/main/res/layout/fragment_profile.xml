@@ -9,20 +9,53 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="@dimen/spacing_12">
 
-            <ImageView
-                android:id="@+id/ivProfilePhoto"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                app:layout_constraintBottom_toTopOf="@id/tvUID"
+            <LinearLayout
+                android:id="@+id/llUserImageAndUserNameAndUserEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/ivProfilePhoto"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginHorizontal="@dimen/spacing_20"
+                    tools:src="@mipmap/ic_app_round" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvUserName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/spacing_20"
+                        android:fontFamily="@font/montserrat"
+                        android:text="Erwin Martínez Pérez" />
+
+                    <TextView
+                        android:id="@+id/tvUserEmail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/spacing_20"
+                        android:text="erwinmp98@gmail.com" />
+                </LinearLayout>
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/tvUID"
@@ -33,7 +66,101 @@
                 android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/ivProfilePhoto" />
+                app:layout_constraintTop_toBottomOf="@id/llUserImageAndUserNameAndUserEmail"
+                tools:text="HGmb7GT2iSUcUrMrpEW0vEEZudl1" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvUID">
+
+                <TextView
+                    android:id="@+id/tvAccount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat"
+                    android:paddingVertical="@dimen/spacing_20"
+                    android:paddingStart="@dimen/spacing_8"
+                    android:text="@string/account" />
+
+                <com.google.android.material.divider.MaterialDivider
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/darker_gray" />
+
+                <TextView
+                    android:id="@+id/tvFavorites"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat"
+                    android:paddingVertical="@dimen/spacing_20"
+                    android:paddingStart="@dimen/spacing_8"
+                    android:text="@string/favoritesList" />
+
+                <com.google.android.material.divider.MaterialDivider
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/darker_gray" />
+
+                <TextView
+                    android:id="@+id/tvLicensesLibrary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat"
+                    android:paddingVertical="@dimen/spacing_20"
+                    android:paddingStart="@dimen/spacing_8"
+                    android:text="@string/licencias_de_c_digo_abierto" />
+
+                <com.google.android.material.divider.MaterialDivider
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/darker_gray" />
+
+                <TextView
+                    android:id="@+id/tvLegal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat"
+                    android:paddingVertical="@dimen/spacing_20"
+                    android:paddingStart="@dimen/spacing_8"
+                    android:text="@string/aviso_legal" />
+
+                <com.google.android.material.divider.MaterialDivider
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/darker_gray" />
+
+                <TextView
+                    android:id="@+id/logOut"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat"
+                    android:paddingVertical="@dimen/spacing_20"
+                    android:paddingStart="@dimen/spacing_8"
+                    android:text="@string/signOut"
+                    android:textColor="@color/red" />
+
+                <com.google.android.material.divider.MaterialDivider
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/darker_gray" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="@dimen/spacing_20"
+                    android:paddingStart="@dimen/spacing_8"
+                    android:text="Versión: 1.0"
+                    android:textColor="@android:color/darker_gray" />
+            </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/red" />
 </LinearLayout>

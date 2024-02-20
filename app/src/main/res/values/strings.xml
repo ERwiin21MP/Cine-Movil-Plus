@@ -56,4 +56,8 @@
     <string name="allContent">Todo el contenido</string>
     <string name="moviesAndSeries">Películas y series de</string>
     <string name="whatAreYouLookingFor">¿Qué estás buscando?</string>
+    <string name="account">Cuenta</string>
+    <string name="favoritesList">Lista de favoritos</string>
+    <string name="aviso_legal">Aviso legal</string>
+    <string name="licencias_de_c_digo_abierto">Licencias de código abierto</string>
 </resources>
