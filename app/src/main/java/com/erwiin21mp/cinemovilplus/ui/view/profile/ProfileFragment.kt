@@ -1,5 +1,6 @@
 package com.erwiin21mp.cinemovilplus.ui.view.profile
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -27,6 +28,12 @@ class ProfileFragment : Fragment() {
 
     private fun initUI() {
         loadProfileImage()
+        loadUIDProfile()
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun loadUIDProfile() {
+        binding.tvUID.text = "UID: ${auth.getCurrentUser()!!.uid}"
     }
 
     private fun loadProfileImage() {

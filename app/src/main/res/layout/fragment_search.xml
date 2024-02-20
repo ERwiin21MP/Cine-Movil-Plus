@@ -13,13 +13,16 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:orientation="vertical"
-        android:paddingHorizontal="@dimen/spacing_8">
+        android:paddingHorizontal="@dimen/spacing_8"
+        android:visibility="gone"
+        tools:visibility="visible">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilSearch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
+            app:endIconMode="clear_text"
             app:hintEnabled="false">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -29,7 +32,7 @@
                 android:drawableTint="@color/white"
                 android:hint="@string/whatAreYouLookingFor"
                 android:imeOptions="actionSearch"
-                android:inputType="textEmailAddress" />
+                android:inputType="text" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -44,5 +47,20 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@color/red" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llLoadingSearchFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:visibility="gone">
+
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:shimmer_auto_start="true">
+
+            <include layout="@layout/fragment_search_loading" />
+        </com.facebook.shimmer.ShimmerFrameLayout>
     </LinearLayout>
 </RelativeLayout>

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -11,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import com.erwiin21mp.cinemovilplus.R
+import com.erwiin21mp.cinemovilplus.core.ext.loseFocusAfterAction
 import com.erwiin21mp.cinemovilplus.core.ext.onTextChanged
 import com.erwiin21mp.cinemovilplus.core.ext.removeAccents
 import com.erwiin21mp.cinemovilplus.databinding.FragmentSearchBinding
@@ -42,6 +44,7 @@ class SearchFragment : Fragment() {
     private fun initListeners() {
         binding.apply {
             etSearch.onTextChanged { search(it) }
+            etSearch.loseFocusAfterAction(EditorInfo.IME_ACTION_SEARCH)
         }
     }
 
@@ -59,16 +62,7 @@ class SearchFragment : Fragment() {
                     type,
                     keywords
                 )
-            }.any {
-                it
-                    .lowercase()
-                    .removeAccents()
-                    .contains(
-                        search
-                            .lowercase()
-                            .removeAccents()
-                    )
-            }
+            }.any { it.lowercase().removeAccents().contains(search.lowercase().removeAccents()) }
         }
 
         adapterContent.updateList(list)
@@ -88,6 +82,12 @@ class SearchFragment : Fragment() {
                 searchViewModel.listOfContent.observe(viewLifecycleOwner) {
                     listOfContent = it
                     adapterContent.updateList(listOfContent)
+                    if (listOfContent.isNotEmpty()) {
+                        binding.apply {
+                            llLoadingSearchFragment.visibility = View.GONE
+                            clContainerSearch.visibility = View.VISIBLE
+                        }
+                    }
                 }
             }
         }
