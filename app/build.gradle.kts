@@ -106,4 +106,7 @@ dependencies {
 
     //Shimmer Effect
     implementation("com.facebook.shimmer:shimmer:0.5.0")
+
+    //Cloud Messaging
+    implementation("com.google.firebase:firebase-messaging-ktx")
 }
