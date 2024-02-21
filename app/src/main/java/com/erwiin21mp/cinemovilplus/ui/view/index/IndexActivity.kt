@@ -26,6 +26,7 @@ class IndexActivity : AppCompatActivity() {
 
     private fun initUI() {
         initNavigation()
+
     }
 
     private fun initNavigation() {

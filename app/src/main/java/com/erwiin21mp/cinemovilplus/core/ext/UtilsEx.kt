@@ -8,6 +8,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.erwiin21mp.cinemovilplus.R
+import com.google.firebase.messaging.FirebaseMessagingService
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -19,6 +20,10 @@ fun Activity.logData(message: String, tag: String = "") {
 }
 
 fun Fragment.logData(message: String, tag: String = "") {
+    Log.e("Erwin $tag", message)
+}
+
+fun FirebaseMessagingService.logData(message: String, tag: String = "") {
     Log.e("Erwin $tag", message)
 }
 

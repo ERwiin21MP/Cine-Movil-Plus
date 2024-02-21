@@ -13,10 +13,13 @@ import androidx.core.splashscreen.SplashScreen
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.erwiin21mp.cinemovilplus.R
 import com.erwiin21mp.cinemovilplus.core.ext.isNull
+import com.erwiin21mp.cinemovilplus.core.ext.logData
+import com.erwiin21mp.cinemovilplus.core.ext.navigateToContent
 import com.erwiin21mp.cinemovilplus.core.ext.navigateToIndex
 import com.erwiin21mp.cinemovilplus.core.ext.navigateToLogin
 import com.erwiin21mp.cinemovilplus.data.network.AuthManager
 import com.erwiin21mp.cinemovilplus.data.network.DataBaseManager
+import com.erwiin21mp.cinemovilplus.ui.view.home.HomeViewModel.Companion.ID
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.AndroidEntryPoint
@@ -36,9 +39,30 @@ class SplashScreenActivity : AppCompatActivity() {
         val screenSplash = installSplashScreen()
         super.onCreate(savedInstanceState)
 
+        notification()
         setContentView(R.layout.activity_splash_screen)
         initSplash(screenSplash)
         tokenNew()
+//        initUI()
+        logData("SplashScreen")
+    }
+
+    private fun notification() {
+        val id = intent.getStringExtra("ID")
+        id?.let {
+            logData(it, "ID")
+            navigateToContent(it.toInt())
+            finish()
+        }
+    }
+
+    private fun initUI() {
+        val extras = intent.extras
+        logData(intent.action.toString(), "LOG")
+        if (extras != null && extras.containsKey(ID)) {
+            val title = extras.getString(ID)
+            logData(title.toString(), ID)
+        } else logData("F")
     }
 
     private fun initSplash(screenSplash: SplashScreen) {
@@ -55,7 +79,8 @@ class SplashScreenActivity : AppCompatActivity() {
     private fun askNotificationPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) ==
-                PackageManager.PERMISSION_GRANTED) {
+                PackageManager.PERMISSION_GRANTED
+            ) {
 
             } else {
                 requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)

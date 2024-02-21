@@ -16,11 +16,15 @@ class ContentViewActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         initUI()
+        logData("ContentView")
     }
 
     private fun initUI() {
-        val id = intent.extras?.getString(ID).orEmpty()
-        logData(id, "Id")
-        binding.tvId.text = id
+        val extras = intent.extras
+        if (extras != null) {
+            val value = extras.getString(ID)
+            binding.tvId.text = value
+            logData(value.toString(), "ID")
+        }
     }
 }
