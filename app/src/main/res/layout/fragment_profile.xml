@@ -9,7 +9,7 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_weight="1">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -73,8 +73,8 @@
             <LinearLayout
                 android:id="@+id/llBtns"
                 android:layout_width="0dp"
-                android:layout_marginTop="@dimen/spacing_12"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_12"
                 android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
