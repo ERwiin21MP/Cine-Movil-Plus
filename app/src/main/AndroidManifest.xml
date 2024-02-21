@@ -16,6 +16,9 @@
         android:theme="@style/Theme.CineMovilPlus"
         tools:targetApi="31">
         <activity
+            android:name=".ui.view.contentView.ContentViewActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.view.signUp.SignUpActivity"
             android:exported="false" />
         <activity
@@ -33,6 +36,7 @@
             android:theme="@style/Theme.CineMovilPlus.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -45,4 +49,5 @@
             </intent-filter>
         </service>
     </application>
+
 </manifest>
