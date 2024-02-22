@@ -6,9 +6,7 @@ import android.app.PendingIntent.FLAG_UPDATE_CURRENT
 import android.app.PendingIntent.getActivity
 import android.content.Intent
 import android.os.Build
-import android.util.Log
 import androidx.core.app.NotificationCompat
-import com.erwiin21mp.cinemovilplus.core.ext.logData
 import com.erwiin21mp.cinemovilplus.ui.view.contentView.ContentViewActivity
 import com.erwiin21mp.cinemovilplus.ui.view.home.HomeViewModel.Companion.ID
 import com.google.firebase.messaging.FirebaseMessagingService
@@ -25,33 +23,31 @@ class ServiceMessage : FirebaseMessagingService() {
 
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
-        message.notification?.let {
-            logData(it.title.toString(), "FCM Title")
-            logData(it.body.toString(), "FCM Body")
-            logData(message.data.toString(), "message.data")
-            sendNotification(it)
-        }
+        sendNotification(message)
     }
 
-    private fun sendNotification(message: RemoteMessage.Notification) {
+    private fun sendNotification(message: RemoteMessage) {
+        val title = message.notification?.title
+        val body = message.notification?.body
+        val id = message.data[ID]
+
         val intent = Intent(this, ContentViewActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            putExtra(ID, message.title)
+            putExtra(ID, id)
         }
 
         val pendingIntent = getActivity(this, 0, intent, FLAG_UPDATE_CURRENT)
         val channelId = getString(R.string.default_notification_channel_id)
 
         val builder = NotificationCompat.Builder(this, channelId)
-            .setSmallIcon(R.drawable.ic_google)
-            .setContentTitle(message.title)
-            .setContentText(message.body)
+            .setSmallIcon(R.drawable.ic_cine_movil_plus_svg)
+            .setContentTitle(title)
+            .setContentText(body)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setContentIntent(pendingIntent)
-            .setStyle(NotificationCompat.BigTextStyle().bigText(message.body))
+            .setStyle(NotificationCompat.BigTextStyle().bigText(body))
             .setAutoCancel(true)
 
-        Log.e("keys", message.bodyLocalizationKey.toString())
         val manager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

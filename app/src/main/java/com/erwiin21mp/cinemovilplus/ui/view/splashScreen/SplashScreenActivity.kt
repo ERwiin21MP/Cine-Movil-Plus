@@ -17,6 +17,7 @@ import com.erwiin21mp.cinemovilplus.core.ext.logData
 import com.erwiin21mp.cinemovilplus.core.ext.navigateToContent
 import com.erwiin21mp.cinemovilplus.core.ext.navigateToIndex
 import com.erwiin21mp.cinemovilplus.core.ext.navigateToLogin
+import com.erwiin21mp.cinemovilplus.core.ext.toast
 import com.erwiin21mp.cinemovilplus.data.network.AuthManager
 import com.erwiin21mp.cinemovilplus.data.network.DataBaseManager
 import com.erwiin21mp.cinemovilplus.ui.view.home.HomeViewModel.Companion.ID
@@ -38,41 +39,39 @@ class SplashScreenActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         val screenSplash = installSplashScreen()
         super.onCreate(savedInstanceState)
-
-        notification()
         setContentView(R.layout.activity_splash_screen)
-        initSplash(screenSplash)
-        tokenNew()
-//        initUI()
-        logData("SplashScreen")
-    }
 
-    private fun notification() {
-        val id = intent.getStringExtra("ID")
-        id?.let {
-            logData(it, "ID")
-            navigateToContent(it.toInt())
-            finish()
+        FirebaseMessaging.getInstance().token.addOnCompleteListener {
+            logData(it.result.toString(), "Token")
         }
+        initUI(screenSplash)
     }
 
-    private fun initUI() {
-        val extras = intent.extras
-        logData(intent.action.toString(), "LOG")
-        if (extras != null && extras.containsKey(ID)) {
-            val title = extras.getString(ID)
-            logData(title.toString(), ID)
-        } else logData("F")
+    private fun initUI(screenSplash: SplashScreen) {
+        initSplash(screenSplash)
     }
 
     private fun initSplash(screenSplash: SplashScreen) {
         screenSplash.setKeepOnScreenCondition { true }
         askNotificationPermission()
-        if (user.isNull()) navigateToLogin()
-        else {
-            CoroutineScope(Dispatchers.IO).launch { database.logAppOpen(user!!) }
-            navigateToIndex()
+
+        val id = intent.getStringExtra(ID)
+
+        if (id.isNull()) {
+            if (user.isNull()) navigateToLogin()
+            else {
+                CoroutineScope(Dispatchers.IO).launch { database.logAppOpen(user!!) }
+                navigateToIndex()
+            }
+        } else {
+            navigateToContent(id!!.toInt())
         }
+        id?.let {
+            logData(it, "SplashScreen: $ID")
+            toast(it)
+        }
+        logData(id.toString(), "SplashScreen 2: $ID")
+        toast("2: $id")
         finish()
     }
 

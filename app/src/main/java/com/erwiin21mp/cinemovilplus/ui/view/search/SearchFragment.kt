@@ -31,9 +31,7 @@ class SearchFragment : Fragment() {
     private var listOfContent: List<ContentInitModel> = emptyList()
     private val binding get() = _binding!!
 
-    private fun navigateToContent(id: Int) {
-
-    }
+    private fun navigateToContent(id: Int) {}
 
     private fun initUI() {
         initUIState()
