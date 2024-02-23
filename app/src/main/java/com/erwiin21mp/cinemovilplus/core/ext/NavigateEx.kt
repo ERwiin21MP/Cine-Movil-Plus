@@ -30,6 +30,10 @@ fun Activity.navigateToForgotPassword() {
     startActivity(Intent(this, ForgotPasswordActivity::class.java))
 }
 
-fun Activity.navigateToContent(id: Int) {
+fun Activity.navigateToContent(id: String) {
     startActivity(Intent(this, ContentViewActivity::class.java).putExtra(ID, id))
+}
+
+fun Fragment.navigateToContent(id: String) {
+    startActivity(Intent(context, ContentViewActivity::class.java).putExtra(ID, id))
 }

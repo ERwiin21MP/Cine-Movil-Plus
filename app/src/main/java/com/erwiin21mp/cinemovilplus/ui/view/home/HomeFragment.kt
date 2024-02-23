@@ -22,6 +22,7 @@ import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import com.erwiin21mp.cinemovilplus.R
 import com.erwiin21mp.cinemovilplus.core.ext.isNull
+import com.erwiin21mp.cinemovilplus.core.ext.navigateToContent
 import com.erwiin21mp.cinemovilplus.data.homeProviders.ContentFeaturedProvider
 import com.erwiin21mp.cinemovilplus.data.homeProviders.GendersListProvider
 import com.erwiin21mp.cinemovilplus.data.homeProviders.LabelsListProvider
@@ -46,7 +47,7 @@ import javax.inject.Inject
 class HomeFragment : Fragment() {
 
     private val binding get() = _binding!!
-    private val adapterViewPager = ViewPagerAdapter { navigateToContent(it) }
+    private val adapterViewPager = ViewPagerAdapter { navigateToContent(it.toString()) }
     private val adapterGender = GendersAdapter { navigateToGenderOrPlatform(it) }
     private val adapterPlatform = PlatformAdapter { navigateToGenderOrPlatform(it) }
     private lateinit var runnable: Runnable
@@ -151,7 +152,7 @@ class HomeFragment : Fragment() {
             setPadding(0, resources.getDimensionPixelSize(R.dimen.spacing_8), 0, 0)
             addItemDecoration(SpacingItemDecoration(resources.getDimensionPixelSize(R.dimen.spacing_8)))
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            adapter = ContentAdapter(listContent) { navigateToContent(it) }
+            adapter = ContentAdapter(listContent) { navigateToContent(it.toString()) }
         }
     }
 
@@ -241,13 +242,13 @@ class HomeFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         _binding = FragmentHomeBinding.inflate(layoutInflater, container, false)
         return binding.root
-    }
-
-    private fun navigateToContent(id: Int) {
-
     }
 
     private fun navigateToGenderOrPlatform(word: String) {

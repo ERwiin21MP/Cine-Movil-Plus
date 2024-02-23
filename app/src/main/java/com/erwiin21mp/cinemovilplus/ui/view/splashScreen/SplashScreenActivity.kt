@@ -48,6 +48,7 @@ class SplashScreenActivity : AppCompatActivity() {
     }
 
     private fun initUI(screenSplash: SplashScreen) {
+        CoroutineScope(Dispatchers.IO).launch { database.logAppOpen(user!!) }
         initSplash(screenSplash)
     }
 
@@ -59,20 +60,17 @@ class SplashScreenActivity : AppCompatActivity() {
 
         if (id.isNull()) {
             if (user.isNull()) navigateToLogin()
-            else {
-                CoroutineScope(Dispatchers.IO).launch { database.logAppOpen(user!!) }
-                navigateToIndex()
-            }
-        } else {
-            navigateToContent(id!!.toInt())
-        }
+            else navigateToIndex()
+        } else navigateToContent(id!!)
+        finish()
+
+
         id?.let {
             logData(it, "SplashScreen: $ID")
             toast(it)
         }
         logData(id.toString(), "SplashScreen 2: $ID")
         toast("2: $id")
-        finish()
     }
 
     private fun askNotificationPermission() {
