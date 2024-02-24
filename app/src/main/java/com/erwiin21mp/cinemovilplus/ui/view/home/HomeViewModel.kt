@@ -26,7 +26,7 @@ class HomeViewModel @Inject constructor() : ViewModel() {
         const val GENRES = "Generos"
         const val DURATION = "Duracion"
         const val DIRECTOR = "Director"
-        const val CLASIFICACION = "Clasificacion"
+        const val CLASIFICATION = "Clasificacion"
         const val VERTICAL_IMAGE_URL = "PosterVerticalURL"
         const val HORIZONTAL_IMAGE_URL = "PosterHorizontalURL"
         const val URL_TRAILER = "TrailerURL"
@@ -41,7 +41,7 @@ class HomeViewModel @Inject constructor() : ViewModel() {
         const val DISTRIBUCION = "Distribucion"
         const val KEYWORDS = "PalabrasClave"
         const val RELEASE_DATE = "FechaDeEstreno"
-        const val CALIDAD_CAM = "CalidadCam"
+        const val IS_CALIDAD_CAM = "CalidadCam"
         const val NAME = "Name"
         const val URL = "URL"
     }
@@ -77,7 +77,7 @@ class HomeViewModel @Inject constructor() : ViewModel() {
                             .map { it.trim() },
                         type = data[TYPE].toString(),
                         keywords = data[KEYWORDS].toString(),
-                        isCamQuality = data[CALIDAD_CAM].toString().toBoolean()
+                        isCamQuality = data[IS_CALIDAD_CAM].toString().toBoolean()
                     )
                 )
                 listOfContent.postValue(list)

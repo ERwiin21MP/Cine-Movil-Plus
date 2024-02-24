@@ -1,11 +1,11 @@
 package com.erwiin21mp.cinemovilplus.data.network
 
+import com.erwiin21mp.cinemovilplus.data.model.AuthRes
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.auth.userProfileChangeRequest
 import com.google.firebase.ktx.Firebase
-import com.erwiin21mp.cinemovilplus.data.model.AuthRes
 import kotlinx.coroutines.tasks.await
 
 class AuthManager {
@@ -19,10 +19,7 @@ class AuthManager {
         }
     }
 
-    suspend fun createUserWithEmailAndPassword(
-        email: String,
-        password: String
-    ): AuthRes<FirebaseUser?> {
+    suspend fun createUserWithEmailAndPassword(email: String, password: String): AuthRes<FirebaseUser?> {
         return try {
             val authResult = auth.createUserWithEmailAndPassword(email, password).await()
             AuthRes.Success(authResult.user)
@@ -65,7 +62,6 @@ class AuthManager {
 
     fun signOut() {
         auth.signOut()
-
     }
 
     fun getCurrentUser(): FirebaseUser? = auth.currentUser

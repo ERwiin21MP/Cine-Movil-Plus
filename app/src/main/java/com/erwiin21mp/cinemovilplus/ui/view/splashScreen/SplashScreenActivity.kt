@@ -13,11 +13,9 @@ import androidx.core.splashscreen.SplashScreen
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.erwiin21mp.cinemovilplus.R
 import com.erwiin21mp.cinemovilplus.core.ext.isNull
-import com.erwiin21mp.cinemovilplus.core.ext.logData
 import com.erwiin21mp.cinemovilplus.core.ext.navigateToContent
 import com.erwiin21mp.cinemovilplus.core.ext.navigateToIndex
 import com.erwiin21mp.cinemovilplus.core.ext.navigateToLogin
-import com.erwiin21mp.cinemovilplus.core.ext.toast
 import com.erwiin21mp.cinemovilplus.data.network.AuthManager
 import com.erwiin21mp.cinemovilplus.data.network.DataBaseManager
 import com.erwiin21mp.cinemovilplus.ui.view.home.HomeViewModel.Companion.ID
@@ -41,9 +39,6 @@ class SplashScreenActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_screen)
 
-        FirebaseMessaging.getInstance().token.addOnCompleteListener {
-            logData(it.result.toString(), "Token")
-        }
         initUI(screenSplash)
     }
 
@@ -63,14 +58,6 @@ class SplashScreenActivity : AppCompatActivity() {
             else navigateToIndex()
         } else navigateToContent(id!!)
         finish()
-
-
-        id?.let {
-            logData(it, "SplashScreen: $ID")
-            toast(it)
-        }
-        logData(id.toString(), "SplashScreen 2: $ID")
-        toast("2: $id")
     }
 
     private fun askNotificationPermission() {

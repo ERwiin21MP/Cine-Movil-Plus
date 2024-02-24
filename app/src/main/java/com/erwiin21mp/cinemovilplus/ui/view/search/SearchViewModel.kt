@@ -3,12 +3,12 @@ package com.erwiin21mp.cinemovilplus.ui.view.search
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.erwiin21mp.cinemovilplus.domain.model.ContentInitModel
-import com.erwiin21mp.cinemovilplus.ui.view.home.HomeViewModel.Companion.CALIDAD_CAM
 import com.erwiin21mp.cinemovilplus.ui.view.home.HomeViewModel.Companion.COLLECTION_CONTENIDO
 import com.erwiin21mp.cinemovilplus.ui.view.home.HomeViewModel.Companion.DURATION
 import com.erwiin21mp.cinemovilplus.ui.view.home.HomeViewModel.Companion.GENRES
 import com.erwiin21mp.cinemovilplus.ui.view.home.HomeViewModel.Companion.HORIZONTAL_IMAGE_URL
 import com.erwiin21mp.cinemovilplus.ui.view.home.HomeViewModel.Companion.ID
+import com.erwiin21mp.cinemovilplus.ui.view.home.HomeViewModel.Companion.IS_CALIDAD_CAM
 import com.erwiin21mp.cinemovilplus.ui.view.home.HomeViewModel.Companion.KEYWORDS
 import com.erwiin21mp.cinemovilplus.ui.view.home.HomeViewModel.Companion.PLATFORMS_LIST
 import com.erwiin21mp.cinemovilplus.ui.view.home.HomeViewModel.Companion.PRODUCERS_LIST
@@ -59,7 +59,7 @@ class SearchViewModel @Inject constructor() : ViewModel() {
                             .map { it.trim() },
                         type = data[TYPE].toString(),
                         keywords = data[KEYWORDS].toString(),
-                        isCamQuality = data[CALIDAD_CAM].toString().toBoolean()
+                        isCamQuality = data[IS_CALIDAD_CAM].toString().toBoolean()
                     )
                 )
                 listOfContent.postValue(list)
