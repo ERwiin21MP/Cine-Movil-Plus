@@ -1,11 +1,14 @@
 package com.erwiin21mp.cinemovilplus.ui.view.contentView
 
 import android.os.Bundle
+import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.erwiin21mp.cinemovilplus.core.ext.logData
 import com.erwiin21mp.cinemovilplus.databinding.ActivityContentViewBinding
+import com.erwiin21mp.cinemovilplus.domain.model.ContentModel
 import com.erwiin21mp.cinemovilplus.ui.view.home.HomeViewModel.Companion.ID
+import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -33,7 +36,18 @@ class ContentViewActivity : AppCompatActivity() {
 
     private fun initObserver() {
         contentViewViewModel.itemContent.observe(this) {
-            logData(it.toString(), "IT OBSERVER")
+            logData(it.toString(), "IT")
+            setData(it)
+            binding.apply {
+                llLoading.visibility = View.GONE
+                llContainer.visibility = View.VISIBLE
+            }
+        }
+    }
+
+    private fun setData(item: ContentModel) {
+        binding.apply {
+            Picasso.get().load(item.horizontalImageUrl).into(ivPoster)
         }
     }
 }
