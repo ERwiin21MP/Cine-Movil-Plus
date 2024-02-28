@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.erwiin21mp.cinemovilplus.data.network.DataBaseManager
 import com.erwiin21mp.cinemovilplus.databinding.ItemContentBinding
 import com.erwiin21mp.cinemovilplus.domain.model.ContentInitModel
+import com.erwiin21mp.cinemovilplus.ui.view.home.HomeViewModel.Companion.SERIE
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 
@@ -17,8 +18,8 @@ class ContentViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         binding.apply {
             Picasso.get().load(item.verticalImageUrl).into(ivPosterVertical, object : Callback {
                 override fun onSuccess() {
-                    binding.ivPosterVerticalLoading.visibility = View.GONE
-                    binding.ivPosterVertical.visibility = View.VISIBLE
+                    ivPosterVerticalLoading.visibility = View.GONE
+                    ivPosterVertical.visibility = View.VISIBLE
                 }
 
                 override fun onError(exception: Exception?) {
@@ -30,6 +31,8 @@ class ContentViewHolder(view: View) : RecyclerView.ViewHolder(view) {
                 }
             })
             tvTitlePoster.text = item.title
+            if (item.isCamQuality) ivCam.visibility = View.VISIBLE
+            if (item.type == SERIE) ivShow.visibility = View.VISIBLE
         }
         itemView.setOnClickListener { onItemSelected(item.id) }
     }

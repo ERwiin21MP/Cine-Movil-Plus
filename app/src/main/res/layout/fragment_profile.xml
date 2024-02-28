@@ -45,7 +45,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="@dimen/spacing_20"
-                        android:fontFamily="@font/montserrat"
+                        android:fontFamily="@font/montserrat_bold"
                         android:text="Erwin Martínez Pérez" />
 
                     <TextView
@@ -89,7 +89,7 @@
                     android:id="@+id/tvAccount"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/montserrat"
+                    android:fontFamily="@font/montserrat_bold"
                     android:paddingVertical="@dimen/spacing_20"
                     android:paddingStart="@dimen/spacing_8"
                     android:text="@string/account" />
@@ -103,7 +103,7 @@
                     android:id="@+id/tvFavorites"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/montserrat"
+                    android:fontFamily="@font/montserrat_bold"
                     android:paddingVertical="@dimen/spacing_20"
                     android:paddingStart="@dimen/spacing_8"
                     android:text="@string/favoritesList" />
@@ -117,7 +117,7 @@
                     android:id="@+id/tvLicensesLibrary"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/montserrat"
+                    android:fontFamily="@font/montserrat_bold"
                     android:paddingVertical="@dimen/spacing_20"
                     android:paddingStart="@dimen/spacing_8"
                     android:text="@string/licencias_de_c_digo_abierto" />
@@ -131,7 +131,7 @@
                     android:id="@+id/tvLegal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/montserrat"
+                    android:fontFamily="@font/montserrat_bold"
                     android:paddingVertical="@dimen/spacing_20"
                     android:paddingStart="@dimen/spacing_8"
                     android:text="@string/aviso_legal" />
@@ -145,7 +145,7 @@
                     android:id="@+id/btnSignOut"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/montserrat"
+                    android:fontFamily="@font/montserrat_bold"
                     android:paddingVertical="@dimen/spacing_20"
                     android:paddingStart="@dimen/spacing_8"
                     android:text="@string/signOut"

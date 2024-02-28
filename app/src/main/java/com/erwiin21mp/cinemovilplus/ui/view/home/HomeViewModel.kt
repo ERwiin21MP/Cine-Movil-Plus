@@ -35,7 +35,7 @@ class HomeViewModel @Inject constructor() : ViewModel() {
         const val PLATFORMS_LIST = "Plataformas"
         const val UPLOAD_DATE = "FechaDeSubida"
         const val PRODUCERS_LIST = "Productoras"
-        const val PELICULA = "Pelicula"
+        const val MOVIE = "Pelicula"
         const val SERIE = "Serie"
         const val COLLECTION_CONTENIDO = "Contenido"
         const val DISTRIBUCION = "Distribucion"
@@ -77,7 +77,8 @@ class HomeViewModel @Inject constructor() : ViewModel() {
                             .map { it.trim() },
                         type = data[TYPE].toString(),
                         keywords = data[KEYWORDS].toString(),
-                        isCamQuality = data[IS_CALIDAD_CAM].toString().toBoolean()
+                        isCamQuality = data[IS_CALIDAD_CAM].toString().toBoolean(),
+                        director = data[DIRECTOR].toString()
                     )
                 )
                 listOfContent.postValue(list)

@@ -29,7 +29,7 @@
     <TextView
         style="@style/TextViewsLinks"
         android:layout_marginTop="27.5dp"
-        android:fontFamily="@font/montserrat"
+        android:fontFamily="@font/montserrat_bold"
         android:text="@string/app_name"
         android:textSize="27.5sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -58,7 +58,7 @@
 
             <TextView
                 style="@style/TextViewsLinks"
-                android:fontFamily="@font/montserrat"
+                android:fontFamily="@font/montserrat_bold"
                 android:text="@string/signUp"
                 android:textSize="24sp" />
 

@@ -165,7 +165,7 @@ class HomeFragment : Fragment() {
             text = if (titleList.length == 4) getString(R.string.moviesAndSeries).plus(" ")
                 .plus(titleList) else titleList
             textSize = 17f
-            setTypeface(ResourcesCompat.getFont(context, R.font.montserrat), Typeface.BOLD)
+            setTypeface(ResourcesCompat.getFont(context, R.font.montserrat_bold), Typeface.BOLD)
             setPadding(0, resources.getDimensionPixelSize(R.dimen.spacing_20), 0, 0)
         }
     }

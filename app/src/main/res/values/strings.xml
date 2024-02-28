@@ -66,4 +66,16 @@
     <string name="search">Buscar</string>
     <string name="profile">Perfil</string>
     <string name="default_notification_channel_id">fcm_default_channel</string>
+    <string name="ver_serie">\u25B6 Ver serie</string>
+    <string name="ver_pelicula">\u25B6 Ver película</string>
+    <string name="trailer">Tráiler</string>
+    <string name="reviews">Reseñas</string>
+    <string name="myList">Mi lista</string>
+    <string name="comments">Comentarios</string>
+    <string name="duration">Duración:</string>
+    <string name="director">Director:</string>
+    <string name="releaseDate">\uD83D\uDCC5</string>
+    <string name="classification">Clasificación:</string>
+    <string name="producerList">Lista de productoras:</string>
+    <string name="distribution">Distribución:</string>
 </resources>

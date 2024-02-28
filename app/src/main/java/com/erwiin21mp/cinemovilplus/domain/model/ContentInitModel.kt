@@ -15,5 +15,6 @@ data class ContentInitModel(
     val producersList: List<String>,
     val type: String,
     val keywords: String,
-    val isCamQuality: Boolean
+    val isCamQuality: Boolean,
+    val director: String
 )

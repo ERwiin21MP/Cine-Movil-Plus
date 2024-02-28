@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.erwiin21mp.cinemovilplus.domain.model.ContentInitModel
 import com.erwiin21mp.cinemovilplus.ui.view.home.HomeViewModel.Companion.COLLECTION_CONTENIDO
+import com.erwiin21mp.cinemovilplus.ui.view.home.HomeViewModel.Companion.DIRECTOR
 import com.erwiin21mp.cinemovilplus.ui.view.home.HomeViewModel.Companion.DURATION
 import com.erwiin21mp.cinemovilplus.ui.view.home.HomeViewModel.Companion.GENRES
 import com.erwiin21mp.cinemovilplus.ui.view.home.HomeViewModel.Companion.HORIZONTAL_IMAGE_URL
@@ -59,7 +60,8 @@ class SearchViewModel @Inject constructor() : ViewModel() {
                             .map { it.trim() },
                         type = data[TYPE].toString(),
                         keywords = data[KEYWORDS].toString(),
-                        isCamQuality = data[IS_CALIDAD_CAM].toString().toBoolean()
+                        isCamQuality = data[IS_CALIDAD_CAM].toString().toBoolean(),
+                        director = data[DIRECTOR].toString()
                     )
                 )
                 listOfContent.postValue(list)
