@@ -1,4 +1,5 @@
 <resources>
+
     <style name="Theme.CineMovilPlus" parent="Theme.AppCompat.NoActionBar">
         <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:colorAccent">@color/dark_red</item>
@@ -26,6 +27,15 @@
     <style name="TextViewsLinks">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="TextViewSubtitleForDetail" parent="Widget.AppCompat.TextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/montserrat_bold</item>
+        <item name="android:textSize">@dimen/text_subtitle</item>
+        <item name="android:layout_marginTop">@dimen/spacing_12</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="MaterialDivider">

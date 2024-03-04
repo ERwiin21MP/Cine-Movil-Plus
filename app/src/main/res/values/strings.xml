@@ -78,4 +78,5 @@
     <string name="classification">Clasificación:</string>
     <string name="producerList">Lista de productoras:</string>
     <string name="distribution">Distribución:</string>
+    <string name="synopsis">Sinopsis</string>
 </resources>
