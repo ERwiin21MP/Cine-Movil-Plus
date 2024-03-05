@@ -25,38 +25,46 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @SuppressLint("CustomSplashScreen")
 @AndroidEntryPoint
 class SplashScreenActivity : AppCompatActivity() {
 
-    private val auth = AuthManager()
-    private val user = auth.getCurrentUser()
-    private val database = DataBaseManager()
+    private lateinit var auth: AuthManager
+    @Inject
+    lateinit var database: DataBaseManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val screenSplash = installSplashScreen()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_screen)
 
+        auth = AuthManager(this)
         initUI(screenSplash)
     }
 
     private fun initUI(screenSplash: SplashScreen) {
-        CoroutineScope(Dispatchers.IO).launch { database.logAppOpen(user!!) }
+        CoroutineScope(Dispatchers.IO).launch { database.logAppOpen(auth.getCurrentUser()!!) }
         initSplash(screenSplash)
     }
 
     private fun initSplash(screenSplash: SplashScreen) {
         screenSplash.setKeepOnScreenCondition { true }
-        askNotificationPermission()
+//        askNotificationPermission()
 
         val id = intent.getStringExtra(ID)
 
-        if (id.isNull()) {
-            if (user.isNull()) navigateToLogin()
-            else navigateToIndex()
-        } else navigateToContent(id!!)
+        if (auth.getCurrentUser().isNull()) {
+            navigateToLogin()
+        } else {
+            if (id.isNull()) {
+                navigateToIndex()
+            } else {
+                navigateToContent(id!!)
+            }
+        }
+
         finish()
     }
 

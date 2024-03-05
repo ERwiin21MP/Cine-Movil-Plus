@@ -19,8 +19,8 @@ class ForgotPasswordActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityForgotPasswordBinding
     private var isValidEmail = false
-    private val win = Win()
-    private val auth: AuthManager = AuthManager()
+    private lateinit var win: Win
+    private lateinit var auth: AuthManager
     private val database = DataBaseManager()
 
     private companion object {
@@ -32,6 +32,8 @@ class ForgotPasswordActivity : AppCompatActivity() {
         binding = ActivityForgotPasswordBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        win = Win(this)
+        auth = AuthManager(this)
         setListeners()
     }
 

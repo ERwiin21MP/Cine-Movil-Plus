@@ -2,44 +2,26 @@ package com.erwiin21mp.cinemovilplus.ui.view.home
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.erwiin21mp.cinemovilplus.core.ext.isNull
+import com.erwiin21mp.cinemovilplus.core.ext.logData
 import com.erwiin21mp.cinemovilplus.data.model.Content
+import com.erwiin21mp.cinemovilplus.domain.usecase.GetDetailsUseCase
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.lifecycle.HiltViewModel
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor() : ViewModel() {
+class HomeViewModel @Inject constructor(private val getDetailsUseCase: GetDetailsUseCase) :
+    ViewModel() {
 
     private val db = FirebaseFirestore.getInstance()
     val listOfContent = MutableLiveData<List<Content>>(emptyList())
 
     companion object {
-        const val TYPE = "Tipo"
-        const val PREFIX_GENDER = "G"
-        const val PREFIX_SAGA = "S"
-        const val SYNOPSIS = "Sinopsis"
-        const val GENRES = "Generos"
-        const val DURATION = "Duracion"
-        const val DIRECTOR = "Director"
-        const val CLASIFICATION = "Clasificacion"
-        const val VERTICAL_IMAGE_URL = "PosterVerticalURL"
-        const val HORIZONTAL_IMAGE_URL = "PosterHorizontalURL"
-        const val URL_TRAILER = "TrailerURL"
-        const val URL_CONTENT = "URL"
-        const val RATING = "Valoracion"
-        const val PLATFORMS_LIST = "Plataformas"
-        const val PRODUCERS_LIST = "Productoras"
-        const val MOVIE = "Pelicula"
-        const val SERIE = "Serie"
-        const val COLLECTION_CONTENIDO = "Contenido"
-        const val DISTRIBUCION = "Distribucion"
-        const val RELEASE_DATE = "FechaDeEstreno"
-        const val IS_CALIDAD_CAM = "CalidadCam"
-        const val NAME = "Name"
-        const val URL = "URL"
-
         const val CONTENT = "content"
         const val ID = "id"
         const val TITLE = "title"
@@ -50,10 +32,29 @@ class HomeViewModel @Inject constructor() : ViewModel() {
         const val KEYWORDS = "keywords"
         const val IS_CAMERA_QUALITY = "is_camera_quality"
         const val IS_ENABLED = "is_enabled"
+
+        const val API_KEY = "a91dbbaa0623f021f2c4220e3dd7a70a"
     }
 
     init {
         getContent()
+    }
+
+    fun getDetail() {
+        viewModelScope.launch {
+            val result = withContext(Dispatchers.IO) {
+                getDetailsUseCase(
+                    apiKey = API_KEY,
+                    id = "122906",
+                    language = "es-MX"
+                )
+            }
+            if (!result.isNull()) {
+                logData(result.toString(), "result")
+            } else {
+                logData("Ha error")
+            }
+        }
     }
 
     private fun getContent() {
@@ -70,10 +71,8 @@ class HomeViewModel @Inject constructor() : ViewModel() {
                         isEnabled = data[IS_ENABLED].toString().toInt() != 0,
                         keywords = data[KEYWORDS].toString(),
                         typeID = data[TYPE_ID].toString().toInt(),
-                        uploadDate = LocalDateTime.parse(
-                            data[UPLOAD_DATE].toString(),
-                            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-                        )
+                        uploadDate = data[UPLOAD_DATE].toString().replace("-", "").replace(":", "")
+                            .replace(" ", "").toLong()
                     )
                 )
             }

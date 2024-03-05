@@ -13,7 +13,6 @@ import androidx.lifecycle.lifecycleScope
 import com.erwiin21mp.cinemovilplus.R
 import com.erwiin21mp.cinemovilplus.core.ext.navigateToLogin
 import com.erwiin21mp.cinemovilplus.core.ext.toast
-import com.erwiin21mp.cinemovilplus.data.network.firebase.AuthGoogle
 import com.erwiin21mp.cinemovilplus.data.network.firebase.AuthManager
 import com.erwiin21mp.cinemovilplus.data.network.firebase.DataBaseManager
 import com.erwiin21mp.cinemovilplus.databinding.FragmentProfileBinding
@@ -28,9 +27,8 @@ import kotlinx.coroutines.withContext
 class ProfileFragment : Fragment() {
 
     private var _binding: FragmentProfileBinding? = null
-    private val auth = AuthManager()
+    private lateinit var auth: AuthManager
     private val database = DataBaseManager()
-    private val user = auth.getCurrentUser()
 
     private companion object {
         const val BUTTON_CANCEL = "Cancel"
@@ -42,6 +40,7 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        auth = AuthManager(requireContext())
         initUI()
     }
 
@@ -57,6 +56,7 @@ class ProfileFragment : Fragment() {
         }
     }
 
+    @SuppressLint("InflateParams")
     private fun logOut() {
         val view = LayoutInflater.from(context).inflate(R.layout.alert_sign_out, null)
         val btnCancel: Button = view.findViewById(R.id.btnCancel)
@@ -79,7 +79,6 @@ class ProfileFragment : Fragment() {
             lifecycleScope.launch {
                 database.logSignOut(auth.getCurrentUser())
                 auth.signOut()
-                AuthGoogle(requireContext()).signOut()
                 withContext(Dispatchers.Main) {
                     dialog.dismiss()
                     toast(getString(R.string.signOutMessage))
@@ -92,6 +91,7 @@ class ProfileFragment : Fragment() {
 
     @SuppressLint("SetTextI18n")
     private fun loadUIDProfile() {
+        val user = auth.getCurrentUser()
         binding.apply {
             tvUID.text = "UID: ${user!!.uid}"
 
@@ -101,7 +101,8 @@ class ProfileFragment : Fragment() {
             if (user.isAnonymous) {
                 displayName = context?.getString(R.string.userAnonymous)
                 tvUserEmail.visibility = View.GONE
-            } else Picasso.get().load(user.photoUrl).error(R.drawable.ic_user).transform(CropCircleTransformation()).into(ivProfilePhoto)
+            } else Picasso.get().load(user.photoUrl).error(R.drawable.ic_user)
+                .transform(CropCircleTransformation()).into(ivProfilePhoto)
             tvUserName.text = displayName
             tvUserEmail.text = email
         }

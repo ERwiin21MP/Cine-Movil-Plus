@@ -1,15 +1,11 @@
 package com.erwiin21mp.cinemovilplus.ui.view.home
 
-import android.graphics.Typeface
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
-import android.widget.TextView
-import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle.State.STARTED
@@ -23,55 +19,23 @@ import androidx.viewpager2.widget.ViewPager2
 import com.erwiin21mp.cinemovilplus.R
 import com.erwiin21mp.cinemovilplus.core.ext.isNull
 import com.erwiin21mp.cinemovilplus.core.ext.logData
-import com.erwiin21mp.cinemovilplus.core.ext.navigateToContent
-import com.erwiin21mp.cinemovilplus.data.homeProviders.ContentFeaturedProvider
-import com.erwiin21mp.cinemovilplus.data.homeProviders.GendersListProvider
-import com.erwiin21mp.cinemovilplus.data.homeProviders.LabelsListProvider
-import com.erwiin21mp.cinemovilplus.data.homeProviders.SagasListProvider
-import com.erwiin21mp.cinemovilplus.data.homeProviders.YearsListProvider
 import com.erwiin21mp.cinemovilplus.databinding.FragmentHomeBinding
-import com.erwiin21mp.cinemovilplus.domain.model.ContentInitModel
-import com.erwiin21mp.cinemovilplus.domain.model.GenderModel
-import com.erwiin21mp.cinemovilplus.domain.model.LabelContentModel
 import com.erwiin21mp.cinemovilplus.ui.utils.SpacingItemDecoration
 import com.erwiin21mp.cinemovilplus.ui.view.home.HomeViewModel.Companion.ID_TMDB
-import com.erwiin21mp.cinemovilplus.ui.view.home.content.ContentAdapter
-import com.erwiin21mp.cinemovilplus.ui.view.home.genders.GendersAdapter
-import com.erwiin21mp.cinemovilplus.ui.view.home.platforms.PlatformAdapter
-import com.erwiin21mp.cinemovilplus.ui.view.home.viewpager2.ViewPagerAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
 
     private val binding get() = _binding!!
-    private val adapterViewPager = ViewPagerAdapter { navigateToContent(it.toString()) }
-    private val adapterGender = GendersAdapter { navigateToGenderOrPlatform(it) }
-    private val adapterPlatform = PlatformAdapter { navigateToGenderOrPlatform(it) }
     private lateinit var runnable: Runnable
     private lateinit var handler: Handler
     private var _binding: FragmentHomeBinding? = null
     private val homeViewModel: HomeViewModel by viewModels()
     private var sizeOfListContentFeatured = 0
-
-    @Inject
-    lateinit var gendersListProvider: GendersListProvider
-
-    @Inject
-    lateinit var yearsListProvider: YearsListProvider
-
-    @Inject
-    lateinit var sagasListProvider: SagasListProvider
-
-    @Inject
-    lateinit var labelsListProvider: LabelsListProvider
-
-    @Inject
-    lateinit var contentFeatured: ContentFeaturedProvider
 
     companion object {
         const val TIME_VIEW_PAGER_CHANGE_ITEM = 3000
@@ -89,6 +53,7 @@ class HomeFragment : Fragment() {
         initViewPager2()
         initPlatforms()
         initGenders()
+        homeViewModel.getDetail()
     }
 
     private fun initUIState() {
@@ -101,84 +66,15 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun getData(contentList: List<ContentInitModel>) {
-        val listOfContentFeatured = contentFeatured.getContentFeatured(contentList)
-        val listOfGenders = gendersListProvider.getGendersList(contentList)
-        val listOfYears = yearsListProvider.getYearsList(contentList)
-        val listOfSagas = sagasListProvider.getListOfSagas(contentList)
-        val listOfLabels = labelsListProvider.getListOfLabels(contentList, listOfSagas, listOfYears)
-        sizeOfListContentFeatured = listOfContentFeatured.size
-
-        if (contentList.isNotEmpty()) {
-            binding.apply {
-                llLoading.visibility = View.GONE
-                rlContainer.visibility = View.VISIBLE
-            }
-        }
-
-        setData(listOfContentFeatured, listOfGenders, listOfLabels)
-    }
-
-    private fun setData(
-        listOfContentFeatured: List<ContentInitModel>,
-        listOfGenders: MutableList<GenderModel>,
-        listOfLabels: List<LabelContentModel>
-    ) {
-        adapterViewPager.updateList(listOfContentFeatured)
-        setUpIndicator()
-        adapterGender.updateList(listOfGenders)
-        setUpLabels(listOfLabels)
-    }
-
-    private fun setUpLabels(listOfLabels: List<LabelContentModel>) {
-        binding.llContainer.apply {
-            removeAllViews()
-
-            listOfLabels.forEach { item ->
-                addView(setUpTextViewGender(item.titleList))
-                addView(setUpRecyclerView(item.contentList))
-            }
-        }
-    }
-
-    private fun setUpRecyclerView(listContent: List<ContentInitModel>): RecyclerView {
-        return RecyclerView(requireContext()).apply {
-            layoutParams = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-            )
-            setPadding(0, resources.getDimensionPixelSize(R.dimen.spacing_8), 0, 0)
-            addItemDecoration(SpacingItemDecoration(resources.getDimensionPixelSize(R.dimen.spacing_8)))
-            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            adapter = ContentAdapter(listContent) { navigateToContent(it.toString()) }
-        }
-    }
-
-    private fun setUpTextViewGender(titleList: String): TextView {
-        return TextView(context).apply {
-            layoutParams = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-            )
-            text = if (titleList.length == 4) getString(R.string.moviesAndSeries).plus(" ")
-                .plus(titleList) else titleList
-            textSize = 17f
-            setTypeface(ResourcesCompat.getFont(context, R.font.montserrat_bold), Typeface.BOLD)
-            setPadding(0, resources.getDimensionPixelSize(R.dimen.spacing_20), 0, 0)
-        }
-    }
-
     private fun initGenders() {
         binding.rvGenders.apply {
             setDecorationAndLayoutManagerToRecyclerView(this)
-            adapter = adapterGender
         }
     }
 
     private fun initPlatforms() {
         binding.rvPlatforms.apply {
             setDecorationAndLayoutManagerToRecyclerView(this)
-            adapter = adapterPlatform
         }
     }
 
@@ -191,7 +87,7 @@ class HomeFragment : Fragment() {
 
     private fun initViewPager2() {
         binding.vp2FeaturedContent.apply {
-            adapter = adapterViewPager
+//            adapter = adapterViewPager
             offscreenPageLimit = 3
             setPageTransformer(getTransformer())
             registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {

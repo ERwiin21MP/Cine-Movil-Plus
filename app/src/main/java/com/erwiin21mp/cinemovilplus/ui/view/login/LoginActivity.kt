@@ -11,7 +11,6 @@ import com.erwiin21mp.cinemovilplus.core.ext.navigateToSignUp
 import com.erwiin21mp.cinemovilplus.core.ext.onTextChanged
 import com.erwiin21mp.cinemovilplus.core.ext.toast
 import com.erwiin21mp.cinemovilplus.data.model.AuthRes
-import com.erwiin21mp.cinemovilplus.data.network.firebase.AuthGoogle
 import com.erwiin21mp.cinemovilplus.data.network.firebase.AuthManager
 import com.erwiin21mp.cinemovilplus.data.network.firebase.DataBaseManager
 import com.erwiin21mp.cinemovilplus.databinding.ActivityLoginBinding
@@ -23,6 +22,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
@@ -30,10 +30,10 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
     private var isValidEmail = false
     private var isValidPassword = false
-    private val win = Win()
-    private val auth: AuthManager = AuthManager()
-    private val dataBase = DataBaseManager()
-    private lateinit var authGoogle: AuthGoogle
+    private lateinit var auth: AuthManager
+    private lateinit var win: Win
+    @Inject
+    lateinit var dataBase: DataBaseManager
 
     private companion object {
         const val BUTTON_LOGIN = "Login"
@@ -49,7 +49,8 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        authGoogle = AuthGoogle(this)
+        auth = AuthManager(this)
+        win = Win(this)
         setListeners()
     }
 
@@ -87,16 +88,16 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun loginWithGoogle() {
-        authGoogle.signOut()
+        auth.signOutGoogle()
         val googleSignInLauncher =
             activityResultRegistry.register(SIGN_CODE, StartActivityForResult()) { result ->
                 when (val account =
-                    authGoogle.handleSignInResult(GoogleSignIn.getSignedInAccountFromIntent(result.data))) {
+                    auth.handleSignInResult(GoogleSignIn.getSignedInAccountFromIntent(result.data))) {
                     is AuthRes.Success -> {
                         val credential =
                             GoogleAuthProvider.getCredential(account.data.idToken, null)
                         CoroutineScope(Dispatchers.IO).launch {
-                            val firebaseUser = authGoogle.signInWithGoogleCredential(credential)
+                            val firebaseUser = auth.signInWithGoogleCredential(credential)
                             if (firebaseUser != null) {
                                 runOnUiThread { loginSuccess(AuthRes.Success(auth.getCurrentUser())) }
                                 finish()
@@ -110,7 +111,7 @@ class LoginActivity : AppCompatActivity() {
                     }
                 }
             }
-        authGoogle.signInWithGoogle(googleSignInLauncher)
+        auth.signInWithGoogle(googleSignInLauncher)
     }
 
     private fun signGuest() {

@@ -30,9 +30,9 @@ class SignUpActivity : AppCompatActivity() {
     private var isValidEmail = false
     private var isValidPassword = false
     private var isEqualsPasswords = false
-    private val win = Win()
+    private lateinit var win: Win
     private val database = DataBaseManager()
-    private val auth = AuthManager()
+    private lateinit var auth: AuthManager
 
     private companion object {
         const val BUTTON_ARE_YOU_A_ACCOUNT = "AreYouAAccount"
@@ -43,6 +43,9 @@ class SignUpActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        win = Win(this)
+        auth = AuthManager(this)
 
         initTextWatchers()
         setListeners()

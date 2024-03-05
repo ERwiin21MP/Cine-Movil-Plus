@@ -20,13 +20,11 @@ class IndexActivity : AppCompatActivity() {
         binding = ActivityIndexBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
         initUI()
     }
 
     private fun initUI() {
         initNavigation()
-
     }
 
     private fun initNavigation() {

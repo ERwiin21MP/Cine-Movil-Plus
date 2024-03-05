@@ -3,16 +3,15 @@ package com.erwiin21mp.cinemovilplus.data.network.firebase
 import android.annotation.SuppressLint
 import com.erwiin21mp.cinemovilplus.core.ext.isNull
 import com.erwiin21mp.cinemovilplus.data.model.AuthRes
-import com.erwiin21mp.cinemovilplus.ui.view.home.HomeViewModel.Companion.NAME
-import com.erwiin21mp.cinemovilplus.ui.view.home.HomeViewModel.Companion.URL
-import com.erwiin21mp.cinemovilplus.ui.view.home.HomeViewModel.Companion.VERTICAL_IMAGE_URL
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import java.text.SimpleDateFormat
 import java.util.Date
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class DataBaseManager @Inject constructor() {
 
     private val database: DatabaseReference = FirebaseDatabase.getInstance().reference
@@ -27,8 +26,7 @@ class DataBaseManager @Inject constructor() {
         const val CHILD_LOG_ERROR_LOGIN = "LogErrorLogin"
         const val CHILD_LOG_SUCCESS_LOGIN = "LogSuccessLogin"
         const val CHILD_LOG_BUTTON_CLICKED = "LogButtonClicked"
-        const val CHILD_LOG_ERROR_LOAD_POSTER_IMAGE_CONTENT_VERTICAL =
-            "LogErrorLoadPosterImageContentVertical"
+        const val CHILD_LOG_ERROR_LOAD_POSTER_IMAGE_CONTENT_VERTICAL = "LogErrorLoadPosterImageContentVertical"
         const val CHILD_LO_ERROR_LOAD_IMAGE_PLATFORM = "LogErrorLoadImagePlatform"
         const val UID = "Uid"
         const val IS_ANONYMOUS = "IsAnonymous"
@@ -138,21 +136,21 @@ class DataBaseManager @Inject constructor() {
             .child(getCurrentDateAndHour()).setValue(mapOf(DATE to getCurrentDateAndHour()))
     }
 
-    fun logErrorLoadPosterImageContentVertical(
-        message: Exception?,
-        idContent: Int,
-        verticalImageUlr: String
-    ) {
-        val map = mapOf(
-            ERROR_MESSAGE to message.toString(),
-            ID_CONTENT to idContent,
-            VERTICAL_IMAGE_URL to verticalImageUlr
-        )
-        database.child(CHILD_LOG_ERROR_LOAD_POSTER_IMAGE_CONTENT_VERTICAL).push().setValue(map)
-    }
-
-    fun logErrorLoadImagePlatform(message: Exception?, name: String, url: String) {
-        val map = mapOf(ERROR_MESSAGE to message.toString(), NAME to name, URL to url)
-        database.child(CHILD_LO_ERROR_LOAD_IMAGE_PLATFORM).push().setValue(map)
-    }
+//    fun logErrorLoadPosterImageContentVertical(
+//        message: Exception?,
+//        idContent: Int,
+//        verticalImageUlr: String
+//    ) {
+//        val map = mapOf(
+//            ERROR_MESSAGE to message.toString(),
+//            ID_CONTENT to idContent,
+//            VERTICAL_IMAGE_URL to verticalImageUlr
+//        )
+//        database.child(CHILD_LOG_ERROR_LOAD_POSTER_IMAGE_CONTENT_VERTICAL).push().setValue(map)
+//    }
+//
+//    fun logErrorLoadImagePlatform(message: Exception?, name: String, url: String) {
+//        val map = mapOf(ERROR_MESSAGE to message.toString(), NAME to name, URL to url)
+//        database.child(CHILD_LO_ERROR_LOAD_IMAGE_PLATFORM).push().setValue(map)
+//    }
 }

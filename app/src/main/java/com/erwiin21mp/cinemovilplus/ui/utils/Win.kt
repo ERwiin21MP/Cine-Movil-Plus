@@ -18,12 +18,13 @@ import com.erwiin21mp.cinemovilplus.data.network.firebase.DataBaseManager
 import com.erwiin21mp.cinemovilplus.databinding.AlertErrorLoginBinding
 import com.erwiin21mp.cinemovilplus.databinding.AlertForgotPasswordSuccessfullyMessageBinding
 import com.erwiin21mp.cinemovilplus.databinding.AlertWaitingBinding
+import javax.inject.Inject
 
 @SuppressLint("InflateParams")
-class Win {
+class Win @Inject constructor(context: Context) {
 
     private val database = DataBaseManager()
-    private val auth = AuthManager()
+    private val auth = AuthManager(context)
 
     companion object {
         const val MIN_PASSWORD_LENGTH = 6
