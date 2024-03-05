@@ -1,4 +1,4 @@
-package com.erwiin21mp.cinemovilplus.data.network
+package com.erwiin21mp.cinemovilplus.data.network.firebase
 
 import android.annotation.SuppressLint
 import com.erwiin21mp.cinemovilplus.core.ext.isNull

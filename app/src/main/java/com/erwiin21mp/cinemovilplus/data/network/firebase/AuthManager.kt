@@ -1,4 +1,4 @@
-package com.erwiin21mp.cinemovilplus.data.network
+package com.erwiin21mp.cinemovilplus.data.network.firebase
 
 import com.erwiin21mp.cinemovilplus.data.model.AuthRes
 import com.google.firebase.auth.FirebaseAuth

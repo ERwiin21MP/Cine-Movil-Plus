@@ -10,8 +10,8 @@ import com.erwiin21mp.cinemovilplus.core.ext.navigateToIndex
 import com.erwiin21mp.cinemovilplus.core.ext.onTextChanged
 import com.erwiin21mp.cinemovilplus.core.ext.toast
 import com.erwiin21mp.cinemovilplus.data.model.AuthRes
-import com.erwiin21mp.cinemovilplus.data.network.AuthManager
-import com.erwiin21mp.cinemovilplus.data.network.DataBaseManager
+import com.erwiin21mp.cinemovilplus.data.network.firebase.AuthManager
+import com.erwiin21mp.cinemovilplus.data.network.firebase.DataBaseManager
 import com.erwiin21mp.cinemovilplus.databinding.ActivityRegisterBinding
 import com.erwiin21mp.cinemovilplus.ui.utils.Win
 import com.erwiin21mp.cinemovilplus.ui.utils.Win.Companion.MIN_PASSWORD_LENGTH

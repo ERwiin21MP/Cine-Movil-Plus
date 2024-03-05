@@ -16,8 +16,8 @@ import com.erwiin21mp.cinemovilplus.core.ext.isNull
 import com.erwiin21mp.cinemovilplus.core.ext.navigateToContent
 import com.erwiin21mp.cinemovilplus.core.ext.navigateToIndex
 import com.erwiin21mp.cinemovilplus.core.ext.navigateToLogin
-import com.erwiin21mp.cinemovilplus.data.network.AuthManager
-import com.erwiin21mp.cinemovilplus.data.network.DataBaseManager
+import com.erwiin21mp.cinemovilplus.data.network.firebase.AuthManager
+import com.erwiin21mp.cinemovilplus.data.network.firebase.DataBaseManager
 import com.erwiin21mp.cinemovilplus.ui.view.home.HomeViewModel.Companion.ID
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging

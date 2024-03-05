@@ -1,4 +1,4 @@
-package com.erwiin21mp.cinemovilplus.data.network
+package com.erwiin21mp.cinemovilplus.data.network.firebase
 
 import android.content.Context
 import android.content.Intent

@@ -5,8 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.erwiin21mp.cinemovilplus.R
 import com.erwiin21mp.cinemovilplus.core.ext.onTextChanged
 import com.erwiin21mp.cinemovilplus.data.model.AuthRes
-import com.erwiin21mp.cinemovilplus.data.network.AuthManager
-import com.erwiin21mp.cinemovilplus.data.network.DataBaseManager
+import com.erwiin21mp.cinemovilplus.data.network.firebase.AuthManager
+import com.erwiin21mp.cinemovilplus.data.network.firebase.DataBaseManager
 import com.erwiin21mp.cinemovilplus.databinding.ActivityForgotPasswordBinding
 import com.erwiin21mp.cinemovilplus.ui.utils.Win
 import dagger.hilt.android.AndroidEntryPoint

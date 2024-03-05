@@ -4,7 +4,7 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import androidx.recyclerview.widget.RecyclerView
-import com.erwiin21mp.cinemovilplus.data.network.DataBaseManager
+import com.erwiin21mp.cinemovilplus.data.network.firebase.DataBaseManager
 import com.erwiin21mp.cinemovilplus.databinding.ItemPlatformBinding
 import com.erwiin21mp.cinemovilplus.domain.model.PlatformModel
 import com.squareup.picasso.Callback

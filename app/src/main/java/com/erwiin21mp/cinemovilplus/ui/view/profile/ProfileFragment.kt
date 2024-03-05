@@ -13,9 +13,9 @@ import androidx.lifecycle.lifecycleScope
 import com.erwiin21mp.cinemovilplus.R
 import com.erwiin21mp.cinemovilplus.core.ext.navigateToLogin
 import com.erwiin21mp.cinemovilplus.core.ext.toast
-import com.erwiin21mp.cinemovilplus.data.network.AuthGoogle
-import com.erwiin21mp.cinemovilplus.data.network.AuthManager
-import com.erwiin21mp.cinemovilplus.data.network.DataBaseManager
+import com.erwiin21mp.cinemovilplus.data.network.firebase.AuthGoogle
+import com.erwiin21mp.cinemovilplus.data.network.firebase.AuthManager
+import com.erwiin21mp.cinemovilplus.data.network.firebase.DataBaseManager
 import com.erwiin21mp.cinemovilplus.databinding.FragmentProfileBinding
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint

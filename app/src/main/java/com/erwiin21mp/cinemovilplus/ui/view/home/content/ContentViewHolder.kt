@@ -2,7 +2,7 @@ package com.erwiin21mp.cinemovilplus.ui.view.home.content
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import com.erwiin21mp.cinemovilplus.data.network.DataBaseManager
+import com.erwiin21mp.cinemovilplus.data.network.firebase.DataBaseManager
 import com.erwiin21mp.cinemovilplus.databinding.ItemContentBinding
 import com.erwiin21mp.cinemovilplus.domain.model.ContentInitModel
 import com.erwiin21mp.cinemovilplus.ui.view.home.HomeViewModel.Companion.SERIE

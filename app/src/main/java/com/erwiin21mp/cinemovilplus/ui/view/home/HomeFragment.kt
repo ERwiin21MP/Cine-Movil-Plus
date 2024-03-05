@@ -22,6 +22,7 @@ import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import com.erwiin21mp.cinemovilplus.R
 import com.erwiin21mp.cinemovilplus.core.ext.isNull
+import com.erwiin21mp.cinemovilplus.core.ext.logData
 import com.erwiin21mp.cinemovilplus.core.ext.navigateToContent
 import com.erwiin21mp.cinemovilplus.data.homeProviders.ContentFeaturedProvider
 import com.erwiin21mp.cinemovilplus.data.homeProviders.GendersListProvider
@@ -33,6 +34,7 @@ import com.erwiin21mp.cinemovilplus.domain.model.ContentInitModel
 import com.erwiin21mp.cinemovilplus.domain.model.GenderModel
 import com.erwiin21mp.cinemovilplus.domain.model.LabelContentModel
 import com.erwiin21mp.cinemovilplus.ui.utils.SpacingItemDecoration
+import com.erwiin21mp.cinemovilplus.ui.view.home.HomeViewModel.Companion.ID_TMDB
 import com.erwiin21mp.cinemovilplus.ui.view.home.content.ContentAdapter
 import com.erwiin21mp.cinemovilplus.ui.view.home.genders.GendersAdapter
 import com.erwiin21mp.cinemovilplus.ui.view.home.platforms.PlatformAdapter
@@ -93,11 +95,7 @@ class HomeFragment : Fragment() {
         lifecycleScope.launch {
             repeatOnLifecycle(STARTED) {
                 homeViewModel.listOfContent.observe(viewLifecycleOwner) { contentList ->
-                    getData(contentList)
-                }
-
-                homeViewModel.listOfPlatforms.observe(viewLifecycleOwner) {
-                    adapterPlatform.updateList(it)
+                    contentList.forEach { logData(it.idTmdb.toString(), ID_TMDB) }
                 }
             }
         }

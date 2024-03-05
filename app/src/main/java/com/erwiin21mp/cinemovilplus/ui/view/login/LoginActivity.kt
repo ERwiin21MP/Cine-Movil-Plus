@@ -11,9 +11,9 @@ import com.erwiin21mp.cinemovilplus.core.ext.navigateToSignUp
 import com.erwiin21mp.cinemovilplus.core.ext.onTextChanged
 import com.erwiin21mp.cinemovilplus.core.ext.toast
 import com.erwiin21mp.cinemovilplus.data.model.AuthRes
-import com.erwiin21mp.cinemovilplus.data.network.AuthGoogle
-import com.erwiin21mp.cinemovilplus.data.network.AuthManager
-import com.erwiin21mp.cinemovilplus.data.network.DataBaseManager
+import com.erwiin21mp.cinemovilplus.data.network.firebase.AuthGoogle
+import com.erwiin21mp.cinemovilplus.data.network.firebase.AuthManager
+import com.erwiin21mp.cinemovilplus.data.network.firebase.DataBaseManager
 import com.erwiin21mp.cinemovilplus.databinding.ActivityLoginBinding
 import com.erwiin21mp.cinemovilplus.ui.utils.Win
 import com.google.android.gms.auth.api.signin.GoogleSignIn
