@@ -18,10 +18,10 @@ import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import com.erwiin21mp.cinemovilplus.R
 import com.erwiin21mp.cinemovilplus.core.ext.isNull
-import com.erwiin21mp.cinemovilplus.core.ext.logData
+import com.erwiin21mp.cinemovilplus.core.ext.navigateToContent
 import com.erwiin21mp.cinemovilplus.databinding.FragmentHomeBinding
 import com.erwiin21mp.cinemovilplus.ui.utils.SpacingItemDecoration
-import com.erwiin21mp.cinemovilplus.ui.view.home.HomeViewModel.Companion.ID_TMDB
+import com.erwiin21mp.cinemovilplus.ui.view.home.viewPager2.ViewPagerAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -36,6 +36,7 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val homeViewModel: HomeViewModel by viewModels()
     private var sizeOfListContentFeatured = 0
+    private val adapterViewPager = ViewPagerAdapter { navigateToContent(it) }
 
     companion object {
         const val TIME_VIEW_PAGER_CHANGE_ITEM = 3000
@@ -53,14 +54,21 @@ class HomeFragment : Fragment() {
         initViewPager2()
         initPlatforms()
         initGenders()
-        homeViewModel.getDetail()
     }
 
     private fun initUIState() {
         lifecycleScope.launch {
             repeatOnLifecycle(STARTED) {
                 homeViewModel.listOfContent.observe(viewLifecycleOwner) { contentList ->
-                    contentList.forEach { logData(it.idTmdb.toString(), ID_TMDB) }
+                    if (contentList.isNotEmpty()) {
+                        binding.apply {
+                            loadingViewPager2.visibility = View.GONE
+                            containerViewPager2.visibility = View.VISIBLE
+                        }
+                        sizeOfListContentFeatured = contentList.size
+                    }
+                    adapterViewPager.updateList(contentList)
+                    setUpIndicator()
                 }
             }
         }
@@ -87,7 +95,7 @@ class HomeFragment : Fragment() {
 
     private fun initViewPager2() {
         binding.vp2FeaturedContent.apply {
-//            adapter = adapterViewPager
+            adapter = adapterViewPager
             offscreenPageLimit = 3
             setPageTransformer(getTransformer())
             registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {

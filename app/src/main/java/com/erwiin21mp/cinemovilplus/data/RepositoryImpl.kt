@@ -7,12 +7,12 @@ import com.erwiin21mp.cinemovilplus.domain.Repository
 import javax.inject.Inject
 
 class RepositoryImpl @Inject constructor(private val apiService: APIService) : Repository {
-    override suspend fun getDetailMovie(
-        id: String,
-        apiKey: String,
-        language: String
-    ): ContentModel? {
-        runCatching { apiService.getMovieDetail(id, apiKey, language) }
+    companion object {
+        const val API_KEY = "a91dbbaa0623f021f2c4220e3dd7a70a"
+        const val LANGUAGE = "es-MX"
+    }
+    override suspend fun getDetailMovie(id: String): ContentModel? {
+        runCatching { apiService.getMovieDetail(id, API_KEY, LANGUAGE) }
             .onSuccess { return it.toDomain() }
             .onFailure { Log.e("Erwin", "Error: ${it.message}") }
         return null

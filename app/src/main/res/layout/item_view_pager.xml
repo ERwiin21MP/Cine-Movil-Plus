@@ -11,11 +11,26 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/containerIVPosterLoading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            app:shimmer_auto_start="true">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/loading"
+                android:scaleType="centerCrop" />
+        </com.facebook.shimmer.ShimmerFrameLayout>
+
         <ImageView
-            android:id="@+id/imPoster"
+            android:id="@+id/ivPoster"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
+            android:visibility="gone"
             tools:ignore="ContentDescription" />
 
         <View
@@ -30,6 +45,7 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="20dp"
+            android:fontFamily="@font/montserrat_bold"
             android:paddingHorizontal="@dimen/spacing_8"
             android:textColor="@android:color/white"
             android:textStyle="bold"

@@ -4,3 +4,5 @@ import java.text.Normalizer
 
 fun String.removeAccents(): String = Normalizer.normalize(this, Normalizer.Form.NFD)
     .replace("\\p{InCombiningDiacriticalMarks}+".toRegex(), "")
+
+fun String.toURLImage(): String = "https://image.tmdb.org/t/p/w500$this"

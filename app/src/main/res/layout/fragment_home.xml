@@ -1,113 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".ui.view.home.HomeFragment">
 
-    <com.facebook.shimmer.ShimmerFrameLayout
-        android:id="@+id/llLoading"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:paddingHorizontal="@dimen/spacing_8"
-        app:shimmer_auto_start="true"
-        tools:visibility="gone">
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
-        <include layout="@layout/fragment_home_loading" />
-    </com.facebook.shimmer.ShimmerFrameLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="@dimen/spacing_8">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/rlContainer"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_centerInParent="true"
-        android:visibility="gone"
-        tools:visibility="visible">
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/loadingViewPager2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:shimmer_auto_start="true">
 
-        <ScrollView
-            android:id="@+id/svMain"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@id/Ad"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="210dp"
+                    android:background="@color/loading" />
+            </com.facebook.shimmer.ShimmerFrameLayout>
 
-            <LinearLayout
+            <RelativeLayout
+                android:id="@+id/containerViewPager2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone">
+
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/vp2_featuredContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="210dp"
+                    android:layout_centerInParent="true" />
+
+                <me.relex.circleindicator.CircleIndicator3
+                    android:id="@+id/ci3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="24dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    app:ci_animator="@animator/scale_with_alpha" />
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_20"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="@string/streamingPlatforms"
+                android:textSize="@dimen/text_subtitle"
+                android:textStyle="bold" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvPlatforms"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingHorizontal="@dimen/spacing_8">
+                android:layout_marginTop="@dimen/spacing_8" />
 
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_20"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="@string/genders"
+                android:textSize="@dimen/text_subtitle"
+                android:textStyle="bold" />
 
-                    <androidx.viewpager2.widget.ViewPager2
-                        android:id="@+id/vp2_featuredContent"
-                        android:layout_width="match_parent"
-                        android:layout_height="210dp"
-                        android:layout_centerInParent="true" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvGenders"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_8" />
+        </LinearLayout>
+    </ScrollView>
 
-                    <me.relex.circleindicator.CircleIndicator3
-                        android:id="@+id/ci3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="24dp"
-                        android:layout_alignParentBottom="true"
-                        android:layout_centerHorizontal="true"
-                        app:ci_animator="@animator/scale_with_alpha" />
-                </RelativeLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_20"
-                    android:fontFamily="@font/montserrat_bold"
-                    android:text="@string/streamingPlatforms"
-                    android:textSize="@dimen/text_subtitle"
-                    android:textStyle="bold" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rvPlatforms"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_8" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_20"
-                    android:fontFamily="@font/montserrat_bold"
-                    android:text="@string/genders"
-                    android:textSize="@dimen/text_subtitle"
-                    android:textStyle="bold" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rvGenders"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_8" />
-
-                <LinearLayout
-                    android:id="@+id/llContainer"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical" />
-            </LinearLayout>
-        </ScrollView>
-
-        <View
-            android:id="@+id/Ad"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@color/red"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/svMain" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</RelativeLayout>
+    <View
+        android:id="@+id/BannerAd"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/red" />
+</LinearLayout>
