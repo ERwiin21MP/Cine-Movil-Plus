@@ -1,10 +1,11 @@
 package com.erwiin21mp.cinemovilplus.data
 
-import com.erwiin21mp.cinemovilplus.data.network.APIService
+import com.erwiin21mp.cinemovilplus.data.network.api.APIService
 import com.erwiin21mp.cinemovilplus.data.network.firebase.DataBaseManager
 import com.erwiin21mp.cinemovilplus.domain.Repository
 import com.erwiin21mp.cinemovilplus.domain.model.ContentModel
-import com.erwiin21mp.cinemovilplus.domain.model.PlatformModel
+import com.erwiin21mp.cinemovilplus.domain.model.PlatformMovieModel
+import com.erwiin21mp.cinemovilplus.domain.model.PlatformSerieModel
 import javax.inject.Inject
 
 class RepositoryImpl @Inject constructor(private val apiService: APIService) : Repository {
@@ -14,21 +15,28 @@ class RepositoryImpl @Inject constructor(private val apiService: APIService) : R
     }
 
     override suspend fun getDetailMovieById(id: String): ContentModel? {
-        runCatching { apiService.getMovieDetailById(id, API_KEY, LANGUAGE) }
+        runCatching { apiService.getDetailsMovieById(id, API_KEY, LANGUAGE) }
             .onSuccess { return it.toDomain() }
             .onFailure { logErrorApi(id, it.message.orEmpty()) }
         return null
     }
 
     override suspend fun getDetailSerieById(id: String): ContentModel? {
-        runCatching { apiService.getSerieDetailById(id, API_KEY, LANGUAGE) }
+        runCatching { apiService.getDetailsSerieById(id, API_KEY, LANGUAGE) }
             .onSuccess { return it.toDomain() }
             .onFailure { logErrorApi(id, it.message.orEmpty()) }
         return null
     }
 
-    override suspend fun getWatchProvidersMovie(id: String): PlatformModel? {
-        runCatching { apiService.getMovieWatchProvidersById(id, API_KEY, LANGUAGE) }
+    override suspend fun getWatchProvidersMovie(id: String): PlatformMovieModel? {
+        runCatching { apiService.getWatchProvidersMovieById(id, API_KEY, LANGUAGE) }
+            .onSuccess { return it.toDomain() }
+            .onFailure { logErrorApi(id, it.message.orEmpty()) }
+        return null
+    }
+
+    override suspend fun getWatchProvidersSerie(id: String): PlatformSerieModel? {
+        runCatching { apiService.getWatchProvidersSerieById(id, API_KEY, LANGUAGE) }
             .onSuccess { return it.toDomain() }
             .onFailure { logErrorApi(id, it.message.orEmpty()) }
         return null

@@ -22,6 +22,7 @@ import com.erwiin21mp.cinemovilplus.core.ext.logData
 import com.erwiin21mp.cinemovilplus.core.ext.navigateToContent
 import com.erwiin21mp.cinemovilplus.databinding.FragmentHomeBinding
 import com.erwiin21mp.cinemovilplus.ui.utils.SpacingItemDecoration
+import com.erwiin21mp.cinemovilplus.ui.view.home.platforms.PlatformsAdapter
 import com.erwiin21mp.cinemovilplus.ui.view.home.viewPager2.ViewPagerAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
@@ -38,6 +39,7 @@ class HomeFragment : Fragment() {
     private val homeViewModel: HomeViewModel by viewModels()
     private var sizeOfListContentFeatured = 0
     private val adapterViewPager = ViewPagerAdapter { navigateToContent(it) }
+    private val adapterPlatforms = PlatformsAdapter { navigateToGenderOrPlatform(it) }
 
     companion object {
         const val TIME_VIEW_PAGER_CHANGE_ITEM = 3000
@@ -72,8 +74,15 @@ class HomeFragment : Fragment() {
                     setUpIndicator()
                     logData(contentList.toString(), "ContentList")
                 }
-
                 homeViewModel.listOfPlatforms.observe(viewLifecycleOwner) { platformList ->
+                    if (platformList.isNotEmpty()) {
+                        binding.apply {
+                            containerStreamingPlatforms.visibility = View.GONE
+                            tvLabelStreamingPlatforms.visibility = View.VISIBLE
+                            rvPlatforms.visibility = View.VISIBLE
+                        }
+                        adapterPlatforms.updateList(platformList)
+                    }
                     logData(platformList.toString(), "platformList")
                 }
             }
@@ -88,6 +97,7 @@ class HomeFragment : Fragment() {
 
     private fun initPlatforms() {
         binding.rvPlatforms.apply {
+            adapter = adapterPlatforms
             setDecorationAndLayoutManagerToRecyclerView(this)
         }
     }

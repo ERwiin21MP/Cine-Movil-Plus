@@ -1,14 +1,13 @@
 package com.erwiin21mp.cinemovilplus.domain.model
 
 data class ContentHomeModel(
-    var id: String,
-    var idTmdb: String,
-    var isCameraQuality: Boolean,
-    var isEnabled: Boolean,
-    var typeID: Int,
-    var uploadDate: Long,
-    var horizontalImageURL: String = "",
-    var releaseDate: String = "",
-    var title: String = "",
-    var verticalImageURL: String = ""
+    var id: String? = null,
+    var idTmdb: String? = null,
+    var isCameraQuality: Boolean? = null,
+    var typeID: Int? = null,
+    var uploadDate: Long? = null,
+    var horizontalImageURL: String? = null,
+    var releaseDate: String? = null,
+    var title: String? = null,
+    var verticalImageURL: String? = null
 )

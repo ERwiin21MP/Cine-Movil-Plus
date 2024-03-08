@@ -1,6 +1,7 @@
 package com.erwiin21mp.cinemovilplus.data.network
 
 import com.erwiin21mp.cinemovilplus.data.RepositoryImpl
+import com.erwiin21mp.cinemovilplus.data.network.api.APIService
 import com.erwiin21mp.cinemovilplus.domain.Repository
 import dagger.Module
 import dagger.Provides

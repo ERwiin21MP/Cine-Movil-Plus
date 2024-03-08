@@ -11,14 +11,14 @@ import com.squareup.picasso.Picasso
 class ViewPagerHolder(view: View) : RecyclerView.ViewHolder(view) {
 
     private val binding = ItemViewPagerBinding.bind(view)
-    fun render(item: ContentHomeModel, onItemSelected: (String) -> Unit) {
+    fun render(item: ContentHomeModel?, onItemSelected: (String) -> Unit) {
         binding.apply {
-            Picasso.get().load(item.horizontalImageURL.toURLImage()).error(R.drawable.no_image)
+            Picasso.get().load(item?.horizontalImageURL?.toURLImage()).error(R.drawable.no_image)
                 .into(ivPoster)
             containerIVPosterLoading.visibility = View.GONE
             ivPoster.visibility = View.VISIBLE
-            tvTitle.text = item.title
+            tvTitle.text = item?.title
         }
-        itemView.setOnClickListener { onItemSelected(item.id) }
+        itemView.setOnClickListener { onItemSelected(item?.id ?: "0") }
     }
 }
