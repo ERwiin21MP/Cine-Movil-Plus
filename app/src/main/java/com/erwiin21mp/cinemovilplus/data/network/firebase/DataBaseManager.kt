@@ -26,8 +26,10 @@ class DataBaseManager @Inject constructor() {
         const val CHILD_LOG_ERROR_LOGIN = "LogErrorLogin"
         const val CHILD_LOG_SUCCESS_LOGIN = "LogSuccessLogin"
         const val CHILD_LOG_BUTTON_CLICKED = "LogButtonClicked"
-        const val CHILD_LOG_ERROR_LOAD_POSTER_IMAGE_CONTENT_VERTICAL = "LogErrorLoadPosterImageContentVertical"
+        const val CHILD_LOG_ERROR_LOAD_POSTER_IMAGE_CONTENT_VERTICAL =
+            "LogErrorLoadPosterImageContentVertical"
         const val CHILD_LO_ERROR_LOAD_IMAGE_PLATFORM = "LogErrorLoadImagePlatform"
+        const val CHILD_LOG_ERROR_API = "LogError_API"
         const val UID = "Uid"
         const val IS_ANONYMOUS = "IsAnonymous"
         const val DISPLAY_NAME = "DisplayName"
@@ -134,6 +136,11 @@ class DataBaseManager @Inject constructor() {
         database.child(CHILD_LOG_SIGN_OUT)
             .child(getCleanId("${user!!.displayName} - ${user.email}"))
             .child(getCurrentDateAndHour()).setValue(mapOf(DATE to getCurrentDateAndHour()))
+    }
+
+    fun logErrorApi(id: String, message: String) {
+        val map = mapOf(DATE to getCurrentDateAndHour(), ERROR_MESSAGE to message, ID_CONTENT to id)
+        database.child(CHILD_LOG_ERROR_API).push().setValue(map)
     }
 
 //    fun logErrorLoadPosterImageContentVertical(

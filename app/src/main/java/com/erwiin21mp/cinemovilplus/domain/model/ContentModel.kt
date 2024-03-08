@@ -1,4 +1,4 @@
-package com.erwiin21mp.cinemovilplus.domain
+package com.erwiin21mp.cinemovilplus.domain.model
 
 data class ContentModel(
     var horizontalImageURL: String,

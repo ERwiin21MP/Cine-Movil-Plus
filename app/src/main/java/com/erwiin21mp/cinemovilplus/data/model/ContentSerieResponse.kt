@@ -1,13 +1,13 @@
-package com.erwiin21mp.cinemovilplus.data.network
+package com.erwiin21mp.cinemovilplus.data.model
 
-import com.erwiin21mp.cinemovilplus.domain.ContentModel
+import com.erwiin21mp.cinemovilplus.domain.model.ContentModel
 import com.google.gson.annotations.SerializedName
 
-data class ContentResponse(
+data class ContentSerieResponse(
     @SerializedName("backdrop_path") var horizontalImageURL: String,
     @SerializedName("id") var id: Int,
-    @SerializedName("release_date") var releaseDate: String,
-    @SerializedName("title") var title: String,
+    @SerializedName("first_air_date") var releaseDate: String,
+    @SerializedName("name") var title: String,
     @SerializedName("poster_path") var verticalImageURL: String
 ) {
     fun toDomain(): ContentModel {
