@@ -18,10 +18,10 @@ import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import com.erwiin21mp.cinemovilplus.R
 import com.erwiin21mp.cinemovilplus.core.ext.isNull
-import com.erwiin21mp.cinemovilplus.core.ext.logData
 import com.erwiin21mp.cinemovilplus.core.ext.navigateToContent
 import com.erwiin21mp.cinemovilplus.databinding.FragmentHomeBinding
 import com.erwiin21mp.cinemovilplus.ui.utils.SpacingItemDecoration
+import com.erwiin21mp.cinemovilplus.ui.view.home.genders.GenderAdapter
 import com.erwiin21mp.cinemovilplus.ui.view.home.platforms.PlatformsAdapter
 import com.erwiin21mp.cinemovilplus.ui.view.home.viewPager2.ViewPagerAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -39,7 +39,8 @@ class HomeFragment : Fragment() {
     private val homeViewModel: HomeViewModel by viewModels()
     private var sizeOfListContentFeatured = 0
     private val adapterViewPager = ViewPagerAdapter { navigateToContent(it) }
-    private val adapterPlatforms = PlatformsAdapter { navigateToGenderOrPlatform(it) }
+    private val adapterPlatform = PlatformsAdapter { navigateToGenderOrPlatform(it) }
+    private val adapterGender = GenderAdapter { navigateToGenderOrPlatform(it.toString()) }
 
     companion object {
         const val TIME_VIEW_PAGER_CHANGE_ITEM = 3000
@@ -51,7 +52,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun initUI() {
-        initUIState()
+        initObservers()
         initHandler()
         initRunnable()
         initViewPager2()
@@ -59,7 +60,7 @@ class HomeFragment : Fragment() {
         initGenders()
     }
 
-    private fun initUIState() {
+    private fun initObservers() {
         lifecycleScope.launch {
             repeatOnLifecycle(STARTED) {
                 homeViewModel.listOfContent.observe(viewLifecycleOwner) { contentList ->
@@ -69,10 +70,9 @@ class HomeFragment : Fragment() {
                             containerViewPager2.visibility = View.VISIBLE
                         }
                         sizeOfListContentFeatured = contentList.size
+                        adapterViewPager.updateList(contentList)
+                        setUpIndicator()
                     }
-                    adapterViewPager.updateList(contentList)
-                    setUpIndicator()
-                    logData(contentList.toString(), "ContentList")
                 }
                 homeViewModel.listOfPlatforms.observe(viewLifecycleOwner) { platformList ->
                     if (platformList.isNotEmpty()) {
@@ -81,9 +81,18 @@ class HomeFragment : Fragment() {
                             tvLabelStreamingPlatforms.visibility = View.VISIBLE
                             rvPlatforms.visibility = View.VISIBLE
                         }
-                        adapterPlatforms.updateList(platformList)
+                        adapterPlatform.updateList(platformList)
                     }
-                    logData(platformList.toString(), "platformList")
+                }
+                homeViewModel.listOfGenders.observe(viewLifecycleOwner) { genderList ->
+                    if (genderList.isNotEmpty()) {
+                        binding.apply {
+                            loadingGenders.visibility = View.GONE
+                            tvLabelGenders.visibility = View.VISIBLE
+                            rvGenders.visibility = View.VISIBLE
+                        }
+                        adapterGender.updateList(genderList)
+                    }
                 }
             }
         }
@@ -91,13 +100,14 @@ class HomeFragment : Fragment() {
 
     private fun initGenders() {
         binding.rvGenders.apply {
+            adapter = adapterGender
             setDecorationAndLayoutManagerToRecyclerView(this)
         }
     }
 
     private fun initPlatforms() {
         binding.rvPlatforms.apply {
-            adapter = adapterPlatforms
+            adapter = adapterPlatform
             setDecorationAndLayoutManagerToRecyclerView(this)
         }
     }

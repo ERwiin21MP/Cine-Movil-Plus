@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.erwiin21mp.cinemovilplus.core.ext.isNotNull
 import com.erwiin21mp.cinemovilplus.domain.model.ContentHomeModel
+import com.erwiin21mp.cinemovilplus.domain.model.GenderModel
 import com.erwiin21mp.cinemovilplus.domain.model.ItemMXModel
 import com.erwiin21mp.cinemovilplus.domain.usecase.GetDetailsMovieUseCase
 import com.erwiin21mp.cinemovilplus.domain.usecase.GetDetailsSerieUserCase
@@ -29,6 +30,7 @@ class HomeViewModel @Inject constructor(
     private val db = FirebaseFirestore.getInstance()
     val listOfContent = MutableLiveData<List<ContentHomeModel>>(emptyList())
     val listOfPlatforms = MutableLiveData<List<ItemMXModel>>(emptyList())
+    val listOfGenders = MutableLiveData<List<GenderModel>>(emptyList())
 
     companion object {
         const val CONTENT = "content"
@@ -38,10 +40,29 @@ class HomeViewModel @Inject constructor(
         const val UPLOAD_DATE = "upload_date"
         const val IS_CAMERA_QUALITY = "is_camera_quality"
         const val IS_ENABLED = "is_enabled"
+        const val GENDERS = "genders"
+        const val GENDER = "gender"
     }
 
     init {
         getContent()
+        getGenders()
+    }
+
+    private fun getGenders() {
+        val listOfGendersAux = mutableListOf<GenderModel>()
+        db.collection(GENDERS).get().addOnSuccessListener { documents ->
+            for (document in documents) {
+                val data = document.data
+                listOfGendersAux.add(
+                    GenderModel(
+                        id = data[ID].toString().toInt(),
+                        gender = data[GENDER].toString()
+                    )
+                )
+                listOfGenders.postValue(listOfGendersAux)
+            }
+        }
     }
 
     private fun getContent() {

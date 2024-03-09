@@ -2,36 +2,18 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="100dp"
-    android:layout_height="50dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:backgroundTint="@color/bg_gender"
     app:cardCornerRadius="16dp">
 
-    <RelativeLayout
-        android:layout_width="100dp"
-        android:layout_height="50dp">
-
-        <ImageView
-            android:id="@+id/ivBgGender"
-            android:layout_width="100dp"
-            android:layout_height="50dp"
-            android:layout_centerInParent="true"
-            android:scaleType="fitXY"
-            tools:src="@drawable/about_time" />
-
-        <View
-            android:id="@+id/vBg"
-            android:layout_width="100dp"
-            android:layout_height="50dp"
-            android:layout_centerInParent="true" />
-
-        <TextView
-            android:id="@+id/tvGender"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:gravity="center"
-            android:paddingHorizontal="@dimen/spacing_8"
-            android:textStyle="bold"
-            tools:text="Superheroes" />
-    </RelativeLayout>
+    <TextView
+        android:id="@+id/tvGender"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:padding="@dimen/spacing_12"
+        android:textStyle="bold"
+        tools:text="Superheroes" />
 </androidx.cardview.widget.CardView>
