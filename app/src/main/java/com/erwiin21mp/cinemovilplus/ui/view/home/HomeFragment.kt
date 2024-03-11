@@ -94,6 +94,16 @@ class HomeFragment : Fragment() {
                         adapterGender.updateList(genderList)
                     }
                 }
+                homeViewModel.listAllContent.observe(viewLifecycleOwner) { allContentList ->
+                    if (allContentList.isNotEmpty()) {
+                        binding.apply {
+                            loadingAllContent.visibility = View.GONE
+                            tvLabelAllContent.visibility = View.VISIBLE
+                            rvAllContent.visibility = View.VISIBLE
+                        }
+
+                    }
+                }
             }
         }
     }

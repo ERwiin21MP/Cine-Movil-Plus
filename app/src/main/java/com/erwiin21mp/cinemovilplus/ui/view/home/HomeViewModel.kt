@@ -31,6 +31,7 @@ class HomeViewModel @Inject constructor(
     val listOfContent = MutableLiveData<List<ContentHomeModel>>(emptyList())
     val listOfPlatforms = MutableLiveData<List<ItemMXModel>>(emptyList())
     val listOfGenders = MutableLiveData<List<GenderModel>>(emptyList())
+    val listAllContent = MutableLiveData<List<ContentHomeModel>>(emptyList())
 
     companion object {
         const val CONTENT = "content"
@@ -131,6 +132,7 @@ class HomeViewModel @Inject constructor(
                         }
                         listOfContent.postValue(listContentAux)
                         listOfPlatforms.postValue(listItemMXModelAux.distinct())
+                        listAllContent.postValue(listContentAux.shuffled())
                     }
                 }
             }
