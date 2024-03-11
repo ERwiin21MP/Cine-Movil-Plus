@@ -32,7 +32,7 @@ data class ItemMXSerieResponse(
 fun toDomain(list: List<ItemMXSerieResponse>?): List<ItemMXModel> {
     val listRet = mutableListOf<ItemMXModel>()
     list?.forEach {
-        listRet.add(ItemMXModel(logoPath = it.logoPath, providerName = it.providerName))
+        listRet.add(ItemMXModel(imageUrl = it.logoPath, name = it.providerName))
     }
     return listRet
 }

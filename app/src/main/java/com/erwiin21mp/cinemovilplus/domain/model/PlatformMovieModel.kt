@@ -14,6 +14,4 @@ data class MXMovieModel(
     var flatrate: List<ItemMXModel>? = null
 )
 
-data class ItemMXModel(
-    val logoPath: String? = null, val providerName: String? = null
-)
+data class ItemMXModel(val imageUrl: String? = null, val name: String? = null)

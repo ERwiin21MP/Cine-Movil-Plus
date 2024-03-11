@@ -38,7 +38,7 @@ data class ItemMXMovieResponse(
 fun toDomain(list: List<ItemMXMovieResponse>?): List<ItemMXModel> {
     val listRet = mutableListOf<ItemMXModel>()
     list?.forEach {
-        listRet.add(ItemMXModel(logoPath = it.logoPath, providerName = it.providerName))
+        listRet.add(ItemMXModel(imageUrl = it.logoPath, name = it.providerName))
     }
     return listRet
 }
