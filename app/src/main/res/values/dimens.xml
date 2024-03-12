@@ -14,4 +14,5 @@
     <dimen name="contentWidth">100dp</dimen>
 
     <dimen name="viewPagerHeight">180dp</dimen>
+    <dimen name="platform_size">52.5dp</dimen>
 </resources>

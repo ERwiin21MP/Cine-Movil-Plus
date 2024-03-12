@@ -132,8 +132,7 @@ class HomeFragment : Fragment() {
                             loadingCurrentYear.visibility = View.GONE
                             tvLabelCurrentYear.visibility = View.VISIBLE
                             rvCurrentYear.visibility = View.VISIBLE
-                            tvLabelCurrentYear.text =
-                                "${tvLabelCurrentYear.context.getString(R.string.moviesAndSeries)} ${currentYearList.first().releaseDate}"
+                            tvLabelCurrentYear.text = "${tvLabelCurrentYear.context.getString(R.string.moviesAndSeries)} ${currentYearList.first().releaseDate}"
                         }
                         adapterCurrentYear.updateList(currentYearList)
                     }

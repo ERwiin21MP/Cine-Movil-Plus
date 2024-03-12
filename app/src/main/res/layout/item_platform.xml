@@ -2,9 +2,8 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/RelativeLayout_ItemPlatform"
-    android:layout_width="50dp"
-    android:layout_height="50dp"
-    android:backgroundTint="@android:color/transparent"
+    android:layout_width="@dimen/platform_size"
+    android:layout_height="@dimen/platform_size"
     app:cardCornerRadius="16dp">
 
     <RelativeLayout
@@ -27,8 +26,8 @@
             app:shimmer_auto_start="true">
 
             <View
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:background="@color/loading" />
         </com.facebook.shimmer.ShimmerFrameLayout>
     </RelativeLayout>

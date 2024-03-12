@@ -33,6 +33,6 @@
             android:gravity="center"
             android:padding="@dimen/spacing_8"
             android:textStyle="bold"
-            tools:text="Superheroes" />
+            tools:text="Comedia cinematografica" />
     </RelativeLayout>
 </androidx.cardview.widget.CardView>
