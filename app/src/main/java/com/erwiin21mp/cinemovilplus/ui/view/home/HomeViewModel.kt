@@ -43,6 +43,8 @@ class HomeViewModel @Inject constructor(
         const val IS_ENABLED = "is_enabled"
         const val GENDERS = "genders"
         const val GENDER = "gender"
+        const val SERIE = "Serie"
+        const val MOVIE = "Movie"
     }
 
     init {
@@ -76,11 +78,15 @@ class HomeViewModel @Inject constructor(
                 val idTmdb = data[ID_TMDB].toString()
 
                 if (isEnabled) {
-                    val typeID = data[TYPE_ID].toString().toInt()
+                    val type = when (data[TYPE_ID].toString().toInt()) {
+                        1 -> SERIE
+                        2 -> MOVIE
+                        else -> ""
+                    }
                     viewModelScope.launch {
-                        val result = when (typeID) {
-                            1 -> withContext(Dispatchers.IO) { getDetailsSerieUserCase(idTmdb) }
-                            2 -> withContext(Dispatchers.IO) { getDetailsMovieUseCase(idTmdb) }
+                        val result = when (type) {
+                            SERIE -> withContext(Dispatchers.IO) { getDetailsSerieUserCase(idTmdb) }
+                            MOVIE -> withContext(Dispatchers.IO) { getDetailsMovieUseCase(idTmdb) }
                             else -> null
                         }
                         if (result.isNotNull()) {
@@ -94,17 +100,17 @@ class HomeViewModel @Inject constructor(
                                     id = id,
                                     idTmdb = idTmdb,
                                     isCameraQuality = isCameraQuality,
-                                    typeID = typeID,
+                                    type = type,
                                     uploadDate = uploadDate,
-                                    horizontalImageURL = result!!.horizontalImageURL,
-                                    releaseDate = result.releaseDate,
-                                    title = result.title,
-                                    verticalImageURL = result.verticalImageURL
+                                    horizontalImageURL = result?.horizontalImageURL.orEmpty(),
+                                    releaseDate = result?.releaseDate.orEmpty(),
+                                    title = result?.title.orEmpty(),
+                                    verticalImageURL = result?.verticalImageURL.orEmpty()
                                 )
                             )
                         }
-                        when (typeID) {
-                            1 -> {
+                        when (type) {
+                            SERIE -> {
                                 val result2 = withContext(Dispatchers.IO) {
                                     getWatchProvidersSerieUseCase(idTmdb)
                                 }
@@ -115,7 +121,7 @@ class HomeViewModel @Inject constructor(
                                 }
                             }
 
-                            2 -> {
+                            MOVIE -> {
                                 val result2 = withContext(Dispatchers.IO) {
                                     getWatchProvidersMovieUseCase(idTmdb)
                                 }

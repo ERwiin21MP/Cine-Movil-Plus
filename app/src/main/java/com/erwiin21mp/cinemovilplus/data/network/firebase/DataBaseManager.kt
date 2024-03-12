@@ -41,6 +41,9 @@ class DataBaseManager @Inject constructor() {
         const val PASSWORD = "Password"
         const val BUTTON_NAME = "ButtonName"
         const val ID_CONTENT = "IdContent"
+        const val NAME = "Name"
+        const val URL = "Url"
+        const val VERTICAL_IMAGE_URL = "VerticalImageURL"
     }
 
     fun logAppOpen(user: FirebaseUser) {
@@ -143,21 +146,21 @@ class DataBaseManager @Inject constructor() {
         database.child(CHILD_LOG_ERROR_API).push().setValue(map)
     }
 
-//    fun logErrorLoadPosterImageContentVertical(
-//        message: Exception?,
-//        idContent: Int,
-//        verticalImageUlr: String
-//    ) {
-//        val map = mapOf(
-//            ERROR_MESSAGE to message.toString(),
-//            ID_CONTENT to idContent,
-//            VERTICAL_IMAGE_URL to verticalImageUlr
-//        )
-//        database.child(CHILD_LOG_ERROR_LOAD_POSTER_IMAGE_CONTENT_VERTICAL).push().setValue(map)
-//    }
-//
-//    fun logErrorLoadImagePlatform(message: Exception?, name: String, url: String) {
-//        val map = mapOf(ERROR_MESSAGE to message.toString(), NAME to name, URL to url)
-//        database.child(CHILD_LO_ERROR_LOAD_IMAGE_PLATFORM).push().setValue(map)
-//    }
+    fun logErrorLoadPosterImageContentVertical(
+        message: Exception,
+        idContent: String,
+        verticalImageUlr: String
+    ) {
+        val map = mapOf(
+            ERROR_MESSAGE to message.toString(),
+            ID_CONTENT to idContent,
+            VERTICAL_IMAGE_URL to verticalImageUlr
+        )
+        database.child(CHILD_LOG_ERROR_LOAD_POSTER_IMAGE_CONTENT_VERTICAL).push().setValue(map)
+    }
+
+    fun logErrorLoadImagePlatform(message: Exception?, name: String, url: String) {
+        val map = mapOf(ERROR_MESSAGE to message.toString(), NAME to name, URL to url)
+        database.child(CHILD_LO_ERROR_LOAD_IMAGE_PLATFORM).push().setValue(map)
+    }
 }

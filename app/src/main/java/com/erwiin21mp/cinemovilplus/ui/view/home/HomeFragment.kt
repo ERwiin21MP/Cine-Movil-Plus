@@ -21,6 +21,7 @@ import com.erwiin21mp.cinemovilplus.core.ext.isNull
 import com.erwiin21mp.cinemovilplus.core.ext.navigateToContent
 import com.erwiin21mp.cinemovilplus.databinding.FragmentHomeBinding
 import com.erwiin21mp.cinemovilplus.ui.utils.SpacingItemDecoration
+import com.erwiin21mp.cinemovilplus.ui.view.home.content.AllContentAdapter
 import com.erwiin21mp.cinemovilplus.ui.view.home.genders.GenderAdapter
 import com.erwiin21mp.cinemovilplus.ui.view.home.platforms.PlatformsAdapter
 import com.erwiin21mp.cinemovilplus.ui.view.home.viewPager2.ViewPagerAdapter
@@ -28,6 +29,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlin.math.abs
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -41,6 +43,7 @@ class HomeFragment : Fragment() {
     private val adapterViewPager = ViewPagerAdapter { navigateToContent(it) }
     private val adapterPlatform = PlatformsAdapter { navigateToGenderOrPlatform(it) }
     private val adapterGender = GenderAdapter { navigateToGenderOrPlatform(it.toString()) }
+    private val adapterAllContent = AllContentAdapter { navigateToContent(it) }
 
     companion object {
         const val TIME_VIEW_PAGER_CHANGE_ITEM = 3000
@@ -58,6 +61,14 @@ class HomeFragment : Fragment() {
         initViewPager2()
         initPlatforms()
         initGenders()
+        initAllContent()
+    }
+
+    private fun initAllContent() {
+        binding.homeContainerAllContent.rvAllContent.apply {
+            adapter = adapterAllContent
+            setDecorationAndLayoutManagerToRecyclerView(this)
+        }
     }
 
     private fun initObservers() {
@@ -65,7 +76,7 @@ class HomeFragment : Fragment() {
             repeatOnLifecycle(STARTED) {
                 homeViewModel.listOfContent.observe(viewLifecycleOwner) { contentList ->
                     if (contentList.isNotEmpty()) {
-                        binding.apply {
+                        binding.homeContainerViewPager2.apply {
                             loadingViewPager2.visibility = View.GONE
                             containerViewPager2.visibility = View.VISIBLE
                         }
@@ -76,7 +87,7 @@ class HomeFragment : Fragment() {
                 }
                 homeViewModel.listOfPlatforms.observe(viewLifecycleOwner) { platformList ->
                     if (platformList.isNotEmpty()) {
-                        binding.apply {
+                        binding.homeContainerPlatforms.apply {
                             containerStreamingPlatforms.visibility = View.GONE
                             tvLabelStreamingPlatforms.visibility = View.VISIBLE
                             rvPlatforms.visibility = View.VISIBLE
@@ -86,7 +97,7 @@ class HomeFragment : Fragment() {
                 }
                 homeViewModel.listOfGenders.observe(viewLifecycleOwner) { genderList ->
                     if (genderList.isNotEmpty()) {
-                        binding.apply {
+                        binding.homeContainerGenders.apply {
                             loadingGenders.visibility = View.GONE
                             tvLabelGenders.visibility = View.VISIBLE
                             rvGenders.visibility = View.VISIBLE
@@ -96,12 +107,12 @@ class HomeFragment : Fragment() {
                 }
                 homeViewModel.listAllContent.observe(viewLifecycleOwner) { allContentList ->
                     if (allContentList.isNotEmpty()) {
-                        binding.apply {
+                        binding.homeContainerAllContent.apply {
                             loadingAllContent.visibility = View.GONE
                             tvLabelAllContent.visibility = View.VISIBLE
                             rvAllContent.visibility = View.VISIBLE
                         }
-
+                        adapterAllContent.updateList(allContentList)
                     }
                 }
             }
@@ -109,14 +120,14 @@ class HomeFragment : Fragment() {
     }
 
     private fun initGenders() {
-        binding.rvGenders.apply {
+        binding.homeContainerGenders.rvGenders.apply {
             adapter = adapterGender
             setDecorationAndLayoutManagerToRecyclerView(this)
         }
     }
 
     private fun initPlatforms() {
-        binding.rvPlatforms.apply {
+        binding.homeContainerPlatforms.rvPlatforms.apply {
             adapter = adapterPlatform
             setDecorationAndLayoutManagerToRecyclerView(this)
         }
@@ -130,7 +141,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun initViewPager2() {
-        binding.vp2FeaturedContent.apply {
+        binding.homeContainerViewPager2.vp2FeaturedContent.apply {
             adapter = adapterViewPager
             offscreenPageLimit = 3
             setPageTransformer(getTransformer())
@@ -154,13 +165,13 @@ class HomeFragment : Fragment() {
         return CompositePageTransformer().apply {
             addTransformer(MarginPageTransformer(40))
             addTransformer { page, position ->
-                page.scaleY = 0.85f + (1 - kotlin.math.abs(position)) * 0.14f
+                page.scaleY = 0.85f + (1 - abs(position)) * 0.14f
             }
         }
     }
 
     private fun setUpIndicator() {
-        binding.ci3.setViewPager(binding.vp2FeaturedContent)
+        binding.homeContainerViewPager2.apply { ci3.setViewPager(vp2FeaturedContent) }
     }
 
     private fun initHandler() {
@@ -169,14 +180,16 @@ class HomeFragment : Fragment() {
 
     private fun initRunnable() {
         runnable = Runnable {
-            binding.vp2FeaturedContent.currentItem = binding.vp2FeaturedContent.currentItem + 1
-            if ((binding.vp2FeaturedContent.currentItem + 1) == sizeOfListContentFeatured)
-                lifecycleScope.launch {
-                    withContext(Dispatchers.IO) {
-                        Thread.sleep(TIME_VIEW_PAGER_CHANGE_ITEM.toLong())
+            binding.homeContainerViewPager2.apply {
+                vp2FeaturedContent.currentItem = vp2FeaturedContent.currentItem + 1
+                if ((vp2FeaturedContent.currentItem + 1) == sizeOfListContentFeatured)
+                    lifecycleScope.launch {
+                        withContext(Dispatchers.IO) {
+                            Thread.sleep(TIME_VIEW_PAGER_CHANGE_ITEM.toLong())
+                        }
+                        vp2FeaturedContent.currentItem = 0
                     }
-                    binding.vp2FeaturedContent.currentItem = 0
-                }
+            }
         }
     }
 

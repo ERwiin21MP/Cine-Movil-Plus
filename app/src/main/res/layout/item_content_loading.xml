@@ -1,155 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/spacing_20"
+    android:layout_marginEnd="@dimen/spacing_8"
+    android:background="@android:color/transparent"
     android:orientation="vertical">
 
+    <androidx.cardview.widget.CardView
+        android:layout_width="@dimen/contentWidth"
+        android:layout_height="@dimen/contentHeight"
+        app:cardCornerRadius="16dp">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:background="@color/loading" />
+
+    </androidx.cardview.widget.CardView>
+
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/spacing_8"
+        android:layout_marginTop="2dp"
         android:background="@color/loading"
-        android:fontFamily="@font/montserrat_bold"
-        android:text="@string/allContent"
+        android:gravity="center"
+        android:lines="2"
+        android:paddingHorizontal="@dimen/spacing_8"
         android:textColor="@color/loading"
-        android:textSize="@dimen/text_subtitle"
-        android:textStyle="bold" />
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_8"
-        android:orientation="horizontal">
-
-        <LinearLayout
-            android:layout_width="119.7dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/spacing_8"
-            android:orientation="vertical">
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="119.7dp"
-                android:layout_height="180dp"
-                android:backgroundTint="@color/loading"
-                app:cardCornerRadius="16dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:background="@color/loading"
-                android:ellipsize="end"
-                android:gravity="center"
-                android:lines="2"
-                android:paddingHorizontal="@dimen/spacing_8"
-                android:text="Cuestion de tiempo"
-                android:textColor="@color/loading"
-                android:textStyle="bold" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="119.7dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/spacing_8"
-            android:orientation="vertical">
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="119.7dp"
-                android:layout_height="180dp"
-                android:backgroundTint="@color/loading"
-                app:cardCornerRadius="16dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:background="@color/loading"
-                android:ellipsize="end"
-                android:gravity="center"
-                android:lines="2"
-                android:paddingHorizontal="@dimen/spacing_8"
-                android:text="Cuestion de tiempo"
-                android:textColor="@color/loading"
-                android:textStyle="bold" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="119.7dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/spacing_8"
-            android:orientation="vertical">
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="119.7dp"
-                android:layout_height="180dp"
-                android:backgroundTint="@color/loading"
-                app:cardCornerRadius="16dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:background="@color/loading"
-                android:ellipsize="end"
-                android:gravity="center"
-                android:lines="2"
-                android:paddingHorizontal="@dimen/spacing_8"
-                android:text="Cuestion de tiempo"
-                android:textColor="@color/loading"
-                android:textStyle="bold" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="119.7dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/spacing_8"
-            android:orientation="vertical">
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="119.7dp"
-                android:layout_height="180dp"
-                android:backgroundTint="@color/loading"
-                app:cardCornerRadius="16dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:background="@color/loading"
-                android:ellipsize="end"
-                android:gravity="center"
-                android:lines="2"
-                android:paddingHorizontal="@dimen/spacing_8"
-                android:text="Cuestion de tiempo"
-                android:textColor="@color/loading"
-                android:textStyle="bold" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="119.7dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/spacing_8"
-            android:orientation="vertical">
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="119.7dp"
-                android:layout_height="180dp"
-                android:backgroundTint="@color/loading"
-                app:cardCornerRadius="16dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:background="@color/loading"
-                android:ellipsize="end"
-                android:gravity="center"
-                android:lines="2"
-                android:paddingHorizontal="@dimen/spacing_8"
-                android:text="Cuestion de tiempo"
-                android:textColor="@color/loading"
-                android:textStyle="bold" />
-        </LinearLayout>
-    </LinearLayout>
+        android:textStyle="bold"
+        tools:text="Cuestion de tiempo" />
 </LinearLayout>

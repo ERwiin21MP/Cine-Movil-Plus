@@ -2,12 +2,14 @@ package com.erwiin21mp.cinemovilplus.core.ext
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
+import androidx.recyclerview.widget.RecyclerView
 import com.erwiin21mp.cinemovilplus.R
 import com.google.firebase.messaging.FirebaseMessagingService
 import java.text.SimpleDateFormat
@@ -45,6 +47,17 @@ fun Activity.toast(message: String) {
 }
 
 fun Fragment.toast(message: String) {
+    Toast(context).apply {
+        val viewToast = LayoutInflater.from(context).inflate(R.layout.view_toast, null)
+        view = viewToast
+        val label: TextView = viewToast.findViewById(R.id.toast)
+        label.text = message
+        duration = Toast.LENGTH_SHORT
+        show()
+    }
+}
+
+fun RecyclerView.ViewHolder.toast(context:Context, message: String) {
     Toast(context).apply {
         val viewToast = LayoutInflater.from(context).inflate(R.layout.view_toast, null)
         view = viewToast
