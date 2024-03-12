@@ -11,7 +11,7 @@ import com.erwiin21mp.cinemovilplus.ui.view.home.HomeViewModel.Companion.SERIE
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 
-class AllContentViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+class ContentViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
     private val binding = ItemContentBinding.bind(view)
 

@@ -30,9 +30,12 @@
                 layout="@layout/home_container_all_content" />
 
             <include
+                android:id="@+id/homeContainerCurrentYear"
+                layout="@layout/home_container_current_year" />
+
+            <include
                 android:id="@+id/homeContainerGenders"
                 layout="@layout/home_container_genders" />
-
         </LinearLayout>
     </ScrollView>
 

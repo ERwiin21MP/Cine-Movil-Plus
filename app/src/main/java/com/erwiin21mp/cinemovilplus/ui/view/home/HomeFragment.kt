@@ -21,7 +21,7 @@ import com.erwiin21mp.cinemovilplus.core.ext.isNull
 import com.erwiin21mp.cinemovilplus.core.ext.navigateToContent
 import com.erwiin21mp.cinemovilplus.databinding.FragmentHomeBinding
 import com.erwiin21mp.cinemovilplus.ui.utils.SpacingItemDecoration
-import com.erwiin21mp.cinemovilplus.ui.view.home.content.AllContentAdapter
+import com.erwiin21mp.cinemovilplus.ui.view.home.content.ContentAdapter
 import com.erwiin21mp.cinemovilplus.ui.view.home.genders.GenderAdapter
 import com.erwiin21mp.cinemovilplus.ui.view.home.platforms.PlatformsAdapter
 import com.erwiin21mp.cinemovilplus.ui.view.home.viewPager2.ViewPagerAdapter
@@ -43,7 +43,8 @@ class HomeFragment : Fragment() {
     private val adapterViewPager = ViewPagerAdapter { navigateToContent(it) }
     private val adapterPlatform = PlatformsAdapter { navigateToGenderOrPlatform(it) }
     private val adapterGender = GenderAdapter { navigateToGenderOrPlatform(it.toString()) }
-    private val adapterAllContent = AllContentAdapter { navigateToContent(it) }
+    private val adapterAllContent = ContentAdapter { navigateToContent(it) }
+    private val adapterCurrentYear = ContentAdapter { navigateToContent(it) }
 
     companion object {
         const val TIME_VIEW_PAGER_CHANGE_ITEM = 3000
@@ -62,6 +63,14 @@ class HomeFragment : Fragment() {
         initPlatforms()
         initGenders()
         initAllContent()
+        initCurrentYear()
+    }
+
+    private fun initCurrentYear() {
+        binding.homeContainerCurrentYear.rvCurrentYear.apply {
+            adapter = adapterCurrentYear
+            setDecorationAndLayoutManagerToRecyclerView(this)
+        }
     }
 
     private fun initAllContent() {
@@ -113,6 +122,18 @@ class HomeFragment : Fragment() {
                             rvAllContent.visibility = View.VISIBLE
                         }
                         adapterAllContent.updateList(allContentList)
+                    }
+                }
+                homeViewModel.listCurrentYear.observe(viewLifecycleOwner) { currentYearList ->
+                    if (currentYearList.isNotEmpty()) {
+                        binding.homeContainerCurrentYear.apply {
+                            loadingCurrentYear.visibility = View.GONE
+                            tvLabelCurrentYear.visibility = View.VISIBLE
+                            rvCurrentYear.visibility = View.VISIBLE
+                            tvLabelCurrentYear.text =
+                                "${tvLabelCurrentYear.context.getString(R.string.moviesAndSeries)} ${currentYearList.first().releaseDate}"
+                        }
+                        adapterCurrentYear.updateList(currentYearList)
                     }
                 }
             }

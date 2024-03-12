@@ -32,6 +32,7 @@ class HomeViewModel @Inject constructor(
     val listOfPlatforms = MutableLiveData<List<ItemMXModel>>(emptyList())
     val listOfGenders = MutableLiveData<List<GenderModel>>(emptyList())
     val listAllContent = MutableLiveData<List<ContentHomeModel>>(emptyList())
+    val listCurrentYear = MutableLiveData<List<ContentHomeModel>>(emptyList())
 
     companion object {
         const val CONTENT = "content"
@@ -69,8 +70,8 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun getContent() {
-        val listContentAux = mutableListOf<ContentHomeModel>()
-        val listItemMXModelAux = mutableListOf<ItemMXModel>()
+        val listOfContentAux = mutableListOf<ContentHomeModel>()
+        val listOfPlatformsAux = mutableListOf<ItemMXModel>()
         db.collection(CONTENT).get().addOnSuccessListener { documents ->
             for (document in documents) {
                 val data = document.data
@@ -95,7 +96,7 @@ class HomeViewModel @Inject constructor(
                             val uploadDate =
                                 data[UPLOAD_DATE].toString().replace("-", "").replace(" ", "")
                                     .replace(":", "").toLong()
-                            listContentAux.add(
+                            listOfContentAux.add(
                                 ContentHomeModel(
                                     id = id,
                                     idTmdb = idTmdb,
@@ -103,7 +104,7 @@ class HomeViewModel @Inject constructor(
                                     type = type,
                                     uploadDate = uploadDate,
                                     horizontalImageURL = result?.horizontalImageURL.orEmpty(),
-                                    releaseDate = result?.releaseDate.orEmpty(),
+                                    releaseDate = result?.releaseDate?.replace("-", "")?.toLong(),
                                     title = result?.title.orEmpty(),
                                     verticalImageURL = result?.verticalImageURL.orEmpty()
                                 )
@@ -116,7 +117,7 @@ class HomeViewModel @Inject constructor(
                                 }
                                 if (result2.isNotNull()) {
                                     result2!!.results?.mx?.flatrate?.forEach {
-                                        listItemMXModelAux.add(it)
+                                        listOfPlatformsAux.add(it)
                                     }
                                 }
                             }
@@ -127,21 +128,28 @@ class HomeViewModel @Inject constructor(
                                 }
                                 if (result2.isNotNull()) {
                                     result2!!.results?.mx?.apply {
-                                        buy?.forEach { listItemMXModelAux.add(it) }
-                                        rent?.forEach { listItemMXModelAux.add(it) }
-                                        flatrate?.forEach { listItemMXModelAux.add(it) }
+                                        buy?.forEach { listOfPlatformsAux.add(it) }
+                                        rent?.forEach { listOfPlatformsAux.add(it) }
+                                        flatrate?.forEach { listOfPlatformsAux.add(it) }
                                     }
                                 }
                             }
 
                             else -> null
                         }
-                        listOfContent.postValue(listContentAux)
-                        listOfPlatforms.postValue(listItemMXModelAux.distinct())
-                        listAllContent.postValue(listContentAux.shuffled())
+                        listOfContent.postValue(listOfContentAux)
+                        listOfPlatforms.postValue(listOfPlatformsAux.distinct())
+                        listAllContent.postValue(listOfContentAux.shuffled())
+                        getCurrentYear(listOfContentAux)
                     }
                 }
             }
         }
+    }
+
+    private fun getCurrentYear(list: MutableList<ContentHomeModel>) {
+        list.forEach { it.releaseDate = it.releaseDate.toString().substring(0, 4).toLong() }
+        list.sortBy { it.releaseDate }
+        listCurrentYear.postValue(list.filter { it.releaseDate == list.last().releaseDate })
     }
 }

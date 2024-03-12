@@ -7,7 +7,7 @@ data class ContentHomeModel(
     var type: String? = null,
     var uploadDate: Long? = null,
     var horizontalImageURL: String? = null,
-    var releaseDate: String? = null,
+    var releaseDate: Long? = null,
     var title: String? = null,
     var verticalImageURL: String? = null
 )
