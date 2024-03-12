@@ -1,5 +1,6 @@
 package com.erwiin21mp.cinemovilplus.ui.view.home
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -31,6 +32,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlin.math.abs
 
+@SuppressLint("SetTextI18n")
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
 

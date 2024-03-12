@@ -46,6 +46,7 @@ class HomeViewModel @Inject constructor(
         const val GENDER = "gender"
         const val SERIE = "Serie"
         const val MOVIE = "Movie"
+        const val IMAGE_URL = "image_url"
     }
 
     init {
@@ -61,7 +62,8 @@ class HomeViewModel @Inject constructor(
                 listOfGendersAux.add(
                     GenderModel(
                         id = data[ID].toString().toInt(),
-                        gender = data[GENDER].toString()
+                        gender = data[GENDER].toString(),
+                        imageURL = data[IMAGE_URL].toString()
                     )
                 )
                 listOfGenders.postValue(listOfGendersAux)
