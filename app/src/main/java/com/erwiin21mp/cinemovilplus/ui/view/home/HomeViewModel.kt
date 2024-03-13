@@ -109,7 +109,8 @@ class HomeViewModel @Inject constructor(
                                     horizontalImageURL = result?.horizontalImageURL.orEmpty(),
                                     releaseDate = result?.releaseDate?.replace("-", "")?.toLong(),
                                     title = result?.title.orEmpty(),
-                                    verticalImageURL = result?.verticalImageURL.orEmpty()
+                                    verticalImageURL = result?.verticalImageURL.orEmpty(),
+                                    collection = result?.collection
                                 )
                             )
                         }

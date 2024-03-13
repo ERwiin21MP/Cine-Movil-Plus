@@ -19,6 +19,7 @@ import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import com.erwiin21mp.cinemovilplus.R
 import com.erwiin21mp.cinemovilplus.core.ext.isNull
+import com.erwiin21mp.cinemovilplus.core.ext.logData
 import com.erwiin21mp.cinemovilplus.core.ext.navigateToContent
 import com.erwiin21mp.cinemovilplus.databinding.FragmentHomeBinding
 import com.erwiin21mp.cinemovilplus.ui.utils.SpacingItemDecoration
@@ -103,6 +104,8 @@ class HomeFragment : Fragment() {
                         sizeOfListContentFeatured = contentList.size
                         adapterViewPager.updateList(contentList)
                         setUpIndicator()
+                        logData("------------------------------")
+                        contentList.forEach { logData("${it.title}: ${it.collection}") }
                     }
                 }
                 homeViewModel.listOfPlatforms.observe(viewLifecycleOwner) { platformList ->

@@ -9,5 +9,6 @@ data class ContentHomeModel(
     var horizontalImageURL: String? = null,
     var releaseDate: Long? = null,
     var title: String? = null,
-    var verticalImageURL: String? = null
+    var verticalImageURL: String? = null,
+    var collection: ItemCollectionModel? = null
 )
