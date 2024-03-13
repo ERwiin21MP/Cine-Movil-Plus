@@ -105,7 +105,7 @@ class HomeFragment : Fragment() {
                         adapterViewPager.updateList(contentList)
                         setUpIndicator()
                         logData("------------------------------")
-                        contentList.forEach { logData("${it.title}: ${it.collection}") }
+                        contentList.forEach { logData(it.toString()) }
                     }
                 }
                 homeViewModel.listOfPlatforms.observe(viewLifecycleOwner) { platformList ->

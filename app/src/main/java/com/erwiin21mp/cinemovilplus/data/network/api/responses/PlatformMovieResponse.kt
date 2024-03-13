@@ -1,5 +1,6 @@
 package com.erwiin21mp.cinemovilplus.data.network.api.responses
 
+import com.erwiin21mp.cinemovilplus.core.ext.toImageURL
 import com.erwiin21mp.cinemovilplus.domain.model.ItemMXModel
 import com.erwiin21mp.cinemovilplus.domain.model.MXMovieModel
 import com.erwiin21mp.cinemovilplus.domain.model.PlatformMovieModel
@@ -38,7 +39,7 @@ data class ItemMXMovieResponse(
 fun toDomain(list: List<ItemMXMovieResponse>?): List<ItemMXModel> {
     val listRet = mutableListOf<ItemMXModel>()
     list?.forEach {
-        listRet.add(ItemMXModel(imageUrl = it.logoPath, name = it.providerName))
+        listRet.add(ItemMXModel(imageUrl = it.logoPath?.toImageURL(), name = it.providerName))
     }
     return listRet
 }

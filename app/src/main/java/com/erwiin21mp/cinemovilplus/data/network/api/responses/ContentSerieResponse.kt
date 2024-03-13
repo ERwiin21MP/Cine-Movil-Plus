@@ -1,5 +1,6 @@
 package com.erwiin21mp.cinemovilplus.data.network.api.responses
 
+import com.erwiin21mp.cinemovilplus.core.ext.toImageURL
 import com.erwiin21mp.cinemovilplus.domain.model.ContentModel
 import com.google.gson.annotations.SerializedName
 
@@ -12,11 +13,11 @@ data class ContentSerieResponse(
 ) {
     fun toDomain(): ContentModel {
         return ContentModel(
-            horizontalImageURL = horizontalImageURL,
+            horizontalImageURL = horizontalImageURL?.toImageURL(),
             id = id,
             releaseDate = releaseDate,
             title = title,
-            verticalImageURL = verticalImageURL
+            verticalImageURL = verticalImageURL?.toImageURL()
         )
     }
 }

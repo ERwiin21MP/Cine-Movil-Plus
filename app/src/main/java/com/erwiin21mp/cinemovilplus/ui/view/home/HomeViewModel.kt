@@ -48,6 +48,7 @@ class HomeViewModel @Inject constructor(
         const val SERIE = "Serie"
         const val MOVIE = "Movie"
         const val IMAGE_URL = "image_url"
+        const val ID_COLLECTION = "id_collection"
     }
 
     init {
@@ -78,7 +79,7 @@ class HomeViewModel @Inject constructor(
         db.collection(CONTENT).get().addOnSuccessListener { documents ->
             for (document in documents) {
                 val data = document.data
-                val isEnabled = data[IS_ENABLED].toString().toInt() != 0
+                val isEnabled = data[IS_ENABLED].toString().toBoolean()
                 val idTmdb = data[ID_TMDB].toString()
 
                 if (isEnabled) {
@@ -95,14 +96,14 @@ class HomeViewModel @Inject constructor(
                         }
                         if (result.isNotNull()) {
                             val id = data[ID].toString()
-                            val isCameraQuality = data[IS_CAMERA_QUALITY].toString().toInt() != 0
-                            val uploadDate =
-                                data[UPLOAD_DATE].toString().replace("-", "").replace(" ", "")
-                                    .replace(":", "").toLong()
+                            val isCameraQuality = data[IS_CAMERA_QUALITY].toString().toBoolean()
+                            val uploadDate = data[UPLOAD_DATE].toString().toLong()
+                            val idCollection = data[ID_COLLECTION].toString().toInt()
                             listOfContentAux.add(
                                 ContentHomeModel(
                                     id = id,
                                     idTmdb = idTmdb,
+                                    idCollection = idCollection,
                                     isCameraQuality = isCameraQuality,
                                     type = type,
                                     uploadDate = uploadDate,
@@ -110,7 +111,6 @@ class HomeViewModel @Inject constructor(
                                     releaseDate = result?.releaseDate?.replace("-", "")?.toLong(),
                                     title = result?.title.orEmpty(),
                                     verticalImageURL = result?.verticalImageURL.orEmpty(),
-                                    collection = result?.collection
                                 )
                             )
                         }
