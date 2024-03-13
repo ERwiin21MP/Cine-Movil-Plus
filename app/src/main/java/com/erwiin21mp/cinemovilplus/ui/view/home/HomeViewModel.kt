@@ -152,7 +152,8 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun getCineMovilPlusNews(list: MutableList<ContentHomeModel>) {
-        listCineMovilPlusNews.postValue(list.sortedBy { it.uploadDate })
+        list.sortByDescending { it.uploadDate }
+        listCineMovilPlusNews.postValue(list)
     }
 
     private fun getCurrentYear(list: MutableList<ContentHomeModel>) {

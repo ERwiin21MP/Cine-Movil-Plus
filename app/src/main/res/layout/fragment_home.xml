@@ -36,6 +36,10 @@
             <include
                 android:id="@+id/homeContainerGenders"
                 layout="@layout/home_container_genders" />
+
+            <include
+                android:id="@+id/homeContainerCineMovilPlusNews"
+                layout="@layout/home_container_cine_movil_plus_news" />
         </LinearLayout>
     </ScrollView>
 
