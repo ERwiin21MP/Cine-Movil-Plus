@@ -33,6 +33,7 @@ class HomeViewModel @Inject constructor(
     val listOfGenders = MutableLiveData<List<GenderModel>>(emptyList())
     val listAllContent = MutableLiveData<List<ContentHomeModel>>(emptyList())
     val listCurrentYear = MutableLiveData<List<ContentHomeModel>>(emptyList())
+    val listCineMovilPlusNews = MutableLiveData<List<ContentHomeModel>>(emptyList())
 
     companion object {
         const val CONTENT = "content"
@@ -143,10 +144,15 @@ class HomeViewModel @Inject constructor(
                         listOfPlatforms.postValue(listOfPlatformsAux.distinct())
                         listAllContent.postValue(listOfContentAux.shuffled())
                         getCurrentYear(listOfContentAux)
+                        getCineMovilPlusNews(listOfContentAux)
                     }
                 }
             }
         }
+    }
+
+    private fun getCineMovilPlusNews(list: MutableList<ContentHomeModel>) {
+        listCineMovilPlusNews.postValue(list.sortedBy { it.uploadDate })
     }
 
     private fun getCurrentYear(list: MutableList<ContentHomeModel>) {
