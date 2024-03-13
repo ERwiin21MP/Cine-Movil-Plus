@@ -47,6 +47,7 @@ class HomeFragment : Fragment() {
     private val adapterGender = GenderAdapter { navigateToGenderOrPlatform(it.toString()) }
     private val adapterAllContent = ContentAdapter { navigateToContent(it) }
     private val adapterCurrentYear = ContentAdapter { navigateToContent(it) }
+    private val adapterCineMovilPlusNews = ContentAdapter { navigateToContent(it) }
 
     companion object {
         const val TIME_VIEW_PAGER_CHANGE_ITEM = 3000
@@ -66,6 +67,14 @@ class HomeFragment : Fragment() {
         initGenders()
         initAllContent()
         initCurrentYear()
+        initCineMovilPlusNews()
+    }
+
+    private fun initCineMovilPlusNews() {
+        binding.homeContainerCineMovilPlusNews.rvCineMovilPlusNews.apply {
+            adapter = adapterCineMovilPlusNews
+            setDecorationAndLayoutManagerToRecyclerView(this)
+        }
     }
 
     private fun initCurrentYear() {
@@ -132,9 +141,20 @@ class HomeFragment : Fragment() {
                             loadingCurrentYear.visibility = View.GONE
                             tvLabelCurrentYear.visibility = View.VISIBLE
                             rvCurrentYear.visibility = View.VISIBLE
-                            tvLabelCurrentYear.text = "${tvLabelCurrentYear.context.getString(R.string.moviesAndSeries)} ${currentYearList.first().releaseDate}"
+                            tvLabelCurrentYear.text =
+                                "${tvLabelCurrentYear.context.getString(R.string.moviesAndSeries)} ${currentYearList.first().releaseDate}"
                         }
                         adapterCurrentYear.updateList(currentYearList)
+                    }
+                }
+                homeViewModel.listCineMovilPlus.observe(viewLifecycleOwner) { cineMovilPlusList ->
+                    if (cineMovilPlusList.isNotEmpty()) {
+                        binding.homeContainerCineMovilPlusNews.apply {
+                            loadingCineMovilPlusNews.visibility = View.GONE
+                            tvLabelCineMovilPlusNews.visibility = View.VISIBLE
+                            rvCineMovilPlusNews.visibility = View.VISIBLE
+                        }
+                        adapterCineMovilPlusNews.updateList(cineMovilPlusList)
                     }
                 }
             }

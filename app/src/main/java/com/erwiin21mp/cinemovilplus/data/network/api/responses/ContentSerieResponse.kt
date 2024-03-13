@@ -8,7 +8,8 @@ data class ContentSerieResponse(
     @SerializedName("id") var id: Int? = null,
     @SerializedName("first_air_date") var releaseDate: String? = null,
     @SerializedName("name") var title: String? = null,
-    @SerializedName("poster_path") var verticalImageURL: String? = null
+    @SerializedName("poster_path") var verticalImageURL: String? = null,
+    @SerializedName("belongs_to_collection") var saga: List<SagaItemsResponse>? = null
 ) {
     fun toDomain(): ContentModel {
         return ContentModel(

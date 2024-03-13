@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.erwiin21mp.cinemovilplus.core.ext.isNotNull
+import com.erwiin21mp.cinemovilplus.core.ext.logData
 import com.erwiin21mp.cinemovilplus.domain.model.ContentHomeModel
 import com.erwiin21mp.cinemovilplus.domain.model.GenderModel
 import com.erwiin21mp.cinemovilplus.domain.model.ItemMXModel
@@ -33,6 +34,7 @@ class HomeViewModel @Inject constructor(
     val listOfGenders = MutableLiveData<List<GenderModel>>(emptyList())
     val listAllContent = MutableLiveData<List<ContentHomeModel>>(emptyList())
     val listCurrentYear = MutableLiveData<List<ContentHomeModel>>(emptyList())
+    val listCineMovilPlus = MutableLiveData<List<ContentHomeModel>>(emptyList())
 
     companion object {
         const val CONTENT = "content"
@@ -52,6 +54,10 @@ class HomeViewModel @Inject constructor(
     init {
         getContent()
         getGenders()
+        viewModelScope.launch {
+            val res = withContext(Dispatchers.IO) { getDetailsMovieUseCase("1011985") }
+            logData(res.toString(), "RES")
+        }
     }
 
     private fun getGenders() {
@@ -108,7 +114,8 @@ class HomeViewModel @Inject constructor(
                                     horizontalImageURL = result?.horizontalImageURL.orEmpty(),
                                     releaseDate = result?.releaseDate?.replace("-", "")?.toLong(),
                                     title = result?.title.orEmpty(),
-                                    verticalImageURL = result?.verticalImageURL.orEmpty()
+                                    verticalImageURL = result?.verticalImageURL.orEmpty(),
+                                    saga = result?.saga
                                 )
                             )
                         }
@@ -130,8 +137,6 @@ class HomeViewModel @Inject constructor(
                                 }
                                 if (result2.isNotNull()) {
                                     result2!!.results?.mx?.apply {
-                                        buy?.forEach { listOfPlatformsAux.add(it) }
-                                        rent?.forEach { listOfPlatformsAux.add(it) }
                                         flatrate?.forEach { listOfPlatformsAux.add(it) }
                                     }
                                 }
@@ -143,10 +148,16 @@ class HomeViewModel @Inject constructor(
                         listOfPlatforms.postValue(listOfPlatformsAux.distinct())
                         listAllContent.postValue(listOfContentAux.shuffled())
                         getCurrentYear(listOfContentAux)
+                        getCineMovilPlusNews(listOfContentAux)
                     }
                 }
             }
         }
+    }
+
+    private fun getCineMovilPlusNews(list: MutableList<ContentHomeModel>) {
+        list.sortedBy { it.uploadDate }
+        listCineMovilPlus.postValue(list)
     }
 
     private fun getCurrentYear(list: MutableList<ContentHomeModel>) {

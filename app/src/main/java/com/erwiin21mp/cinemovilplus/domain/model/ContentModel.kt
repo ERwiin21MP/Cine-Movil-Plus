@@ -5,5 +5,12 @@ data class ContentModel(
     var id: Int? = null,
     var releaseDate: String? = null,
     var title: String? = null,
-    var verticalImageURL: String? = null
+    var verticalImageURL: String? = null,
+    var saga: List<SagaItemsModel>? = null
+)
+
+data class SagaItemsModel(
+    var id: Int? = null,
+    var name: String? = null,
+    var horizontalImageURL: String? = null
 )
