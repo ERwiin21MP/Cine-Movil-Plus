@@ -17,5 +17,5 @@
     <color name="state_checked_on">#f9f9f9</color>
     <color name="state_checked_off">#9b999d</color>
     <color name="loading">#C8C8C9</color>
-    <color name="bg_gender">#59000000</color>
+    <color name="bg_gender">#4D000000</color>
 </resources>

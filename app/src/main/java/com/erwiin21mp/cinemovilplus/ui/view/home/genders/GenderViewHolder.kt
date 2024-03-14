@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.erwiin21mp.cinemovilplus.databinding.ItemGenderBinding
 import com.erwiin21mp.cinemovilplus.domain.model.GenderModel
 import com.squareup.picasso.Picasso
+import jp.wasabeef.picasso.transformations.CropCircleTransformation
 
 class GenderViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
@@ -13,7 +14,7 @@ class GenderViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     fun render(item: GenderModel, onItemSelected: (Int) -> Unit) {
         binding.apply {
             tvGender.text = item.gender
-            Picasso.get().load(item.imageURL).into(ivGender)
+            Picasso.get().load(item.imageURL).transform(CropCircleTransformation()).into(ivGender)
         }
         itemView.setOnClickListener { onItemSelected(item.id) }
     }

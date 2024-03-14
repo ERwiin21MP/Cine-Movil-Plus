@@ -13,5 +13,6 @@
     <dimen name="contentHeight">150dp</dimen>
     <dimen name="contentWidth">100dp</dimen>
 
+    <dimen name="itemGenderSize">90dp</dimen>
     <dimen name="viewPagerHeight">180dp</dimen>
 </resources>
