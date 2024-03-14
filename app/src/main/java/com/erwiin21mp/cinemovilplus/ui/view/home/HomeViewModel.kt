@@ -4,9 +4,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.erwiin21mp.cinemovilplus.core.ext.isNotNull
+import com.erwiin21mp.cinemovilplus.domain.model.CollectionModel
 import com.erwiin21mp.cinemovilplus.domain.model.ContentHomeModel
 import com.erwiin21mp.cinemovilplus.domain.model.GenderModel
 import com.erwiin21mp.cinemovilplus.domain.model.ItemMXModel
+import com.erwiin21mp.cinemovilplus.domain.usecase.GetCollectionDetailsUseCase
 import com.erwiin21mp.cinemovilplus.domain.usecase.GetDetailsMovieUseCase
 import com.erwiin21mp.cinemovilplus.domain.usecase.GetDetailsSerieUserCase
 import com.erwiin21mp.cinemovilplus.domain.usecase.GetWatchProvidersMovieUseCase
@@ -23,9 +25,9 @@ class HomeViewModel @Inject constructor(
     private val getDetailsMovieUseCase: GetDetailsMovieUseCase,
     private val getDetailsSerieUserCase: GetDetailsSerieUserCase,
     private val getWatchProvidersMovieUseCase: GetWatchProvidersMovieUseCase,
-    private val getWatchProvidersSerieUseCase: GetWatchProvidersSerieUseCase
-) :
-    ViewModel() {
+    private val getWatchProvidersSerieUseCase: GetWatchProvidersSerieUseCase,
+    private val getCollectionDetailsUseCase: GetCollectionDetailsUseCase
+) : ViewModel() {
 
     private val db = FirebaseFirestore.getInstance()
     val listOfContent = MutableLiveData<List<ContentHomeModel>>(emptyList())
@@ -34,6 +36,7 @@ class HomeViewModel @Inject constructor(
     val listAllContent = MutableLiveData<List<ContentHomeModel>>(emptyList())
     val listCurrentYear = MutableLiveData<List<ContentHomeModel>>(emptyList())
     val listCineMovilPlusNews = MutableLiveData<List<ContentHomeModel>>(emptyList())
+    val listOfCollections = MutableLiveData<List<CollectionModel>>(emptyList())
 
     companion object {
         const val CONTENT = "content"
@@ -98,7 +101,7 @@ class HomeViewModel @Inject constructor(
                             val id = data[ID].toString()
                             val isCameraQuality = data[IS_CAMERA_QUALITY].toString().toBoolean()
                             val uploadDate = data[UPLOAD_DATE].toString().toLong()
-                            val idCollection = data[ID_COLLECTION].toString().toInt()
+                            val idCollection = data[ID_COLLECTION].toString()
                             listOfContentAux.add(
                                 ContentHomeModel(
                                     id = id,
@@ -146,7 +149,29 @@ class HomeViewModel @Inject constructor(
                         listAllContent.postValue(listOfContentAux.shuffled())
                         getCurrentYear(listOfContentAux)
                         getCineMovilPlusNews(listOfContentAux)
+                        getCollections(listOfContentAux.filter { it.idCollection?.toInt() != 0 })
                     }
+                }
+            }
+        }
+    }
+
+    private fun getCollections(list: List<ContentHomeModel>) {
+        val listOfCollectionsAux = mutableListOf<CollectionModel>()
+
+        list.forEach {
+            viewModelScope.launch {
+                val result =
+                    withContext(Dispatchers.IO) { getCollectionDetailsUseCase(it.idCollection!!) }
+                if (result.isNotNull()) {
+                    listOfCollectionsAux.add(
+                        CollectionModel(
+                            id = result?.id,
+                            name = result?.name,
+                            verticalImageURL = result?.verticalImageURL,
+                            horizontalImageURL = result?.horizontalImageURL
+                        )
+                    )
                 }
             }
         }

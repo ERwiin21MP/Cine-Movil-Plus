@@ -3,7 +3,7 @@ package com.erwiin21mp.cinemovilplus.domain.model
 data class ContentHomeModel(
     var id: String? = null,
     var idTmdb: String? = null,
-    var idCollection: Int? = null,
+    var idCollection: String? = null,
     var type: String? = null,
     var uploadDate: Long? = null,
     var horizontalImageURL: String? = null,

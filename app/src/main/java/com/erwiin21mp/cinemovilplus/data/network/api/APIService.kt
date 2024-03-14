@@ -1,5 +1,6 @@
 package com.erwiin21mp.cinemovilplus.data.network.api
 
+import com.erwiin21mp.cinemovilplus.data.network.api.responses.CollectionResponse
 import com.erwiin21mp.cinemovilplus.data.network.api.responses.ContentMovieResponse
 import com.erwiin21mp.cinemovilplus.data.network.api.responses.ContentSerieResponse
 import com.erwiin21mp.cinemovilplus.data.network.api.responses.PlatformMovieResponse
@@ -36,4 +37,11 @@ interface APIService {
         @Query("api_key") apiKey: String,
         @Query("language") language: String
     ): PlatformSerieResponse
+
+    @GET("collection/{collection_id}")
+    suspend fun getCollectionDetails(
+        @Path("collection_id") collectionId: String,
+        @Query("api_key") apiKey: String,
+        @Query("language") language: String
+    ): CollectionResponse
 }

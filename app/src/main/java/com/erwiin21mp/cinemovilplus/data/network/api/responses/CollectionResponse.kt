@@ -7,11 +7,13 @@ import com.google.gson.annotations.SerializedName
 data class CollectionResponse(
     @SerializedName("id") var id: Int? = null,
     @SerializedName("name") var name: String? = null,
+    @SerializedName("poster_path") var verticalImageURL: String? = null,
     @SerializedName("backdrop_path") var horizontalImageURL: String? = null
 ) {
     fun toDomain() = CollectionModel(
         id = id,
         name = name,
+        verticalImageURL = verticalImageURL?.toImageURL(),
         horizontalImageURL = horizontalImageURL?.toImageURL()
     )
 }

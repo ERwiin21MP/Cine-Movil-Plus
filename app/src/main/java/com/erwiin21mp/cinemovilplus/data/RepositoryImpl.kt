@@ -3,6 +3,7 @@ package com.erwiin21mp.cinemovilplus.data
 import com.erwiin21mp.cinemovilplus.data.network.api.APIService
 import com.erwiin21mp.cinemovilplus.data.network.firebase.DataBaseManager
 import com.erwiin21mp.cinemovilplus.domain.Repository
+import com.erwiin21mp.cinemovilplus.domain.model.CollectionModel
 import com.erwiin21mp.cinemovilplus.domain.model.ContentModel
 import com.erwiin21mp.cinemovilplus.domain.model.PlatformMovieModel
 import com.erwiin21mp.cinemovilplus.domain.model.PlatformSerieModel
@@ -37,6 +38,13 @@ class RepositoryImpl @Inject constructor(private val apiService: APIService) : R
 
     override suspend fun getWatchProvidersSerie(id: String): PlatformSerieModel? {
         runCatching { apiService.getWatchProvidersSerieById(id, API_KEY, LANGUAGE) }
+            .onSuccess { return it.toDomain() }
+            .onFailure { logErrorApi(id, it.message.orEmpty()) }
+        return null
+    }
+
+    override suspend fun getCollectionDetails(id: String): CollectionModel? {
+        runCatching { apiService.getCollectionDetails(id, API_KEY, LANGUAGE) }
             .onSuccess { return it.toDomain() }
             .onFailure { logErrorApi(id, it.message.orEmpty()) }
         return null
