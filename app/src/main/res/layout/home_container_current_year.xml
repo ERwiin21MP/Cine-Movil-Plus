@@ -18,7 +18,7 @@
         android:id="@+id/tvLabelCurrentYear"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_20"
+        android:layout_marginTop="@dimen/section_separation_size"
         android:fontFamily="@font/montserrat_bold"
         android:textSize="@dimen/text_subtitle"
         android:textStyle="bold"
@@ -28,6 +28,6 @@
         android:id="@+id/rvCurrentYear"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_8"
+        android:layout_marginTop="@dimen/separation_size_between_recyclerview_and_section_title"
         android:visibility="gone" />
 </LinearLayout>
