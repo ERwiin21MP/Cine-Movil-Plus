@@ -1,4 +1,4 @@
-package com.erwiin21mp.cinemovilplus.ui.view.home.genders
+package com.erwiin21mp.cinemovilplus.ui.view.home.gender
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

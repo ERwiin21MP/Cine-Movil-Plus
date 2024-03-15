@@ -71,7 +71,7 @@ class HomeViewModel @Inject constructor(
                         imageURL = data[IMAGE_URL].toString()
                     )
                 )
-                listOfGenders.postValue(listOfGendersAux)
+                listOfGenders.postValue(listOfGendersAux.shuffled())
             }
         }
     }
@@ -157,12 +157,11 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun getCollections(list: List<ContentHomeModel>) {
-        val listOfCollectionsAux = mutableListOf<CollectionModel>()
+        viewModelScope.launch {
+            val listOfCollectionsAux = mutableListOf<CollectionModel>()
 
-        list.forEach {
-            viewModelScope.launch {
-                val result =
-                    withContext(Dispatchers.IO) { getCollectionDetailsUseCase(it.idCollection!!) }
+            list.forEach {
+                val result = withContext(Dispatchers.IO) { getCollectionDetailsUseCase(it.idCollection!!) }
                 if (result.isNotNull()) {
                     listOfCollectionsAux.add(
                         CollectionModel(
@@ -174,6 +173,7 @@ class HomeViewModel @Inject constructor(
                     )
                 }
             }
+            listOfCollections.postValue(listOfCollectionsAux)
         }
     }
 

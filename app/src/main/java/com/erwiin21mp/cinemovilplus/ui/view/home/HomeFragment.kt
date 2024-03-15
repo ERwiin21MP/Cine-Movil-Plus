@@ -22,8 +22,9 @@ import com.erwiin21mp.cinemovilplus.core.ext.isNull
 import com.erwiin21mp.cinemovilplus.core.ext.navigateToContent
 import com.erwiin21mp.cinemovilplus.databinding.FragmentHomeBinding
 import com.erwiin21mp.cinemovilplus.ui.utils.SpacingItemDecoration
+import com.erwiin21mp.cinemovilplus.ui.view.home.collection.CollectionAdapter
 import com.erwiin21mp.cinemovilplus.ui.view.home.content.ContentAdapter
-import com.erwiin21mp.cinemovilplus.ui.view.home.genders.GenderAdapter
+import com.erwiin21mp.cinemovilplus.ui.view.home.gender.GenderAdapter
 import com.erwiin21mp.cinemovilplus.ui.view.home.platforms.PlatformsAdapter
 import com.erwiin21mp.cinemovilplus.ui.view.home.viewPager2.ViewPagerAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -48,6 +49,7 @@ class HomeFragment : Fragment() {
     private val adapterAllContent = ContentAdapter { navigateToContent(it) }
     private val adapterCurrentYear = ContentAdapter { navigateToContent(it) }
     private val adapterCineMovilPlusNews = ContentAdapter { navigateToContent(it) }
+    private val adapterCollection = CollectionAdapter {  }
 
     companion object {
         const val TIME_VIEW_PAGER_CHANGE_ITEM = 3000
@@ -68,6 +70,14 @@ class HomeFragment : Fragment() {
         initAllContent()
         initCurrentYear()
         initCineMovilPlusNews()
+        initCollection()
+    }
+
+    private fun initCollection() {
+        binding.homeContainerCollection.rvCollection.apply {
+            adapter = adapterCollection
+            setDecorationAndLayoutManagerToRecyclerView(this)
+        }
     }
 
     private fun initCineMovilPlusNews() {
@@ -155,6 +165,16 @@ class HomeFragment : Fragment() {
                             rvCineMovilPlusNews.visibility = View.VISIBLE
                         }
                         adapterCineMovilPlusNews.updateList(cineMovilPlusList)
+                    }
+                }
+                homeViewModel.listOfCollections.observe(viewLifecycleOwner) { collectionsList ->
+                    if (collectionsList.isNotEmpty()) {
+                        binding.homeContainerCollection.apply {
+                            loadingCollection.visibility = View.GONE
+                            tvLabelCollection.visibility = View.VISIBLE
+                            rvCollection.visibility = View.VISIBLE
+                        }
+                        adapterCollection.updateList(collectionsList)
                     }
                 }
             }

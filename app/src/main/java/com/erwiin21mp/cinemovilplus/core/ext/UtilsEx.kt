@@ -57,7 +57,7 @@ fun Fragment.toast(message: String) {
     }
 }
 
-fun RecyclerView.ViewHolder.toast(context:Context, message: String) {
+fun RecyclerView.ViewHolder.toast(context: Context, message: String) {
     Toast(context).apply {
         val viewToast = LayoutInflater.from(context).inflate(R.layout.view_toast, null)
         view = viewToast
@@ -71,3 +71,12 @@ fun RecyclerView.ViewHolder.toast(context:Context, message: String) {
 @SuppressLint("SimpleDateFormat")
 fun Activity.getCurrentDateAndHour() =
     SimpleDateFormat("d MMM yyyy, EEE, HH:mm:ss z").format(Date()).toString()
+
+fun Activity.printList(list: List<Any>, tag: String = "") {
+    list.forEach { Log.e("Erwin $tag", it.toString()) }
+}
+
+fun Fragment.logList(list: List<Any>, tag: String = "") {
+    if (list.isNotEmpty()) list.forEach { logData(it.toString(), tag) }
+    else logData("Empty list")
+}
