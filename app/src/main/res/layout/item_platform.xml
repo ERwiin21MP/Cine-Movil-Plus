@@ -2,21 +2,14 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/RelativeLayout_ItemPlatform"
-    android:layout_width="50dp"
-    android:layout_height="50dp"
+    android:layout_width="@dimen/platformSize"
+    android:layout_height="@dimen/platformSize"
     android:backgroundTint="@android:color/transparent"
     app:cardCornerRadius="16dp">
 
     <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:id="@+id/ivPlatform"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_centerInParent="true"
-            android:elevation="1dp" />
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <com.facebook.shimmer.ShimmerFrameLayout
             android:id="@+id/containerIvPlatform"
@@ -27,9 +20,16 @@
             app:shimmer_auto_start="true">
 
             <View
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:background="@color/loading" />
         </com.facebook.shimmer.ShimmerFrameLayout>
+
+        <ImageView
+            android:id="@+id/ivPlatform"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:elevation="1dp" />
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

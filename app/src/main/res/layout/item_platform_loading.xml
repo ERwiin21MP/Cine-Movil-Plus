@@ -1,63 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/spacing_8"
+    android:layout_marginTop="@dimen/spacing_recycler_view_separator"
     android:orientation="horizontal">
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginEnd="@dimen/spacing_8"
-        android:backgroundTint="@color/loading"
-        app:cardCornerRadius="16dp" />
+    <include layout="@layout/item_item_platform_loading" />
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginEnd="@dimen/spacing_8"
-        android:backgroundTint="@color/loading"
-        app:cardCornerRadius="16dp" />
+    <include layout="@layout/item_item_platform_loading" />
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginEnd="@dimen/spacing_8"
-        android:backgroundTint="@color/loading"
-        app:cardCornerRadius="16dp" />
+    <include layout="@layout/item_item_platform_loading" />
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginEnd="@dimen/spacing_8"
-        android:backgroundTint="@color/loading"
-        app:cardCornerRadius="16dp" />
+    <include layout="@layout/item_item_platform_loading" />
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginEnd="@dimen/spacing_8"
-        android:backgroundTint="@color/loading"
-        app:cardCornerRadius="16dp" />
+    <include layout="@layout/item_item_platform_loading" />
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginEnd="@dimen/spacing_8"
-        android:backgroundTint="@color/loading"
-        app:cardCornerRadius="16dp" />
+    <include layout="@layout/item_item_platform_loading" />
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginEnd="@dimen/spacing_8"
-        android:backgroundTint="@color/loading"
-        app:cardCornerRadius="16dp" />
-
-    <androidx.cardview.widget.CardView
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:backgroundTint="@color/loading"
-        app:cardCornerRadius="16dp" />
+    <include layout="@layout/item_item_platform_loading" />
 </LinearLayout>

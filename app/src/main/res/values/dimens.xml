@@ -22,4 +22,8 @@
     <dimen name="spacing_recycler_view">12dp</dimen>
 
     <dimen name="corner_radius_item">16dp</dimen>
+
+    <dimen name="platformSize">50dp</dimen>
+    <dimen name="spacing_separator">20dp</dimen>
+    <dimen name="spacing_recycler_view_separator">8dp</dimen>
 </resources>

@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         app:shimmer_auto_start="true">
 
-        <include layout="@layout/home_platforms_loading" />
+        <include layout="@layout/home_container_platforms_loading" />
     </com.facebook.shimmer.ShimmerFrameLayout>
 
     <TextView
