@@ -6,16 +6,16 @@ import com.erwiin21mp.cinemovilplus.R
 import com.erwiin21mp.cinemovilplus.core.ext.toast
 import com.erwiin21mp.cinemovilplus.data.network.firebase.DataBaseManager
 import com.erwiin21mp.cinemovilplus.databinding.ItemPlatformBinding
-import com.erwiin21mp.cinemovilplus.domain.model.ItemMXModel
+import com.erwiin21mp.cinemovilplus.domain.model.FlatrateModel
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 
 class PlatformsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
     private val binding = ItemPlatformBinding.bind(view)
-    fun render(item: ItemMXModel, onItemSelected: (String) -> Unit) {
+    fun render(item: FlatrateModel, onItemSelected: (String) -> Unit) {
         binding.apply {
-            Picasso.get().load(item.imageUrl).error(R.drawable.no_image)
+            Picasso.get().load(item.imageURL).error(R.drawable.no_image)
                 .into(ivPlatform, object : Callback {
                     override fun onSuccess() {
                         containerIvPlatform.visibility = View.GONE
@@ -33,7 +33,7 @@ class PlatformsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
                         DataBaseManager().logErrorLoadImagePlatform(
                             message = exception,
                             name = item.name.orEmpty(),
-                            url = item.imageUrl.orEmpty()
+                            url = item.imageURL.orEmpty()
                         )
                     }
                 })

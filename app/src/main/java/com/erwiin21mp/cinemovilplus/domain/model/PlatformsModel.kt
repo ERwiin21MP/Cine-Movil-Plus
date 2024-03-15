@@ -1,6 +1,6 @@
 package com.erwiin21mp.cinemovilplus.domain.model
 
-data class PlatformModel(
+data class PlatformsModel(
     var results: ResultsModel? = null
 )
 
@@ -9,7 +9,6 @@ data class ResultsModel(
 )
 
 data class MxModel(
-    var link: String? = null,
     var flatrate: List<FlatrateModel>? = null
 )
 

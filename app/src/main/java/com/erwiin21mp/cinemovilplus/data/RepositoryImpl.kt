@@ -5,8 +5,7 @@ import com.erwiin21mp.cinemovilplus.data.network.firebase.DataBaseManager
 import com.erwiin21mp.cinemovilplus.domain.Repository
 import com.erwiin21mp.cinemovilplus.domain.model.CollectionModel
 import com.erwiin21mp.cinemovilplus.domain.model.ContentModel
-import com.erwiin21mp.cinemovilplus.domain.model.PlatformMovieModel
-import com.erwiin21mp.cinemovilplus.domain.model.PlatformSerieModel
+import com.erwiin21mp.cinemovilplus.domain.model.PlatformsModel
 import javax.inject.Inject
 
 class RepositoryImpl @Inject constructor(private val apiService: APIService) : Repository {
@@ -29,14 +28,14 @@ class RepositoryImpl @Inject constructor(private val apiService: APIService) : R
         return null
     }
 
-    override suspend fun getWatchProvidersMovie(id: String): PlatformMovieModel? {
+    override suspend fun getWatchProvidersMovie(id: String): PlatformsModel? {
         runCatching { apiService.getWatchProvidersMovieById(id, API_KEY, LANGUAGE) }
             .onSuccess { return it.toDomain() }
             .onFailure { logErrorApi(id, it.message.orEmpty()) }
         return null
     }
 
-    override suspend fun getWatchProvidersSerie(id: String): PlatformSerieModel? {
+    override suspend fun getWatchProvidersSerie(id: String): PlatformsModel? {
         runCatching { apiService.getWatchProvidersSerieById(id, API_KEY, LANGUAGE) }
             .onSuccess { return it.toDomain() }
             .onFailure { logErrorApi(id, it.message.orEmpty()) }

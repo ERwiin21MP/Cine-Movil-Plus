@@ -4,14 +4,14 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.erwiin21mp.cinemovilplus.R
-import com.erwiin21mp.cinemovilplus.domain.model.ItemMXModel
+import com.erwiin21mp.cinemovilplus.domain.model.FlatrateModel
 
 class PlatformsAdapter(
-    private var list: List<ItemMXModel> = emptyList(),
+    private var list: List<FlatrateModel> = emptyList(),
     private val onItemSelected: (String) -> Unit
 ) : RecyclerView.Adapter<PlatformsViewHolder>() {
 
-    fun updateList(listUpdated: List<ItemMXModel>) {
+    fun updateList(listUpdated: List<FlatrateModel>) {
         list = listUpdated
         notifyDataSetChanged()
     }

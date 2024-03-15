@@ -6,8 +6,8 @@ import androidx.lifecycle.viewModelScope
 import com.erwiin21mp.cinemovilplus.core.ext.isNotNull
 import com.erwiin21mp.cinemovilplus.domain.model.CollectionModel
 import com.erwiin21mp.cinemovilplus.domain.model.ContentHomeModel
+import com.erwiin21mp.cinemovilplus.domain.model.FlatrateModel
 import com.erwiin21mp.cinemovilplus.domain.model.GenderModel
-import com.erwiin21mp.cinemovilplus.domain.model.ItemMXModel
 import com.erwiin21mp.cinemovilplus.domain.usecase.GetCollectionDetailsUseCase
 import com.erwiin21mp.cinemovilplus.domain.usecase.GetDetailsMovieUseCase
 import com.erwiin21mp.cinemovilplus.domain.usecase.GetDetailsSerieUserCase
@@ -31,7 +31,7 @@ class HomeViewModel @Inject constructor(
 
     private val db = FirebaseFirestore.getInstance()
     val listOfContent = MutableLiveData<List<ContentHomeModel>>(emptyList())
-    val listOfPlatforms = MutableLiveData<List<ItemMXModel>>(emptyList())
+    val listOfPlatforms = MutableLiveData<List<FlatrateModel>>(emptyList())
     val listOfGenders = MutableLiveData<List<GenderModel>>(emptyList())
     val listAllContent = MutableLiveData<List<ContentHomeModel>>(emptyList())
     val listCurrentYear = MutableLiveData<List<ContentHomeModel>>(emptyList())
@@ -78,7 +78,7 @@ class HomeViewModel @Inject constructor(
 
     private fun getContent() {
         val listOfContentAux = mutableListOf<ContentHomeModel>()
-        val listOfPlatformsAux = mutableListOf<ItemMXModel>()
+        val listOfPlatformsAux = mutableListOf<FlatrateModel>()
         db.collection(CONTENT).get().addOnSuccessListener { documents ->
             for (document in documents) {
                 val data = document.data
@@ -117,15 +117,14 @@ class HomeViewModel @Inject constructor(
                                 )
                             )
                         }
+
                         when (type) {
                             SERIE -> {
                                 val result2 = withContext(Dispatchers.IO) {
                                     getWatchProvidersSerieUseCase(idTmdb)
                                 }
-                                if (result2.isNotNull()) {
-                                    result2!!.results?.mx?.flatrate?.forEach {
-                                        listOfPlatformsAux.add(it)
-                                    }
+                                if (result2.isNotNull()) result2!!.results?.mx?.flatrate?.forEach {
+                                    listOfPlatformsAux.add(it)
                                 }
                             }
 
@@ -133,19 +132,15 @@ class HomeViewModel @Inject constructor(
                                 val result2 = withContext(Dispatchers.IO) {
                                     getWatchProvidersMovieUseCase(idTmdb)
                                 }
-                                if (result2.isNotNull()) {
-                                    result2!!.results?.mx?.apply {
-                                        buy?.forEach { listOfPlatformsAux.add(it) }
-                                        rent?.forEach { listOfPlatformsAux.add(it) }
-                                        flatrate?.forEach { listOfPlatformsAux.add(it) }
-                                    }
+                                if (result2.isNotNull()) result2!!.results?.mx?.flatrate?.forEach {
+                                    listOfPlatformsAux.add(it)
                                 }
                             }
 
                             else -> null
                         }
                         listOfContent.postValue(listOfContentAux)
-                        listOfPlatforms.postValue(listOfPlatformsAux.distinct())
+                        listOfPlatforms.postValue( listOfPlatformsAux.distinct().sortedBy { it.displayPriority })
                         listAllContent.postValue(listOfContentAux.shuffled())
                         getCurrentYear(listOfContentAux)
                         getCineMovilPlusNews(listOfContentAux)
@@ -161,7 +156,8 @@ class HomeViewModel @Inject constructor(
             val listOfCollectionsAux = mutableListOf<CollectionModel>()
 
             list.forEach {
-                val result = withContext(Dispatchers.IO) { getCollectionDetailsUseCase(it.idCollection!!) }
+                val result =
+                    withContext(Dispatchers.IO) { getCollectionDetailsUseCase(it.idCollection!!) }
                 if (result.isNotNull()) {
                     listOfCollectionsAux.add(
                         CollectionModel(
