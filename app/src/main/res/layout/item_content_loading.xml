@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginEnd="@dimen/spacing_8"
+    android:layout_marginEnd="@dimen/spacing_recycler_view"
     android:background="@android:color/transparent"
     android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
         android:layout_width="@dimen/contentWidth"
         android:layout_height="@dimen/contentHeight"
-        app:cardCornerRadius="16dp">
+        app:cardCornerRadius="@dimen/corner_radius_item">
 
         <View
             android:layout_width="match_parent"
@@ -24,12 +24,11 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/spacing_8"
+        android:layout_marginHorizontal="@dimen/content_title_margin_size"
         android:layout_marginTop="2dp"
         android:background="@color/loading"
         android:gravity="center"
         android:lines="2"
-        android:paddingHorizontal="@dimen/spacing_8"
         android:textColor="@color/loading"
         android:textStyle="bold"
         tools:text="Cuestion de tiempo" />

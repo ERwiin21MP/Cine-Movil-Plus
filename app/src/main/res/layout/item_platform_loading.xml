@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/spacing_recycler_view_separator"
+    android:layout_marginTop="@dimen/separation_size_between_recyclerview_and_section_title"
     android:orientation="horizontal">
 
     <include layout="@layout/item_item_platform_loading" />
