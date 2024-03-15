@@ -1,57 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".ui.view.home.HomeFragment">
 
-    <ScrollView
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clContainerHome"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true">
 
-        <LinearLayout
+        <ScrollView
+            android:id="@+id/svContainerHome"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingHorizontal="@dimen/spacing_8"
-            android:paddingBottom="@dimen/spacing_8">
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:layout_constraintBottom_toTopOf="@id/BannerAd"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <include
-                android:id="@+id/homeContainerViewPager2"
-                layout="@layout/home_container_view_pager_2" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingHorizontal="@dimen/spacing_8"
+                android:paddingBottom="@dimen/spacing_8">
 
-            <include
-                android:id="@+id/homeContainerPlatforms"
-                layout="@layout/home_container_platforms" />
+                <include
+                    android:id="@+id/homeContainerViewPager2"
+                    layout="@layout/home_container_view_pager_2" />
 
-            <include
-                android:id="@+id/homeContainerAllContent"
-                layout="@layout/home_container_all_content" />
+                <include
+                    android:id="@+id/homeContainerPlatforms"
+                    layout="@layout/home_container_platforms" />
 
-            <include
-                android:id="@+id/homeContainerCurrentYear"
-                layout="@layout/home_container_current_year" />
+                <include
+                    android:id="@+id/homeContainerAllContent"
+                    layout="@layout/home_container_all_content" />
 
-            <include
-                android:id="@+id/homeContainerGenders"
-                layout="@layout/home_container_genders" />
+                <include
+                    android:id="@+id/homeContainerCurrentYear"
+                    layout="@layout/home_container_current_year" />
 
-            <include
-                android:id="@+id/homeContainerCineMovilPlusNews"
-                layout="@layout/home_container_cine_movil_plus_news" />
+                <include
+                    android:id="@+id/homeContainerGenders"
+                    layout="@layout/home_container_genders" />
 
-            <include
-                android:id="@+id/homeContainerCollection"
-                layout="@layout/home_container_collection" />
-        </LinearLayout>
-    </ScrollView>
+                <include
+                    android:id="@+id/homeContainerCineMovilPlusNews"
+                    layout="@layout/home_container_cine_movil_plus_news" />
 
-    <View
-        android:id="@+id/BannerAd"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/red"
-        android:visibility="gone" />
-</LinearLayout>
+                <include
+                    android:id="@+id/homeContainerCollection"
+                    layout="@layout/home_container_collection" />
+            </LinearLayout>
+        </ScrollView>
+
+        <View
+            android:id="@+id/BannerAd"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/red"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/svContainerHome"
+            tools:visibility="visible" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>
