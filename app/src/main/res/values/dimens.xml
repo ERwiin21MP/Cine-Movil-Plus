@@ -20,4 +20,6 @@
     <dimen name="viewPagerHeight">180dp</dimen>
 
     <dimen name="spacing_recycler_view">12dp</dimen>
+
+    <dimen name="corner_radius_item">16dp</dimen>
 </resources>

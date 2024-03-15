@@ -8,18 +8,15 @@
 
     <com.facebook.shimmer.ShimmerFrameLayout
         android:id="@+id/loadingViewPager2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:shimmer_auto_start="true">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/loading" />
+        <include layout="@layout/home_container_view_pager_2_loading" />
     </com.facebook.shimmer.ShimmerFrameLayout>
 
     <RelativeLayout
-        android:id="@+id/containerViewPager2"
+        android:id="@+id/contentViewPager2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone">

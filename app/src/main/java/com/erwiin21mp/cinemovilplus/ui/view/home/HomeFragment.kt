@@ -108,7 +108,7 @@ class HomeFragment : Fragment() {
                     if (contentList.isNotEmpty()) {
                         binding.homeContainerViewPager2.apply {
                             loadingViewPager2.visibility = View.GONE
-                            containerViewPager2.visibility = View.VISIBLE
+                            contentViewPager2.visibility = View.VISIBLE
                         }
                         sizeOfListContentFeatured = contentList.size
                         adapterViewPager.updateList(contentList)
