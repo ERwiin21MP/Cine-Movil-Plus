@@ -1,10 +1,10 @@
 package com.erwiin21mp.cinemovilplus.domain.model
 
 data class PlatformMovieModel(
-    var results: ResultsModel? = null
+    var results: ResultsMovieModel? = null
 )
 
-data class ResultsModel(
+data class ResultsMovieModel(
     var mx: MXMovieModel? = null
 )
 
