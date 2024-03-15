@@ -277,4 +277,4 @@ class HomeFragment : Fragment() {
         handler.postDelayed(runnable, TIME_VIEW_PAGER_CHANGE_ITEM.toLong())
         super.onResume()
     }
-}
+} //280 lineas
