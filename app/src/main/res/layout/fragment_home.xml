@@ -15,7 +15,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingHorizontal="@dimen/spacing_8">
+            android:paddingHorizontal="@dimen/spacing_8"
+            android:paddingBottom="@dimen/spacing_8">
 
             <include
                 android:id="@+id/homeContainerViewPager2"
@@ -51,5 +52,6 @@
         android:id="@+id/BannerAd"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@color/red" />
+        android:background="@color/red"
+        android:visibility="gone" />
 </LinearLayout>

@@ -197,7 +197,7 @@ class HomeFragment : Fragment() {
 
     private fun setDecorationAndLayoutManagerToRecyclerView(recyclerView: RecyclerView) {
         recyclerView.apply {
-            addItemDecoration(SpacingItemDecoration(resources.getDimensionPixelSize(R.dimen.spacing_8)))
+            addItemDecoration(SpacingItemDecoration(resources.getDimensionPixelSize(R.dimen.spacing_recycler_view)))
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         }
     }

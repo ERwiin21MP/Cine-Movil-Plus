@@ -13,9 +13,11 @@
     <dimen name="contentHeight">150dp</dimen>
     <dimen name="contentWidth">100dp</dimen>
 
-    <dimen name="collectionHeight">300dp</dimen>
-    <dimen name="collectionWidth">200dp</dimen>
+    <dimen name="collectionHeight">225dp</dimen>
+    <dimen name="collectionWidth">150dp</dimen>
 
     <dimen name="itemGenderSize">90dp</dimen>
     <dimen name="viewPagerHeight">180dp</dimen>
+
+    <dimen name="spacing_recycler_view">12dp</dimen>
 </resources>
