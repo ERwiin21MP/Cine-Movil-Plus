@@ -30,7 +30,7 @@ class HomeViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val db = FirebaseFirestore.getInstance()
-    val listOfContent = MutableLiveData<List<ContentHomeModel>>(emptyList())
+    val listOfFeaturedContent = MutableLiveData<List<ContentHomeModel>>(emptyList())
     val listOfPlatforms = MutableLiveData<List<FlatrateModel>>(emptyList())
     val listOfGenders = MutableLiveData<List<GenderModel>>(emptyList())
     val listAllContent = MutableLiveData<List<ContentHomeModel>>(emptyList())
@@ -139,7 +139,7 @@ class HomeViewModel @Inject constructor(
 
                             else -> null
                         }
-                        listOfContent.postValue(listOfContentAux)
+                        listOfFeaturedContent.postValue(listOfContentAux)
                         listOfPlatforms.postValue( listOfPlatformsAux.distinct().sortedBy { it.displayPriority })
                         listAllContent.postValue(listOfContentAux.shuffled())
                         getCurrentYear(listOfContentAux)

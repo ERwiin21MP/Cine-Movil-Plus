@@ -7,6 +7,7 @@ import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle.State.STARTED
@@ -27,6 +28,7 @@ import com.erwiin21mp.cinemovilplus.ui.view.home.content.ContentAdapter
 import com.erwiin21mp.cinemovilplus.ui.view.home.gender.GenderAdapter
 import com.erwiin21mp.cinemovilplus.ui.view.home.platforms.PlatformsAdapter
 import com.erwiin21mp.cinemovilplus.ui.view.home.viewPager2.ViewPagerAdapter
+import com.facebook.shimmer.ShimmerFrameLayout
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -49,7 +51,7 @@ class HomeFragment : Fragment() {
     private val adapterAllContent = ContentAdapter { navigateToContent(it) }
     private val adapterCurrentYear = ContentAdapter { navigateToContent(it) }
     private val adapterCineMovilPlusNews = ContentAdapter { navigateToContent(it) }
-    private val adapterCollection = CollectionAdapter {  }
+    private val adapterCollection = CollectionAdapter { }
 
     companion object {
         const val TIME_VIEW_PAGER_CHANGE_ITEM = 3000
@@ -61,42 +63,32 @@ class HomeFragment : Fragment() {
     }
 
     private fun initUI() {
-        initObservers()
         initHandler()
         initRunnable()
         initViewPager2()
-        initPlatforms()
-        initGenders()
-        initAllContent()
-        initCurrentYear()
-        initCineMovilPlusNews()
-        initCollection()
+        initObservers()
+        initUIRecyclerViews()
     }
 
-    private fun initCollection() {
-        binding.homeContainerCollection.rvCollection.apply {
-            adapter = adapterCollection
-            setDecorationAndLayoutManagerToRecyclerView(this)
+    private fun initUIRecyclerViews() {
+        binding.apply {
+            for ((recyclerView, adapter) in listOf(
+                homeContainerPlatforms.rvPlatforms to adapterPlatform,
+                homeContainerAllContent.rvAllContent to adapterAllContent,
+                homeContainerCurrentYear.rvCurrentYear to adapterCurrentYear,
+                homeContainerGenders.rvGenders to adapterGender,
+                homeContainerCineMovilPlusNews.rvCineMovilPlusNews to adapterCineMovilPlusNews,
+                homeContainerCollection.rvCollection to adapterCollection
+            )) {
+                initRecyclerView(recyclerView, adapter)
+            }
+
         }
     }
 
-    private fun initCineMovilPlusNews() {
-        binding.homeContainerCineMovilPlusNews.rvCineMovilPlusNews.apply {
-            adapter = adapterCineMovilPlusNews
-            setDecorationAndLayoutManagerToRecyclerView(this)
-        }
-    }
-
-    private fun initCurrentYear() {
-        binding.homeContainerCurrentYear.rvCurrentYear.apply {
-            adapter = adapterCurrentYear
-            setDecorationAndLayoutManagerToRecyclerView(this)
-        }
-    }
-
-    private fun initAllContent() {
-        binding.homeContainerAllContent.rvAllContent.apply {
-            adapter = adapterAllContent
+    private fun initRecyclerView(rv: RecyclerView, adapter: RecyclerView.Adapter<*>) {
+        rv.apply {
+            this.adapter = adapter
             setDecorationAndLayoutManagerToRecyclerView(this)
         }
     }
@@ -104,95 +96,81 @@ class HomeFragment : Fragment() {
     private fun initObservers() {
         lifecycleScope.launch {
             repeatOnLifecycle(STARTED) {
-                homeViewModel.listOfContent.observe(viewLifecycleOwner) { contentList ->
-                    if (contentList.isNotEmpty()) {
-                        binding.homeContainerViewPager2.apply {
-                            loadingViewPager2.visibility = View.GONE
-                            contentViewPager2.visibility = View.VISIBLE
+                homeViewModel.apply {
+                    listOfFeaturedContent.observe(viewLifecycleOwner) { contentList ->
+                        if (contentList.isNotEmpty()) {
+                            binding.homeContainerViewPager2.apply {
+                                loadingViewPager2.visibility = View.GONE
+                                contentViewPager2.visibility = View.VISIBLE
+                            }
+                            sizeOfListContentFeatured = contentList.size
+                            adapterViewPager.updateList(contentList)
+                            binding.homeContainerViewPager2.ci3.setViewPager(binding.homeContainerViewPager2.vp2FeaturedContent)
                         }
-                        sizeOfListContentFeatured = contentList.size
-                        adapterViewPager.updateList(contentList)
-                        setUpIndicator()
                     }
-                }
-                homeViewModel.listOfPlatforms.observe(viewLifecycleOwner) { platformList ->
-                    if (platformList.isNotEmpty()) {
-                        binding.homeContainerPlatforms.apply {
-                            containerStreamingPlatforms.visibility = View.GONE
-                            tvLabelStreamingPlatforms.visibility = View.VISIBLE
-                            rvPlatforms.visibility = View.VISIBLE
+                    listOfPlatforms.observe(viewLifecycleOwner) { platformList ->
+                        if (platformList.isNotEmpty()) {
+                            binding.homeContainerPlatforms.apply {
+                                showContainer(loadingPlatforms, tvLabelPlatforms, rvPlatforms)
+                            }
+                            adapterPlatform.updateList(platformList)
                         }
-                        adapterPlatform.updateList(platformList)
                     }
-                }
-                homeViewModel.listOfGenders.observe(viewLifecycleOwner) { genderList ->
-                    if (genderList.isNotEmpty()) {
-                        binding.homeContainerGenders.apply {
-                            loadingGenders.visibility = View.GONE
-                            tvLabelGenders.visibility = View.VISIBLE
-                            rvGenders.visibility = View.VISIBLE
+                    listOfGenders.observe(viewLifecycleOwner) { genderList ->
+                        if (genderList.isNotEmpty()) {
+                            binding.homeContainerGenders.apply {
+                                showContainer(loadingGenders, tvLabelGenders, rvGenders)
+                            }
+                            adapterGender.updateList(genderList)
                         }
-                        adapterGender.updateList(genderList)
                     }
-                }
-                homeViewModel.listAllContent.observe(viewLifecycleOwner) { allContentList ->
-                    if (allContentList.isNotEmpty()) {
-                        binding.homeContainerAllContent.apply {
-                            loadingAllContent.visibility = View.GONE
-                            tvLabelAllContent.visibility = View.VISIBLE
-                            rvAllContent.visibility = View.VISIBLE
+                    listAllContent.observe(viewLifecycleOwner) { allContentList ->
+                        if (allContentList.isNotEmpty()) {
+                            binding.homeContainerAllContent.apply {
+                                showContainer(loadingAllContent, tvLabelAllContent, rvAllContent)
+                            }
+                            adapterAllContent.updateList(allContentList)
                         }
-                        adapterAllContent.updateList(allContentList)
                     }
-                }
-                homeViewModel.listCurrentYear.observe(viewLifecycleOwner) { currentYearList ->
-                    if (currentYearList.isNotEmpty()) {
-                        binding.homeContainerCurrentYear.apply {
-                            loadingCurrentYear.visibility = View.GONE
-                            tvLabelCurrentYear.visibility = View.VISIBLE
-                            rvCurrentYear.visibility = View.VISIBLE
-                            tvLabelCurrentYear.text =
-                                "${tvLabelCurrentYear.context.getString(R.string.moviesAndSeries)} ${currentYearList.first().releaseDate}"
+                    listCurrentYear.observe(viewLifecycleOwner) { currentYearList ->
+                        if (currentYearList.isNotEmpty()) {
+                            binding.homeContainerCurrentYear.apply {
+                                showContainer(loadingCurrentYear, tvLabelCurrentYear, rvCurrentYear)
+                                tvLabelCurrentYear.text =
+                                    "${tvLabelCurrentYear.context.getString(R.string.moviesAndSeries)} ${currentYearList.first().releaseDate}"
+                            }
+                            adapterCurrentYear.updateList(currentYearList)
                         }
-                        adapterCurrentYear.updateList(currentYearList)
                     }
-                }
-                homeViewModel.listCineMovilPlusNews.observe(viewLifecycleOwner) { cineMovilPlusList ->
-                    if (cineMovilPlusList.isNotEmpty()) {
-                        binding.homeContainerCineMovilPlusNews.apply {
-                            loadingCineMovilPlusNews.visibility = View.GONE
-                            tvLabelCineMovilPlusNews.visibility = View.VISIBLE
-                            rvCineMovilPlusNews.visibility = View.VISIBLE
+                    listCineMovilPlusNews.observe(viewLifecycleOwner) { cineMovilPlusList ->
+                        if (cineMovilPlusList.isNotEmpty()) {
+                            binding.homeContainerCineMovilPlusNews.apply {
+                                showContainer(
+                                    loadingCineMovilPlusNews,
+                                    tvLabelCineMovilPlusNews,
+                                    rvCineMovilPlusNews
+                                )
+                            }
+                            adapterCineMovilPlusNews.updateList(cineMovilPlusList)
                         }
-                        adapterCineMovilPlusNews.updateList(cineMovilPlusList)
                     }
-                }
-                homeViewModel.listOfCollections.observe(viewLifecycleOwner) { collectionsList ->
-                    if (collectionsList.isNotEmpty()) {
-                        binding.homeContainerCollection.apply {
-                            loadingCollection.visibility = View.GONE
-                            tvLabelCollection.visibility = View.VISIBLE
-                            rvCollection.visibility = View.VISIBLE
+                    listOfCollections.observe(viewLifecycleOwner) { collectionsList ->
+                        if (collectionsList.isNotEmpty()) {
+                            binding.homeContainerCollection.apply {
+                                showContainer(loadingCollection, tvLabelCollection, rvCollection)
+                            }
+                            adapterCollection.updateList(collectionsList)
                         }
-                        adapterCollection.updateList(collectionsList)
                     }
                 }
             }
         }
     }
 
-    private fun initGenders() {
-        binding.homeContainerGenders.rvGenders.apply {
-            adapter = adapterGender
-            setDecorationAndLayoutManagerToRecyclerView(this)
-        }
-    }
-
-    private fun initPlatforms() {
-        binding.homeContainerPlatforms.rvPlatforms.apply {
-            adapter = adapterPlatform
-            setDecorationAndLayoutManagerToRecyclerView(this)
-        }
+    private fun showContainer(load: ShimmerFrameLayout, tv: TextView, rv: RecyclerView) {
+        load.visibility = View.GONE
+        tv.visibility = View.VISIBLE
+        rv.visibility = View.VISIBLE
     }
 
     private fun setDecorationAndLayoutManagerToRecyclerView(recyclerView: RecyclerView) {
@@ -219,8 +197,8 @@ class HomeFragment : Fragment() {
             clipToPadding = false
             clipChildren = false
             getChildAt(0).overScrollMode = RecyclerView.OVER_SCROLL_NEVER
+            binding.homeContainerViewPager2.ci3.setViewPager(this)
         }
-        setUpIndicator()
     }
 
     private fun getTransformer(): ViewPager2.PageTransformer {
@@ -230,10 +208,6 @@ class HomeFragment : Fragment() {
                 page.scaleY = 0.85f + (1 - abs(position)) * 0.14f
             }
         }
-    }
-
-    private fun setUpIndicator() {
-        binding.homeContainerViewPager2.apply { ci3.setViewPager(vp2FeaturedContent) }
     }
 
     private fun initHandler() {
@@ -277,4 +251,4 @@ class HomeFragment : Fragment() {
         handler.postDelayed(runnable, TIME_VIEW_PAGER_CHANGE_ITEM.toLong())
         super.onResume()
     }
-} //280 lineas
+}
