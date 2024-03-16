@@ -58,6 +58,10 @@
                 <include
                     android:id="@+id/homeContainerCollection"
                     layout="@layout/home_container_collection" />
+
+                <include
+                    android:id="@+id/homeContainerCollection"
+                    layout="@layout/home_container_collection" />
             </LinearLayout>
         </ScrollView>
 

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="namesSectionOld">
+        <item>@string/classicsCinemaTv</item>
+        <item>@string/retroCinemaSeries</item>
+        <item>@string/pastJewels</item>
+        <item>@string/cinemaTvIcons</item>
+        <item>@string/cinematicMemories</item>
+        <item>@string/goldenAgeCinemaTv</item>
+        <item>@string/vintageCinemaSeries</item>
+        <item>@string/screenMemories</item>
+        <item>@string/oldCinemaSeries</item>
+        <item>@string/screenHistory</item>
+    </string-array>
+</resources>

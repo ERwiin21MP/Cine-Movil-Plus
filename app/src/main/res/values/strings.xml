@@ -81,4 +81,16 @@
     <string name="synopsis">Sinopsis</string>
     <string name="CineMovilPlusNews">Novedades de Cine Móvil Plus</string>
     <string name="exploreOurCollections">Explora nuestras colecciones</string>
+
+    <!--  Arrays  -->
+    <string name="classicsCinemaTv">Clásicos del Cine y la TV</string>
+    <string name="retroCinemaSeries">Retro Cinema y Series</string>
+    <string name="pastJewels">Joyas del Pasado</string>
+    <string name="cinemaTvIcons">Íconos del Cine y la Televisión</string>
+    <string name="cinematicMemories">Memorias Cinematográficas</string>
+    <string name="goldenAgeCinemaTv">Época Dorada del Cine y la TV</string>
+    <string name="vintageCinemaSeries">Vintage Cinema y Series</string>
+    <string name="screenMemories">Recuerdos en Pantalla</string>
+    <string name="oldCinemaSeries">Cine y Series Antiguas</string>
+    <string name="screenHistory">Historia en la Pantalla</string>
 </resources>
