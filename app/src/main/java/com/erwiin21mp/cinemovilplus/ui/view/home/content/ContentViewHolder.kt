@@ -6,7 +6,8 @@ import com.erwiin21mp.cinemovilplus.R
 import com.erwiin21mp.cinemovilplus.data.network.firebase.DataBaseManager
 import com.erwiin21mp.cinemovilplus.databinding.ItemContentBinding
 import com.erwiin21mp.cinemovilplus.domain.model.ContentHomeModel
-import com.erwiin21mp.cinemovilplus.ui.view.home.HomeViewModel.Companion.SERIE
+import com.erwiin21mp.cinemovilplus.domain.model.Type.Movie
+import com.erwiin21mp.cinemovilplus.domain.model.Type.Serie
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 
@@ -32,10 +33,14 @@ class ContentViewHolder(view: View) : RecyclerView.ViewHolder(view) {
                     }
                 })
             tvTitle.text = item.title
-            if (item.isCameraQuality == true) ivCameraQuality.visibility = View.VISIBLE
-            else ivCameraQuality.visibility = View.GONE
-            if (item.type == SERIE) ivSerie.visibility = View.VISIBLE
-            else ivSerie.visibility = View.GONE
+            when (item.isCameraQuality) {
+                true -> ivCameraQuality.visibility = View.VISIBLE
+                false, null -> ivCameraQuality.visibility = View.GONE
+            }
+            when (item.type) {
+                Serie -> ivSerie.visibility = View.VISIBLE
+                Movie, null -> ivSerie.visibility = View.GONE
+            }
         }
         itemView.setOnClickListener { onItemSelected(item.id!!) }
     }

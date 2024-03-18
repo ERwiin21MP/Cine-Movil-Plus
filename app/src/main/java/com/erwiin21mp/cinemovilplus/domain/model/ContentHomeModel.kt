@@ -4,7 +4,7 @@ data class ContentHomeModel(
     var id: String? = null,
     var idTmdb: String? = null,
     var idCollection: String? = null,
-    var type: String? = null,
+    var type: Type? = null,
     var uploadDate: Long? = null,
     var horizontalImageURL: String? = null,
     var releaseDate: Long? = null,

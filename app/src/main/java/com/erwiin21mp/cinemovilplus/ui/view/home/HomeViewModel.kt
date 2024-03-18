@@ -8,6 +8,8 @@ import com.erwiin21mp.cinemovilplus.domain.model.CollectionModel
 import com.erwiin21mp.cinemovilplus.domain.model.ContentHomeModel
 import com.erwiin21mp.cinemovilplus.domain.model.FlatrateModel
 import com.erwiin21mp.cinemovilplus.domain.model.GenderModel
+import com.erwiin21mp.cinemovilplus.domain.model.Type.Movie
+import com.erwiin21mp.cinemovilplus.domain.model.Type.Serie
 import com.erwiin21mp.cinemovilplus.domain.usecase.GetCollectionDetailsUseCase
 import com.erwiin21mp.cinemovilplus.domain.usecase.GetDetailsMovieUseCase
 import com.erwiin21mp.cinemovilplus.domain.usecase.GetDetailsSerieUserCase
@@ -86,16 +88,13 @@ class HomeViewModel @Inject constructor(
                 val idTmdb = data[ID_TMDB].toString()
 
                 if (isEnabled) {
-                    val type = when (data[TYPE_ID].toString().toInt()) {
-                        1 -> SERIE
-                        2 -> MOVIE
-                        else -> ""
-                    }
+                    val typeAux = data[TYPE_ID].toString().toInt()
+                    val type = if (typeAux == 1) Serie else Movie
+
                     viewModelScope.launch {
                         val result = when (type) {
-                            SERIE -> withContext(Dispatchers.IO) { getDetailsSerieUserCase(idTmdb) }
-                            MOVIE -> withContext(Dispatchers.IO) { getDetailsMovieUseCase(idTmdb) }
-                            else -> null
+                            Movie -> withContext(Dispatchers.IO) { getDetailsMovieUseCase(idTmdb) }
+                            Serie -> withContext(Dispatchers.IO) { getDetailsSerieUserCase(idTmdb) }
                         }
                         if (result.isNotNull()) {
                             val id = data[ID].toString()
@@ -117,30 +116,20 @@ class HomeViewModel @Inject constructor(
                                 )
                             )
                         }
-
-                        when (type) {
-                            SERIE -> {
-                                val result2 = withContext(Dispatchers.IO) {
-                                    getWatchProvidersSerieUseCase(idTmdb)
-                                }
-                                if (result2.isNotNull()) result2!!.results?.mx?.flatrate?.forEach {
-                                    listOfPlatformsAux.add(it)
-                                }
+                        val result2 = when (type) {
+                            Movie -> withContext(Dispatchers.IO) {
+                                getWatchProvidersMovieUseCase(idTmdb)
                             }
 
-                            MOVIE -> {
-                                val result2 = withContext(Dispatchers.IO) {
-                                    getWatchProvidersMovieUseCase(idTmdb)
-                                }
-                                if (result2.isNotNull()) result2!!.results?.mx?.flatrate?.forEach {
-                                    listOfPlatformsAux.add(it)
-                                }
+                            Serie -> withContext(Dispatchers.IO) {
+                                getWatchProvidersSerieUseCase(idTmdb)
                             }
-
-                            else -> null
+                        }
+                        if (result2.isNotNull()) {
+                            result2?.results?.mx?.flatrate?.forEach { listOfPlatformsAux.add(it) }
                         }
                         listOfContent.postValue(listOfContentAux)
-                        listOfPlatforms.postValue( listOfPlatformsAux.distinct().sortedBy { it.displayPriority })
+                        listOfPlatforms.postValue(listOfPlatformsAux.distinct().sortedBy { it.displayPriority })
                         listAllContent.postValue(listOfContentAux.shuffled())
                         getCurrentYear(listOfContentAux)
                         getCineMovilPlusNews(listOfContentAux)
