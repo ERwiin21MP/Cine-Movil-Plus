@@ -4,12 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.erwiin21mp.cinemovilplus.R
-import com.erwiin21mp.cinemovilplus.core.ext.loseFocusAfterAction
 import com.erwiin21mp.cinemovilplus.databinding.FragmentSearchBinding
 import com.erwiin21mp.cinemovilplus.ui.utils.SpacingItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
@@ -17,23 +15,15 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class SearchFragment : Fragment() {
 
+    private val binding get() = _binding!!
     private val searchViewModel: SearchViewModel by viewModels()
     private var _binding: FragmentSearchBinding? = null
-    private val binding get() = _binding!!
-
-    private fun navigateToContent(id: Int) {}
 
     private fun initUI() {
-//        initUIState()
-        initContentRecyclerView()
-        initListeners()
     }
 
     private fun initListeners() {
-        binding.apply {
-//            etSearch.onTextChanged { search(it) }
-            etSearch.loseFocusAfterAction(EditorInfo.IME_ACTION_SEARCH)
-        }
+
     }
 
 //    private fun search(search: String) {

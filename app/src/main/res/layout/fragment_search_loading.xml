@@ -5,15 +5,16 @@
     android:orientation="vertical">
 
     <View
-        android:id="@+id/tilSearch"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_height="50dp"
         android:background="@color/loading" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
+        <include layout="@layout/column_item_content_loading" />
 
         <include layout="@layout/column_item_content_loading" />
 
