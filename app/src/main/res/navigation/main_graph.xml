@@ -9,11 +9,7 @@
         android:id="@+id/homeFragment"
         android:name="com.erwiin21mp.cinemovilplus.ui.view.home.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home">
-        <action
-            android:id="@+id/action_homeFragment_to_contentViewActivity"
-            app:destination="@id/contentViewActivity" />
-    </fragment>
+        tools:layout="@layout/fragment_home"/>
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.erwiin21mp.cinemovilplus.ui.view.profile.ProfileFragment"
@@ -24,18 +20,4 @@
         android:name="com.erwiin21mp.cinemovilplus.ui.view.search.SearchFragment"
         android:label="fragment_search"
         tools:layout="@layout/fragment_search" />
-    <activity
-        android:id="@+id/contentViewActivity"
-        android:name="com.erwiin21mp.cinemovilplus.ui.view.contentView.ContentViewActivity"
-        android:label="activity_content_view"
-        tools:layout="@layout/activity_content_view">
-        <argument
-            android:name="id"
-            app:argType="integer" />
-    </activity>
-    <activity
-        android:id="@+id/splashScreenActivity"
-        android:name="com.erwiin21mp.cinemovilplus.ui.view.splashScreen.SplashScreenActivity"
-        android:label="activity_splash_screen"
-        tools:layout="@layout/activity_splash_screen" />
 </navigation>

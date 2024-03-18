@@ -27,4 +27,5 @@
     <dimen name="section_separation_size">20dp</dimen>
     <dimen name="separation_size_between_recyclerview_and_section_title">8dp</dimen>
     <dimen name="content_title_margin_size">8dp</dimen>
+    <dimen name="containerPadding">8dp</dimen>
 </resources>
