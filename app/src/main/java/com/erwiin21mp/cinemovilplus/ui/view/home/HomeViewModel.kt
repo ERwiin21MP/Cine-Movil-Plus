@@ -97,18 +97,14 @@ class HomeViewModel @Inject constructor(
                             Serie -> withContext(Dispatchers.IO) { getDetailsSerieUserCase(idTmdb) }
                         }
                         if (result.isNotNull()) {
-                            val id = data[ID].toString()
-                            val isCameraQuality = data[IS_CAMERA_QUALITY].toString().toBoolean()
-                            val uploadDate = data[UPLOAD_DATE].toString().toLong()
-                            val idCollection = data[ID_COLLECTION].toString()
                             listOfContentAux.add(
                                 ContentHomeModel(
-                                    id = id,
+                                    id = data[ID].toString(),
                                     idTmdb = idTmdb,
-                                    idCollection = idCollection,
-                                    isCameraQuality = isCameraQuality,
+                                    idCollection = data[ID_COLLECTION].toString(),
+                                    isCameraQuality = data[IS_CAMERA_QUALITY].toString().toBoolean(),
                                     type = type,
-                                    uploadDate = uploadDate,
+                                    uploadDate = data[UPLOAD_DATE].toString().toLong(),
                                     horizontalImageURL = result?.horizontalImageURL.orEmpty(),
                                     releaseDate = result?.releaseDate?.replace("-", "")?.toLong(),
                                     title = result?.title.orEmpty(),
