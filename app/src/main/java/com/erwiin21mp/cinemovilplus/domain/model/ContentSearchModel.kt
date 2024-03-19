@@ -10,7 +10,7 @@ data class ContentSearchModel(
 
     var title: String? = null,
     var originalTitle: String? = null,
-    var overview: String? = null,
+    var synopsis: String? = null,
     var productionCompanies: String? = null,
     var productionCountries: String? = null,
     var releaseDate: String? = null,

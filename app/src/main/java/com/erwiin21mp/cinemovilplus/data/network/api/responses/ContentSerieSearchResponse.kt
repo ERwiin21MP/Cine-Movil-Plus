@@ -1,5 +1,11 @@
 package com.erwiin21mp.cinemovilplus.data.network.api.responses
 
+import com.erwiin21mp.cinemovilplus.core.ext.toImageURL
+import com.erwiin21mp.cinemovilplus.domain.model.CompanyModel
+import com.erwiin21mp.cinemovilplus.domain.model.ContentSerieSearchModel
+import com.erwiin21mp.cinemovilplus.domain.model.CountryModel
+import com.erwiin21mp.cinemovilplus.domain.model.CreatedModel
+import com.erwiin21mp.cinemovilplus.domain.model.NetworkModel
 import com.google.gson.annotations.SerializedName
 
 data class ContentSerieSearchResponse(
@@ -14,7 +20,30 @@ data class ContentSerieSearchResponse(
     @SerializedName("networks") var networks: List<NetworkResponse>,
     @SerializedName("tagline") var tagline: String? = null,
     @SerializedName("origin_country") var country: List<String>
-)
+) {
+    fun toDomain() = ContentSerieSearchModel(
+        title = title,
+        originalTitle = originalTitle,
+        synopsis = synopsis,
+        productionCompanies = productionCompanies.toDomain(),
+        productionCountries = productionCountries.toDomain(),
+        releaseDate = releaseDate,
+        verticalImageURL = verticalImageURL?.toImageURL(),
+        createdBy = createdBy.toDomain(),
+        networks = networks.toDomain(),
+        tagline = tagline,
+        country = country
+    )
+}
+
+fun List<CompanyResponse>?.toDomain() =
+    this?.map { CompanyModel(company = it.company) } ?: emptyList()
+
+fun List<CountryResponse>?.toDomain() =
+    this?.map { CountryModel(country = it.country) } ?: emptyList()
+
+fun List<CreatedResponse>?.toDomain() = this?.map { CreatedModel(name = it.name) } ?: emptyList()
+fun List<NetworkResponse>?.toDomain() = this?.map { NetworkModel(name = it.name) } ?: emptyList()
 
 data class CreatedResponse(
     @SerializedName("name") var name: String? = null

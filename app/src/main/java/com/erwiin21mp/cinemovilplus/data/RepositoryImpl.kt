@@ -5,6 +5,8 @@ import com.erwiin21mp.cinemovilplus.data.network.firebase.DataBaseManager
 import com.erwiin21mp.cinemovilplus.domain.Repository
 import com.erwiin21mp.cinemovilplus.domain.model.CollectionModel
 import com.erwiin21mp.cinemovilplus.domain.model.ContentModel
+import com.erwiin21mp.cinemovilplus.domain.model.ContentMovieSearchModel
+import com.erwiin21mp.cinemovilplus.domain.model.ContentSerieSearchModel
 import com.erwiin21mp.cinemovilplus.domain.model.PlatformsModel
 import javax.inject.Inject
 
@@ -44,6 +46,20 @@ class RepositoryImpl @Inject constructor(private val apiService: APIService) : R
 
     override suspend fun getCollectionDetails(id: String): CollectionModel? {
         runCatching { apiService.getCollectionDetails(id, API_KEY, LANGUAGE) }
+            .onSuccess { return it.toDomain() }
+            .onFailure { logErrorApi(id, it.message.orEmpty()) }
+        return null
+    }
+
+    override suspend fun getMovieSearch(id: String): ContentMovieSearchModel? {
+        runCatching { apiService.getMovieSearch(id, API_KEY, LANGUAGE) }
+            .onSuccess { return it.toDomain() }
+            .onFailure { logErrorApi(id, it.message.orEmpty()) }
+        return null
+    }
+
+    override suspend fun getSerieSearch(id: String): ContentSerieSearchModel? {
+        runCatching { apiService.getSerieSearch(id, API_KEY, LANGUAGE) }
             .onSuccess { return it.toDomain() }
             .onFailure { logErrorApi(id, it.message.orEmpty()) }
         return null
