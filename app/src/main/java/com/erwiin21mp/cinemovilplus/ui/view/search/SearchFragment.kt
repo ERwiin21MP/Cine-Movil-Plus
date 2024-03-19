@@ -20,9 +20,6 @@ class SearchFragment : Fragment() {
     private var _binding: FragmentSearchBinding? = null
 
     private fun initUI() {
-    }
-
-    private fun initListeners() {
 
     }
 
