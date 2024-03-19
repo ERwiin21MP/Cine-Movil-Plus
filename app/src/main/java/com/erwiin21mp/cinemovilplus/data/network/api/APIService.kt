@@ -2,7 +2,9 @@ package com.erwiin21mp.cinemovilplus.data.network.api
 
 import com.erwiin21mp.cinemovilplus.data.network.api.responses.CollectionResponse
 import com.erwiin21mp.cinemovilplus.data.network.api.responses.ContentMovieResponse
+import com.erwiin21mp.cinemovilplus.data.network.api.responses.ContentMovieSearchResponse
 import com.erwiin21mp.cinemovilplus.data.network.api.responses.ContentSerieResponse
+import com.erwiin21mp.cinemovilplus.data.network.api.responses.ContentSerieSearchResponse
 import com.erwiin21mp.cinemovilplus.data.network.api.responses.PlatformsResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -43,4 +45,18 @@ interface APIService {
         @Query("api_key") apiKey: String,
         @Query("language") language: String
     ): CollectionResponse
+
+    @GET("movie/{movie_id}")
+    suspend fun getMovieSearch(
+        @Path("movie_id") movieId: String,
+        @Query("api_key") apiKey: String,
+        @Query("language") language: String
+    ): ContentMovieSearchResponse
+
+    @GET("tv/{series_id}")
+    suspend fun getSerieSearch(
+        @Path("series_id") serieId: String,
+        @Query("api_key") apiKey: String,
+        @Query("language") language: String
+    ): ContentSerieSearchResponse
 }

@@ -6,8 +6,9 @@ import androidx.lifecycle.viewModelScope
 import com.erwiin21mp.cinemovilplus.core.ext.isNotNull
 import com.erwiin21mp.cinemovilplus.domain.model.CollectionModel
 import com.erwiin21mp.cinemovilplus.domain.model.ContentHomeModel
+import com.erwiin21mp.cinemovilplus.domain.model.ContentSearchModel
 import com.erwiin21mp.cinemovilplus.domain.model.FlatrateModel
-import com.erwiin21mp.cinemovilplus.domain.model.Type
+import com.erwiin21mp.cinemovilplus.domain.model.Type.*
 import com.erwiin21mp.cinemovilplus.domain.usecase.GetCollectionDetailsUseCase
 import com.erwiin21mp.cinemovilplus.domain.usecase.GetDetailsMovieUseCase
 import com.erwiin21mp.cinemovilplus.domain.usecase.GetDetailsSerieUserCase
@@ -30,9 +31,8 @@ class SearchViewModel @Inject constructor(
     private val getCollectionDetailsUseCase: GetCollectionDetailsUseCase
 ) : ViewModel() {
     private val db = FirebaseFirestore.getInstance()
-    val listOfContent = MutableLiveData<List<ContentHomeModel>>(emptyList())
+    val listOfContent = MutableLiveData<List<ContentSearchModel>>(emptyList())
     val listOfPlatforms = MutableLiveData<List<FlatrateModel>>(emptyList())
-    val listAllContent = MutableLiveData<List<ContentHomeModel>>(emptyList())
     val listOfCollections = MutableLiveData<List<CollectionModel>>(emptyList())
 
     init {
@@ -40,8 +40,9 @@ class SearchViewModel @Inject constructor(
     }
 
     private fun getContent() {
-        val listOfContentAux = mutableListOf<ContentHomeModel>()
+        val listOfContentAux = mutableListOf<ContentSearchModel>()
         val listOfPlatformsAux = mutableListOf<FlatrateModel>()
+
         db.collection(HomeViewModel.CONTENT).get().addOnSuccessListener { documents ->
             for (document in documents) {
                 val data = document.data
@@ -50,17 +51,17 @@ class SearchViewModel @Inject constructor(
 
                 if (isEnabled) {
                     val typeAux = data[HomeViewModel.TYPE_ID].toString().toInt()
-                    val type = if (typeAux == 1) Type.Serie else Type.Movie
+                    val type = if (typeAux == 1) Serie else Movie
 
                     viewModelScope.launch {
                         val result = when (type) {
-                            Type.Movie -> withContext(Dispatchers.IO) {
+                            Movie -> withContext(Dispatchers.IO) {
                                 getDetailsMovieUseCase(
                                     idTmdb
                                 )
                             }
 
-                            Type.Serie -> withContext(Dispatchers.IO) {
+                            Serie -> withContext(Dispatchers.IO) {
                                 getDetailsSerieUserCase(
                                     idTmdb
                                 )
@@ -68,16 +69,13 @@ class SearchViewModel @Inject constructor(
                         }
                         if (result.isNotNull()) {
                             listOfContentAux.add(
-                                ContentHomeModel(
+                                ContentSearchModel(
                                     id = data[HomeViewModel.ID].toString(),
-                                    idTmdb = idTmdb,
-                                    idCollection = data[HomeViewModel.ID_COLLECTION].toString(),
                                     isCameraQuality = data[HomeViewModel.IS_CAMERA_QUALITY].toString()
                                         .toBoolean(),
                                     type = type,
                                     uploadDate = data[HomeViewModel.UPLOAD_DATE].toString()
                                         .toLong(),
-                                    horizontalImageURL = result?.horizontalImageURL.orEmpty(),
                                     releaseDate = result?.releaseDate?.replace("-", "")?.toLong(),
                                     title = result?.title.orEmpty(),
                                     verticalImageURL = result?.verticalImageURL.orEmpty(),
@@ -85,11 +83,11 @@ class SearchViewModel @Inject constructor(
                             )
                         }
                         val result2 = when (type) {
-                            Type.Movie -> withContext(Dispatchers.IO) {
+                            Movie -> withContext(Dispatchers.IO) {
                                 getWatchProvidersMovieUseCase(idTmdb)
                             }
 
-                            Type.Serie -> withContext(Dispatchers.IO) {
+                            Serie -> withContext(Dispatchers.IO) {
                                 getWatchProvidersSerieUseCase(idTmdb)
                             }
                         }
@@ -97,7 +95,8 @@ class SearchViewModel @Inject constructor(
                             result2?.results?.mx?.flatrate?.forEach { listOfPlatformsAux.add(it) }
                         }
                         listOfContent.postValue(listOfContentAux)
-                        listOfPlatforms.postValue(listOfPlatformsAux.distinct().sortedBy { it.displayPriority })
+                        listOfPlatforms.postValue(
+                            listOfPlatformsAux.distinct().sortedBy { it.displayPriority })
                         listAllContent.postValue(listOfContentAux.shuffled())
                         getCollections(listOfContentAux.filter { it.idCollection?.toInt() != 0 })
                     }
