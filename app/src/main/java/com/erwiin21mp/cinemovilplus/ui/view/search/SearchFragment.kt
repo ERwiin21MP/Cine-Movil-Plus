@@ -6,11 +6,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import com.erwiin21mp.cinemovilplus.R
+import com.erwiin21mp.cinemovilplus.core.ext.logList
 import com.erwiin21mp.cinemovilplus.databinding.FragmentSearchBinding
 import com.erwiin21mp.cinemovilplus.ui.utils.SpacingItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class SearchFragment : Fragment() {
@@ -20,7 +25,7 @@ class SearchFragment : Fragment() {
     private var _binding: FragmentSearchBinding? = null
 
     private fun initUI() {
-
+        initUIState()
     }
 
 //    private fun search(search: String) {
@@ -51,22 +56,15 @@ class SearchFragment : Fragment() {
         }
     }
 
-//    private fun initUIState() {
-//        lifecycleScope.launch {
-//            repeatOnLifecycle(Lifecycle.State.STARTED) {
-//                searchViewModel.listOfContent.observe(viewLifecycleOwner) {
-//                    listOfContent = it
-//                    adapterContent.updateList(listOfContent)
-//                    if (listOfContent.isNotEmpty()) {
-//                        binding.apply {
-//                            llLoadingSearchFragment.visibility = View.GONE
-//                            clContainerSearch.visibility = View.VISIBLE
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//    }
+    private fun initUIState() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                searchViewModel.listOfContent.observe(viewLifecycleOwner) { contentList ->
+                    logList(contentList)
+                }
+            }
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

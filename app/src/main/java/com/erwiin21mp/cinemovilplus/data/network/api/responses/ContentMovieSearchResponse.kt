@@ -1,4 +1,8 @@
-package com.erwiin21mp.cinemovilplus.data.network.api.responses
+import com.erwiin21mp.cinemovilplus.core.ext.toImageURL
+import com.erwiin21mp.cinemovilplus.domain.model.ContentMovieSearchModel
+import com.google.gson.annotations.SerializedName
+
+¿package com.erwiin21mp.cinemovilplus.data.network.api.responses
 
 import com.erwiin21mp.cinemovilplus.core.ext.toImageURL
 import com.erwiin21mp.cinemovilplus.domain.model.CompanyModel
@@ -20,8 +24,8 @@ data class ContentMovieSearchResponse(
         title = title,
         originalTitle = originalTitle,
         synopsis = synopsis,
-        productionCompanies = productionCompanies.toDomain(),
-        productionCountries = productionCountries.toDomain(),
+        productionCompanies = productionCompanies.toDomainCompany(),
+        productionCountries = productionCountries.toDomainCountry(),
         releaseDate = releaseDate,
         verticalImageURL = verticalImageURL?.toImageURL(),
         tagline = tagline
@@ -30,16 +34,8 @@ data class ContentMovieSearchResponse(
 
 data class CompanyResponse(
     @SerializedName("name") var company: String? = null
-) {
-    fun toDomain() = CompanyModel(
-        company = company
-    )
-}
+)
 
 data class CountryResponse(
     @SerializedName("name") var country: String? = null
-) {
-    fun toDomain() = CountryModel(
-        country = country
-    )
-}
+)

@@ -25,25 +25,25 @@ data class ContentSerieSearchResponse(
         title = title,
         originalTitle = originalTitle,
         synopsis = synopsis,
-        productionCompanies = productionCompanies.toDomain(),
-        productionCountries = productionCountries.toDomain(),
+        productionCompanies = productionCompanies.toDomainCompany(),
+        productionCountries = productionCountries.toDomainCountry(),
         releaseDate = releaseDate,
         verticalImageURL = verticalImageURL?.toImageURL(),
-        createdBy = createdBy.toDomain(),
-        networks = networks.toDomain(),
+        createdBy = createdBy.toDomainCreated(),
+        networks = networks.toDomainNetwork(),
         tagline = tagline,
         country = country
     )
 }
 
-fun List<CompanyResponse>?.toDomain() =
+fun List<CompanyResponse>?.toDomainCompany() =
     this?.map { CompanyModel(company = it.company) } ?: emptyList()
 
-fun List<CountryResponse>?.toDomain() =
+fun List<CountryResponse>?.toDomainCountry() =
     this?.map { CountryModel(country = it.country) } ?: emptyList()
 
-fun List<CreatedResponse>?.toDomain() = this?.map { CreatedModel(name = it.name) } ?: emptyList()
-fun List<NetworkResponse>?.toDomain() = this?.map { NetworkModel(name = it.name) } ?: emptyList()
+fun List<CreatedResponse>?.toDomainCreated() = this?.map { CreatedModel(name = it.name) } ?: emptyList()
+fun List<NetworkResponse>?.toDomainNetwork() = this?.map { NetworkModel(name = it.name) } ?: emptyList()
 
 data class CreatedResponse(
     @SerializedName("name") var name: String? = null
