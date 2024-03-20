@@ -1,14 +1,10 @@
+package com.erwiin21mp.cinemovilplus.data.network.api.responses
+
+
 import com.erwiin21mp.cinemovilplus.core.ext.toImageURL
 import com.erwiin21mp.cinemovilplus.domain.model.ContentMovieSearchModel
 import com.google.gson.annotations.SerializedName
 
-¿package com.erwiin21mp.cinemovilplus.data.network.api.responses
-
-import com.erwiin21mp.cinemovilplus.core.ext.toImageURL
-import com.erwiin21mp.cinemovilplus.domain.model.CompanyModel
-import com.erwiin21mp.cinemovilplus.domain.model.ContentMovieSearchModel
-import com.erwiin21mp.cinemovilplus.domain.model.CountryModel
-import com.google.gson.annotations.SerializedName
 
 data class ContentMovieSearchResponse(
     @SerializedName("title") var title: String? = null,
