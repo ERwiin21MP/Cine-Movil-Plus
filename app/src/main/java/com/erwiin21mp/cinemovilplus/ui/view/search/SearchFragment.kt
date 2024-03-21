@@ -14,6 +14,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import com.erwiin21mp.cinemovilplus.R
+import com.erwiin21mp.cinemovilplus.core.ext.logList
 import com.erwiin21mp.cinemovilplus.core.ext.loseFocusAfterAction
 import com.erwiin21mp.cinemovilplus.core.ext.onTextChanged
 import com.erwiin21mp.cinemovilplus.core.ext.removeAccents
@@ -96,6 +97,7 @@ class SearchFragment : Fragment() {
                             bannerAdSearch.visibility = VISIBLE
                             listOfContent = contentList.toMutableList()
                             adapterContent.updateList(getListHomeModel(listOfContent))
+                            logList(contentList)
                         }
                     }
                 }

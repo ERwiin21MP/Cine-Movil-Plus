@@ -1,9 +1,9 @@
 package com.erwiin21mp.cinemovilplus.domain.model
 
 data class ContentSearchModel(
+    var genres: String? = null,
     var id: String? = null,
     var keywords: String? = null,
-    var genres: String? = null,
     var type: Type? = null,
     var uploadDate: Long? = null,
     var isCameraQuality: Boolean? = null,

@@ -80,3 +80,8 @@ fun Fragment.logList(list: List<Any>, tag: String = "") {
     if (list.isNotEmpty()) list.forEach { logData(it.toString(), tag) }
     else logData("Empty list")
 }
+
+fun ViewModel.logList(list: List<Any>, tag: String = "") {
+    if (list.isNotEmpty()) list.forEach { logData(it.toString(), tag) }
+    else logData("Empty list")
+}
