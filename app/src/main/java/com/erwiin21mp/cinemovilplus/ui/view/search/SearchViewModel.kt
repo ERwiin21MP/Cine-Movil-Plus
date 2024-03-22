@@ -4,9 +4,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.erwiin21mp.cinemovilplus.core.ext.isNotNull
+import com.erwiin21mp.cinemovilplus.data.network.firebase.FirestoreManager
 import com.erwiin21mp.cinemovilplus.domain.model.ContentGenderModel
 import com.erwiin21mp.cinemovilplus.domain.model.ContentSearchModel
-import com.erwiin21mp.cinemovilplus.domain.model.GenderModel
 import com.erwiin21mp.cinemovilplus.domain.model.Type.Movie
 import com.erwiin21mp.cinemovilplus.domain.model.Type.Serie
 import com.erwiin21mp.cinemovilplus.domain.usecase.GetMovieSearchUseCase
@@ -15,8 +15,6 @@ import com.erwiin21mp.cinemovilplus.domain.usecase.GetWatchProvidersMovieUseCase
 import com.erwiin21mp.cinemovilplus.domain.usecase.GetWatchProvidersSerieUseCase
 import com.erwiin21mp.cinemovilplus.ui.view.home.HomeViewModel
 import com.erwiin21mp.cinemovilplus.ui.view.home.HomeViewModel.Companion.CONTENT
-import com.erwiin21mp.cinemovilplus.ui.view.home.HomeViewModel.Companion.GENDER
-import com.erwiin21mp.cinemovilplus.ui.view.home.HomeViewModel.Companion.GENDERS
 import com.erwiin21mp.cinemovilplus.ui.view.home.HomeViewModel.Companion.ID
 import com.erwiin21mp.cinemovilplus.ui.view.home.HomeViewModel.Companion.ID_TMDB
 import com.erwiin21mp.cinemovilplus.ui.view.home.HomeViewModel.Companion.IS_CAMERA_QUALITY
@@ -36,7 +34,8 @@ class SearchViewModel @Inject constructor(
     private val getMovieSearchUseCase: GetMovieSearchUseCase,
     private val getSerieSearchUseCase: GetSerieSearchUseCase,
     private val getWatchProvidersSerieUseCase: GetWatchProvidersSerieUseCase,
-    private val getWatchProvidersMovieUseCase: GetWatchProvidersMovieUseCase
+    private val getWatchProvidersMovieUseCase: GetWatchProvidersMovieUseCase,
+    private val firestore: FirestoreManager
 ) : ViewModel() {
     private val db = FirebaseFirestore.getInstance()
     val listOfContent = MutableLiveData<List<ContentSearchModel>>(emptyList())
@@ -106,7 +105,7 @@ class SearchViewModel @Inject constructor(
                                     withContext(Dispatchers.IO) { getSerieSearchUseCase(idTmdb) }
                                 if (result.isNotNull()) {
                                     val result2 = withContext(Dispatchers.IO) {
-                                        getWatchProvidersMovieUseCase(idTmdb)
+                                        getWatchProvidersSerieUseCase(idTmdb)
                                     }
                                     if (result2.isNotNull())
                                         listOfContentAux.add(
@@ -129,7 +128,9 @@ class SearchViewModel @Inject constructor(
                                                 networks = result?.networks.toString(),
                                                 tagline = result?.tagline,
                                                 country = result?.country.toString(),
-                                                platforms = result2?.results?.mx?.flatrate?.joinToString(separator = ", ") { it.name.toString() }
+                                                platforms = result2?.results?.mx?.flatrate?.joinToString(
+                                                    separator = ", "
+                                                ) { it.name.toString() }
                                             )
                                         )
                                 }
@@ -141,16 +142,6 @@ class SearchViewModel @Inject constructor(
                     }
                 }
             }
-        }
-    }
-
-    private suspend fun getGenders(): List<GenderModel> {
-        return db.collection(GENDERS).get().await().documents.map { document ->
-            val data = document.data!!
-            GenderModel(
-                id = data[ID].toString().toInt(),
-                gender = data[GENDER].toString()
-            )
         }
     }
 
@@ -166,7 +157,7 @@ class SearchViewModel @Inject constructor(
 
     private fun getGenders(list: MutableList<ContentSearchModel>) {
         viewModelScope.launch {
-            val genders = async { getGenders() }
+            val genders = async { firestore.getGenders() }
             val contentGenders = async { getContentGenders() }
 
             val listOfGenders = genders.await()

@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.erwiin21mp.cinemovilplus.core.ext.isNotNull
+import com.erwiin21mp.cinemovilplus.data.network.firebase.FirestoreManager
 import com.erwiin21mp.cinemovilplus.domain.model.CollectionModel
 import com.erwiin21mp.cinemovilplus.domain.model.ContentHomeModel
 import com.erwiin21mp.cinemovilplus.domain.model.FlatrateModel
@@ -28,7 +29,8 @@ class HomeViewModel @Inject constructor(
     private val getDetailsSerieUserCase: GetDetailsSerieUserCase,
     private val getWatchProvidersMovieUseCase: GetWatchProvidersMovieUseCase,
     private val getWatchProvidersSerieUseCase: GetWatchProvidersSerieUseCase,
-    private val getCollectionDetailsUseCase: GetCollectionDetailsUseCase
+    private val getCollectionDetailsUseCase: GetCollectionDetailsUseCase,
+    private val firestore: FirestoreManager
 ) : ViewModel() {
 
     private val db = FirebaseFirestore.getInstance()
@@ -50,8 +52,6 @@ class HomeViewModel @Inject constructor(
         const val IS_ENABLED = "is_enabled"
         const val GENDERS = "genders"
         const val GENDER = "gender"
-        const val SERIE = "Serie"
-        const val MOVIE = "Movie"
         const val IMAGE_URL = "image_url"
         const val ID_COLLECTION = "id_collection"
     }
@@ -62,19 +62,9 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun getGenders() {
-        val listOfGendersAux = mutableListOf<GenderModel>()
-        db.collection(GENDERS).get().addOnSuccessListener { documents ->
-            for (document in documents) {
-                val data = document.data
-                listOfGendersAux.add(
-                    GenderModel(
-                        id = data[ID].toString().toInt(),
-                        gender = data[GENDER].toString(),
-                        imageURL = data[IMAGE_URL].toString()
-                    )
-                )
-                listOfGenders.postValue(listOfGendersAux.shuffled())
-            }
+        viewModelScope.launch {
+            val list = withContext(Dispatchers.IO) { firestore.getGenders().shuffled() }
+            listOfGenders.postValue(list)
         }
     }
 
@@ -102,7 +92,8 @@ class HomeViewModel @Inject constructor(
                                     id = data[ID].toString(),
                                     idTmdb = idTmdb,
                                     idCollection = data[ID_COLLECTION].toString(),
-                                    isCameraQuality = data[IS_CAMERA_QUALITY].toString().toBoolean(),
+                                    isCameraQuality = data[IS_CAMERA_QUALITY].toString()
+                                        .toBoolean(),
                                     type = type,
                                     uploadDate = data[UPLOAD_DATE].toString().toLong(),
                                     horizontalImageURL = result?.horizontalImageURL.orEmpty(),
@@ -125,7 +116,8 @@ class HomeViewModel @Inject constructor(
                             result2?.results?.mx?.flatrate?.forEach { listOfPlatformsAux.add(it) }
                         }
                         listOfContent.postValue(listOfContentAux)
-                        listOfPlatforms.postValue(listOfPlatformsAux.distinct().sortedBy { it.displayPriority })
+                        listOfPlatforms.postValue(
+                            listOfPlatformsAux.distinct().sortedBy { it.displayPriority })
                         listAllContent.postValue(listOfContentAux.shuffled())
                         getCurrentYear(listOfContentAux)
                         getCineMovilPlusNews(listOfContentAux)
