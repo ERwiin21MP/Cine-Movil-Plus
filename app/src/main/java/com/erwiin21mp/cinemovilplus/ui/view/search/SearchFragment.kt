@@ -14,6 +14,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import com.erwiin21mp.cinemovilplus.R
+import com.erwiin21mp.cinemovilplus.core.ext.logData
 import com.erwiin21mp.cinemovilplus.core.ext.logList
 import com.erwiin21mp.cinemovilplus.core.ext.loseFocusAfterAction
 import com.erwiin21mp.cinemovilplus.core.ext.onTextChanged
@@ -57,7 +58,6 @@ class SearchFragment : Fragment() {
                         genres,
                         type.toString(),
                         uploadDate.toString(),
-                        isCameraQuality.toString(),
                         title,
                         originalTitle,
                         synopsis,
@@ -67,7 +67,8 @@ class SearchFragment : Fragment() {
                         verticalImageURL,
                         createdBy,
                         tagline,
-                        country
+                        country,
+                        platforms
                     )
                 }.any {
                     it.orEmpty().lowercase().removeAccents()
@@ -97,7 +98,8 @@ class SearchFragment : Fragment() {
                             bannerAdSearch.visibility = VISIBLE
                             listOfContent = contentList.toMutableList()
                             adapterContent.updateList(getListHomeModel(listOfContent))
-                            logList(contentList)
+                            logData("FRAGMENT----------------------------------------------")
+                            logList(contentList.sortedBy { it.title })
                         }
                     }
                 }

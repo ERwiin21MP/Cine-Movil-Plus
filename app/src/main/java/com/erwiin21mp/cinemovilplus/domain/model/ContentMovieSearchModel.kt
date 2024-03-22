@@ -4,8 +4,8 @@ data class ContentMovieSearchModel(
     var title: String? = null,
     var originalTitle: String? = null,
     var synopsis: String? = null,
-    var productionCompanies: List<CompanyModel>,
-    var productionCountries: List<CountryModel>,
+    var productionCompanies: String? = null,
+    var productionCountries: String? = null,
     var releaseDate: String? = null,
     var verticalImageURL: String? = null,
     var tagline: String? = null

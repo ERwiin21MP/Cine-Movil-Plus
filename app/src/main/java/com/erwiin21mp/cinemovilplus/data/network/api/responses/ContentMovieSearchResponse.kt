@@ -16,16 +16,20 @@ data class ContentMovieSearchResponse(
     @SerializedName("poster_path") var verticalImageURL: String? = null,
     @SerializedName("tagline") var tagline: String? = null
 ) {
-    fun toDomain() = ContentMovieSearchModel(
-        title = title,
-        originalTitle = originalTitle,
-        synopsis = synopsis,
-        productionCompanies = productionCompanies.toDomainCompany(),
-        productionCountries = productionCountries.toDomainCountry(),
-        releaseDate = releaseDate,
-        verticalImageURL = verticalImageURL?.toImageURL(),
-        tagline = tagline
-    )
+    fun toDomain(): ContentMovieSearchModel {
+        return ContentMovieSearchModel(
+            title = title,
+            originalTitle = originalTitle,
+            synopsis = synopsis,
+            productionCompanies = productionCompanies.distinct()
+                .joinToString(separator = ", ") { it.company.toString() },
+            productionCountries = productionCountries.distinct()
+                .joinToString(separator = ", ") { it.country.toString() },
+            releaseDate = releaseDate,
+            verticalImageURL = verticalImageURL?.toImageURL(),
+            tagline = tagline
+        )
+    }
 }
 
 data class CompanyResponse(
