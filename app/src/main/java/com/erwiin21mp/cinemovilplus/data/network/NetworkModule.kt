@@ -3,6 +3,7 @@ package com.erwiin21mp.cinemovilplus.data.network
 import com.erwiin21mp.cinemovilplus.data.RepositoryImpl
 import com.erwiin21mp.cinemovilplus.data.network.api.APIService
 import com.erwiin21mp.cinemovilplus.domain.Repository
+import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -31,5 +32,11 @@ object NetworkModule {
     @Provides
     fun getRepository(apiService: APIService): Repository {
         return RepositoryImpl(apiService)
+    }
+
+    @Provides
+    @Singleton
+    fun provideFirebaseFirestore(): FirebaseFirestore {
+        return FirebaseFirestore.getInstance()
     }
 }

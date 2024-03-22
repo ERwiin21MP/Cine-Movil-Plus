@@ -9,14 +9,15 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
-class FirestoreManager @Inject constructor() {
-
-    private val db = FirebaseFirestore.getInstance()
-
+class FirestoreManager @Inject constructor(private val db: FirebaseFirestore) {
     suspend fun getGenders(): List<GenderModel> {
         return db.collection(GENDERS).get().await().documents.map { document ->
             val data = document.data!!
-            GenderModel(id = data[ID].toString().toInt(), gender = data[GENDER].toString(), imageURL = data[IMAGE_URL].toString())
+            GenderModel(
+                id = data[ID].toString().toInt(),
+                gender = data[GENDER].toString(),
+                imageURL = data[IMAGE_URL].toString()
+            )
         }
     }
 }
