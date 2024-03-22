@@ -14,15 +14,13 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import com.erwiin21mp.cinemovilplus.R
-import com.erwiin21mp.cinemovilplus.core.ext.logData
-import com.erwiin21mp.cinemovilplus.core.ext.logList
 import com.erwiin21mp.cinemovilplus.core.ext.loseFocusAfterAction
 import com.erwiin21mp.cinemovilplus.core.ext.onTextChanged
 import com.erwiin21mp.cinemovilplus.core.ext.removeAccents
 import com.erwiin21mp.cinemovilplus.databinding.FragmentSearchBinding
 import com.erwiin21mp.cinemovilplus.domain.model.ContentHomeModel
 import com.erwiin21mp.cinemovilplus.domain.model.ContentSearchModel
-import com.erwiin21mp.cinemovilplus.ui.utils.SpacingItemDecoration
+import com.erwiin21mp.cinemovilplus.ui.utils.SpacingItemDecorationSearch
 import com.erwiin21mp.cinemovilplus.ui.view.home.content.ContentAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -81,7 +79,7 @@ class SearchFragment : Fragment() {
     private fun initContentRecyclerView() {
         binding.rvContentSearch.apply {
             adapter = adapterContent
-            addItemDecoration(SpacingItemDecoration(resources.getDimensionPixelSize(R.dimen.spacing_recycler_view)))
+            addItemDecoration(SpacingItemDecorationSearch(resources.getDimensionPixelSize(R.dimen.spacing_recycler_view)))
             layoutManager = GridLayoutManager(context, 3)
         }
     }
@@ -98,8 +96,6 @@ class SearchFragment : Fragment() {
                             bannerAdSearch.visibility = VISIBLE
                             listOfContent = contentList.toMutableList()
                             adapterContent.updateList(getListHomeModel(listOfContent))
-                            logData("FRAGMENT----------------------------------------------")
-                            logList(contentList.sortedBy { it.title })
                         }
                     }
                 }

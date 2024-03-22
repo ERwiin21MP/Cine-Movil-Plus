@@ -129,15 +129,13 @@ class SearchViewModel @Inject constructor(
                                                 networks = result?.networks.toString(),
                                                 tagline = result?.tagline,
                                                 country = result?.country.toString(),
-                                                platforms = result2?.results?.mx?.flatrate?.joinToString(
-                                                    separator = ", "
-                                                ) { it.name.toString() }
+                                                platforms = result2?.results?.mx?.flatrate?.joinToString(separator = ", ") { it.name.toString() }
                                             )
                                         )
                                 }
                             }
                         }
-                        listOfContentAux.sortBy { it.uploadDate }
+                        listOfContentAux.sortByDescending { it.uploadDate }
                         listOfContent.postValue(listOfContentAux)
                         getGenders(listOfContentAux)
                     }
