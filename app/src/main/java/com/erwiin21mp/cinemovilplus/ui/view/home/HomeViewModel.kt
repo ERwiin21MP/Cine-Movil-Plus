@@ -4,7 +4,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.erwiin21mp.cinemovilplus.core.ext.isNotNull
-import com.erwiin21mp.cinemovilplus.core.ext.logList
 import com.erwiin21mp.cinemovilplus.domain.model.CollectionModel
 import com.erwiin21mp.cinemovilplus.domain.model.ContentHomeModel
 import com.erwiin21mp.cinemovilplus.domain.model.ContentModel
@@ -16,6 +15,8 @@ import com.erwiin21mp.cinemovilplus.domain.usecase.GetGendersUseCase
 import com.erwiin21mp.cinemovilplus.domain.usecase.GetPlatformsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -32,44 +33,50 @@ class HomeViewModel @Inject constructor(
     val listOfPlatforms = MutableLiveData<List<FlatrateModel>>(emptyList())
 
     val listOfGenders = MutableLiveData<List<GenderModel>>(emptyList())
-    val listAllContent = MutableLiveData<List<ContentHomeModel>>(emptyList())
-    val listCurrentYear = MutableLiveData<List<ContentHomeModel>>(emptyList())
-    val listCineMovilPlusNews = MutableLiveData<List<ContentHomeModel>>(emptyList())
+    val listAllContent = MutableLiveData<List<ContentModel>>(emptyList())
+    val listCurrentYear = MutableLiveData<List<ContentModel>>(emptyList())
+    val listCineMovilPlusNews = MutableLiveData<List<ContentModel>>(emptyList())
     val listOfCollections = MutableLiveData<List<CollectionModel>>(emptyList())
+
+    private var _contentFeatured =
+        MutableStateFlow<ContentFeaturedState>(ContentFeaturedState.Loading)
+    val stateContentFeatured: StateFlow<ContentFeaturedState> = _contentFeatured
 
     init {
         getContent()
         getGenders()
     }
 
-    private fun getGenders() {
-        viewModelScope.launch {
-            val list = withContext(Dispatchers.IO) { getGendersUseCase() }
-            list.shuffled()
-            listOfGenders.postValue(list)
-        }
-    }
-
     private fun getContent() {
         viewModelScope.launch {
             val listOfContent = withContext(Dispatchers.IO) { getContentHomeUseCase() }
-            logList(listOfContent)
             getContentFeatured(listOfContent)
             getPlatforms(listOfContent)
+            getAllContent(listOfContent)
+        }
+    }
+
+    private fun getAllContent(list: List<ContentModel>) {
+        listAllContent.postValue(list)
+    }
+
+    private fun getGenders() {
+        viewModelScope.launch {
+            val list = withContext(Dispatchers.IO) { getGendersUseCase() }
+            listOfGenders.postValue(list)
         }
     }
 
     private fun getPlatforms(list: List<ContentModel>) {
         viewModelScope.launch {
-            val listOfPlatformsAux =
-                withContext(Dispatchers.IO) { getPlatformsUseCase(list) }//.sortedBy { it.displayPriority }.distinct()
-            logList(listOfPlatformsAux, "listOfPlatforms")
+            val listOfPlatformsAux = withContext(Dispatchers.IO) { getPlatformsUseCase(list) }
             listOfPlatforms.postValue(listOfPlatformsAux)
         }
     }
 
     private fun getContentFeatured(list: List<ContentModel>) {
         listOfContentFeatured.postValue(list)
+        _contentFeatured.value = ContentFeaturedState.Success(list)
     }
 
     private fun getCollections(list: List<ContentHomeModel>) {
@@ -96,12 +103,12 @@ class HomeViewModel @Inject constructor(
 
     private fun getCineMovilPlusNews(list: MutableList<ContentHomeModel>) {
         list.sortByDescending { it.uploadDate }
-        listCineMovilPlusNews.postValue(list)
+//        listCineMovilPlusNews.postValue(list)
     }
 
     private fun getCurrentYear(list: MutableList<ContentHomeModel>) {
-        list.forEach { it.releaseDate = it.releaseDate.toString().substring(0, 4).toLong() }
-        list.sortBy { it.releaseDate }
-        listCurrentYear.postValue(list.filter { it.releaseDate == list.last().releaseDate })
+//        list.forEach { it.releaseDate = it.releaseDate.toString().substring(0, 4).toLong() }
+//        list.sortBy { it.releaseDate }
+//        listCurrentYear.postValue(list.filter { it.releaseDate == list.last().releaseDate })
     }
 }

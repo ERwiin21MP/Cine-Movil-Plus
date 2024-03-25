@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.erwiin21mp.cinemovilplus.R
 import com.erwiin21mp.cinemovilplus.data.network.firebase.DataBaseManager
 import com.erwiin21mp.cinemovilplus.databinding.ItemContentBinding
-import com.erwiin21mp.cinemovilplus.domain.model.ContentHomeModel
+import com.erwiin21mp.cinemovilplus.domain.model.ContentModel
 import com.erwiin21mp.cinemovilplus.domain.model.Type.Movie
 import com.erwiin21mp.cinemovilplus.domain.model.Type.Serie
 import com.squareup.picasso.Callback
@@ -15,7 +15,7 @@ class ContentViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
     private val binding = ItemContentBinding.bind(view)
 
-    fun render(item: ContentHomeModel, onItemSelected: (String) -> Unit) {
+    fun render(item: ContentModel, onItemSelected: (String) -> Unit) {
         binding.apply {
             Picasso.get().load(item.verticalImageURL).error(R.drawable.no_image)
                 .into(ivPosterVertical, object : Callback {
@@ -27,7 +27,7 @@ class ContentViewHolder(view: View) : RecyclerView.ViewHolder(view) {
                     override fun onError(exception: Exception?) {
                         DataBaseManager().logErrorLoadPosterImageContentVertical(
                             message = exception!!,
-                            idContent = item.id.orEmpty(),
+                            idContent = item.id.toString(),
                             verticalImageUlr = item.verticalImageURL.orEmpty()
                         )
                     }
@@ -42,6 +42,6 @@ class ContentViewHolder(view: View) : RecyclerView.ViewHolder(view) {
                 Movie, null -> ivSerie.visibility = View.GONE
             }
         }
-        itemView.setOnClickListener { onItemSelected(item.id!!) }
+        itemView.setOnClickListener { onItemSelected(item.id.toString()) }
     }
 }

@@ -73,7 +73,7 @@ class SearchFragment : Fragment() {
                         .contains(search.lowercase().removeAccents())
                 }
             })
-        adapterContent.updateList(list)
+//        adapterContent.updateList(list)
     }
 
     private fun initContentRecyclerView() {
@@ -94,8 +94,8 @@ class SearchFragment : Fragment() {
                             tilSearch.visibility = VISIBLE
                             rvContentSearch.visibility = VISIBLE
                             bannerAdSearch.visibility = VISIBLE
-                            listOfContent = contentList.toMutableList()
-                            adapterContent.updateList(getListHomeModel(listOfContent))
+//                            listOfContent = contentList.toMutableList()
+//                            adapterContent.updateList(getListHomeModel(listOfContent))
                         }
                     }
                 }

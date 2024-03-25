@@ -4,24 +4,17 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.erwiin21mp.cinemovilplus.data.network.firebase.FirestoreManager
+import com.erwiin21mp.cinemovilplus.domain.model.ContentModel
 import com.erwiin21mp.cinemovilplus.domain.model.ContentSearchModel
-import com.erwiin21mp.cinemovilplus.domain.usecase.GetMovieSearchUseCase
-import com.erwiin21mp.cinemovilplus.domain.usecase.GetSerieSearchUseCase
-import com.erwiin21mp.cinemovilplus.domain.usecase.GetWatchProvidersMovieUseCase
-import com.erwiin21mp.cinemovilplus.domain.usecase.GetWatchProvidersSerieUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val getMovieSearchUseCase: GetMovieSearchUseCase,
-    private val getSerieSearchUseCase: GetSerieSearchUseCase,
-    private val getWatchProvidersSerieUseCase: GetWatchProvidersSerieUseCase,
-    private val getWatchProvidersMovieUseCase: GetWatchProvidersMovieUseCase,
     private val db: FirestoreManager
 ) : ViewModel() {
-    val listOfContent = MutableLiveData<List<ContentSearchModel>>(emptyList())
+    val listOfContent = MutableLiveData<List<ContentModel>>(emptyList())
 
     companion object {
         const val KEYWORDS = "keywords"
@@ -31,7 +24,7 @@ class SearchViewModel @Inject constructor(
     }
 
     init {
-        
+
     }
 
 //    private fun getContent() {
@@ -144,7 +137,7 @@ class SearchViewModel @Inject constructor(
                     }
             }
 
-            listOfContent.postValue(list)
+//            listOfContent.postValue(list)
         }
     }
 }

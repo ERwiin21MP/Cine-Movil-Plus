@@ -104,79 +104,94 @@ class HomeFragment : Fragment() {
     private fun initObservers() {
         lifecycleScope.launch {
             repeatOnLifecycle(STARTED) {
-                homeViewModel.listOfContentFeatured.observe(viewLifecycleOwner) { contentFeaturedList ->
-                    if (contentFeaturedList.isNotEmpty()) {
-                        binding.homeContainerViewPager2.apply {
-                            loadingViewPager2.visibility = View.GONE
-                            contentViewPager2.visibility = View.VISIBLE
+                homeViewModel.stateContentFeatured.collect { contentFeaturedState ->
+                    when (contentFeaturedState) {
+                        is ContentFeaturedState.Error -> {}
+                        ContentFeaturedState.Loading -> {}
+                        is ContentFeaturedState.Success -> {
+                            binding.homeContainerViewPager2.apply {
+                                loadingViewPager2.visibility = View.GONE
+                                contentViewPager2.visibility = View.VISIBLE
+                            }
+                            sizeOfListContentFeatured = contentFeaturedState.list.size
+                            adapterViewPager.updateList(contentFeaturedState.list)
+                            setUpIndicator()
                         }
-                        sizeOfListContentFeatured = contentFeaturedList.size
-                        adapterViewPager.updateList(contentFeaturedList)
-                        setUpIndicator()
                     }
                 }
-                homeViewModel.listOfPlatforms.observe(viewLifecycleOwner) { platformList ->
-                    if (platformList.isNotEmpty()) {
-                        binding.homeContainerPlatforms.apply {
-                            containerStreamingPlatforms.visibility = View.GONE
-                            tvLabelStreamingPlatforms.visibility = View.VISIBLE
-                            rvPlatforms.visibility = View.VISIBLE
-                        }
-                        adapterPlatform.updateList(platformList)
-                    }
-                }
-                homeViewModel.listOfGenders.observe(viewLifecycleOwner) { genderList ->
-                    if (genderList.isNotEmpty()) {
-                        binding.homeContainerGenders.apply {
-                            loadingGenders.visibility = View.GONE
-                            tvLabelGenders.visibility = View.VISIBLE
-                            rvGenders.visibility = View.VISIBLE
-                        }
-                        adapterGender.updateList(genderList)
-                    }
-                }
-                homeViewModel.listAllContent.observe(viewLifecycleOwner) { allContentList ->
-                    if (allContentList.isNotEmpty()) {
-                        binding.homeContainerAllContent.apply {
-                            loadingAllContent.visibility = View.GONE
-                            tvLabelAllContent.visibility = View.VISIBLE
-                            rvAllContent.visibility = View.VISIBLE
-                        }
-                        adapterAllContent.updateList(allContentList)
-                    }
-                }
-                homeViewModel.listCurrentYear.observe(viewLifecycleOwner) { currentYearList ->
-                    if (currentYearList.isNotEmpty()) {
-                        binding.homeContainerCurrentYear.apply {
-                            loadingCurrentYear.visibility = View.GONE
-                            tvLabelCurrentYear.visibility = View.VISIBLE
-                            rvCurrentYear.visibility = View.VISIBLE
-                            tvLabelCurrentYear.text =
-                                "${tvLabelCurrentYear.context.getString(R.string.moviesAndSeries)} ${currentYearList.first().releaseDate}"
-                        }
-                        adapterCurrentYear.updateList(currentYearList)
-                    }
-                }
-                homeViewModel.listCineMovilPlusNews.observe(viewLifecycleOwner) { cineMovilPlusList ->
-                    if (cineMovilPlusList.isNotEmpty()) {
-                        binding.homeContainerCineMovilPlusNews.apply {
-                            loadingCineMovilPlusNews.visibility = View.GONE
-                            tvLabelCineMovilPlusNews.visibility = View.VISIBLE
-                            rvCineMovilPlusNews.visibility = View.VISIBLE
-                        }
-                        adapterCineMovilPlusNews.updateList(cineMovilPlusList)
-                    }
-                }
-                homeViewModel.listOfCollections.observe(viewLifecycleOwner) { collectionsList ->
-                    if (collectionsList.isNotEmpty()) {
-                        binding.homeContainerCollection.apply {
-                            loadingCollection.visibility = View.GONE
-                            tvLabelCollection.visibility = View.VISIBLE
-                            rvCollection.visibility = View.VISIBLE
-                        }
-                        adapterCollection.updateList(collectionsList)
-                    }
-                }
+//                homeViewModel.listOfContentFeatured.observe(viewLifecycleOwner) { contentFeaturedList ->
+//                    if (contentFeaturedList.isNotEmpty()) {
+//                        binding.homeContainerViewPager2.apply {
+//                            loadingViewPager2.visibility = View.GONE
+//                            contentViewPager2.visibility = View.VISIBLE
+//                        }
+//                        sizeOfListContentFeatured = contentFeaturedList.size
+//                        adapterViewPager.updateList(contentFeaturedList)
+//                        setUpIndicator()
+//                    }
+//                }
+//                homeViewModel.listOfPlatforms.observe(viewLifecycleOwner) { platformList ->
+//                    if (platformList.isNotEmpty()) {
+//                        binding.homeContainerPlatforms.apply {
+//                            containerStreamingPlatforms.visibility = View.GONE
+//                            tvLabelStreamingPlatforms.visibility = View.VISIBLE
+//                            rvPlatforms.visibility = View.VISIBLE
+//                        }
+//                        adapterPlatform.updateList(platformList)
+//                    }
+//                }
+//                homeViewModel.listOfGenders.observe(viewLifecycleOwner) { genderList ->
+//                    if (genderList.isNotEmpty()) {
+//                        binding.homeContainerGenders.apply {
+//                            loadingGenders.visibility = View.GONE
+//                            tvLabelGenders.visibility = View.VISIBLE
+//                            rvGenders.visibility = View.VISIBLE
+//                        }
+//                        adapterGender.updateList(genderList)
+//                    }
+//                }
+//                homeViewModel.listAllContent.observe(viewLifecycleOwner) { allContentList ->
+//                    if (allContentList.isNotEmpty()) {
+//                        binding.homeContainerAllContent.apply {
+//                            loadingAllContent.visibility = View.GONE
+//                            tvLabelAllContent.visibility = View.VISIBLE
+//                            rvAllContent.visibility = View.VISIBLE
+//                        }
+//                        adapterAllContent.updateList(allContentList)
+//                    }
+//                }
+//                homeViewModel.listCurrentYear.observe(viewLifecycleOwner) { currentYearList ->
+//                    if (currentYearList.isNotEmpty()) {
+//                        binding.homeContainerCurrentYear.apply {
+//                            loadingCurrentYear.visibility = View.GONE
+//                            tvLabelCurrentYear.visibility = View.VISIBLE
+//                            rvCurrentYear.visibility = View.VISIBLE
+//                            tvLabelCurrentYear.text =
+//                                "${tvLabelCurrentYear.context.getString(R.string.moviesAndSeries)} ${currentYearList.first().releaseDate}"
+//                        }
+//                        adapterCurrentYear.updateList(currentYearList)
+//                    }
+//                }
+//                homeViewModel.listCineMovilPlusNews.observe(viewLifecycleOwner) { cineMovilPlusList ->
+//                    if (cineMovilPlusList.isNotEmpty()) {
+//                        binding.homeContainerCineMovilPlusNews.apply {
+//                            loadingCineMovilPlusNews.visibility = View.GONE
+//                            tvLabelCineMovilPlusNews.visibility = View.VISIBLE
+//                            rvCineMovilPlusNews.visibility = View.VISIBLE
+//                        }
+//                        adapterCineMovilPlusNews.updateList(cineMovilPlusList)
+//                    }
+//                }
+//                homeViewModel.listOfCollections.observe(viewLifecycleOwner) { collectionsList ->
+//                    if (collectionsList.isNotEmpty()) {
+//                        binding.homeContainerCollection.apply {
+//                            loadingCollection.visibility = View.GONE
+//                            tvLabelCollection.visibility = View.VISIBLE
+//                            rvCollection.visibility = View.VISIBLE
+//                        }
+//                        adapterCollection.updateList(collectionsList)
+//                    }
+//                }
             }
         }
     }

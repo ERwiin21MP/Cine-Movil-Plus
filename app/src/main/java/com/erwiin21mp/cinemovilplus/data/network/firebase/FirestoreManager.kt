@@ -55,16 +55,14 @@ class FirestoreManager @Inject constructor(
         }
     }
 
-    suspend fun getContentGenders(): List<ContentGenderModel> {
-        return db.collection(TABLE_CONTENT_GENDER).get()
-            .await().documents.map { document ->
-                val data = document.data!!
-                ContentGenderModel(
-                    contentID = data[SearchViewModel.CONTENT_ID].toString().toInt(),
-                    genderID = data[SearchViewModel.GENDER_ID].toString().toInt()
-                )
-            }
-    }
+    suspend fun getContentGenders() = db.collection(TABLE_CONTENT_GENDER).get()
+        .await().documents.map { document ->
+            val data = document.data!!
+            ContentGenderModel(
+                contentID = data[SearchViewModel.CONTENT_ID].toString().toInt(),
+                genderID = data[SearchViewModel.GENDER_ID].toString().toInt()
+            )
+        }.shuffled()
 
     private suspend fun getContentByFirebase() =
         db.collection(TABLE_CONTENT).get().await().documents.map { document ->
