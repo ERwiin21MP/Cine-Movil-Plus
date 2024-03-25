@@ -25,11 +25,13 @@ object NetworkModule {
     }
 
     @Provides
+    @Singleton
     fun provideApiService(retrofit: Retrofit): APIService {
         return retrofit.create(APIService::class.java)
     }
 
     @Provides
+    @Singleton
     fun getRepository(apiService: APIService): Repository {
         return RepositoryImpl(apiService)
     }

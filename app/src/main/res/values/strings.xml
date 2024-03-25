@@ -81,4 +81,5 @@
     <string name="synopsis">Sinopsis</string>
     <string name="CineMovilPlusNews">Novedades de Cine Móvil Plus</string>
     <string name="exploreOurCollections">Explora nuestras colecciones</string>
+    <string name="no_title">Sin titulo</string>
 </resources>

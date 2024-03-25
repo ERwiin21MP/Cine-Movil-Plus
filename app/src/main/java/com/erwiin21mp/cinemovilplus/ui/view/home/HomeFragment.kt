@@ -49,7 +49,7 @@ class HomeFragment : Fragment() {
     private val adapterAllContent = ContentAdapter { navigateToContent(it) }
     private val adapterCurrentYear = ContentAdapter { navigateToContent(it) }
     private val adapterCineMovilPlusNews = ContentAdapter { navigateToContent(it) }
-    private val adapterCollection = CollectionAdapter {  }
+    private val adapterCollection = CollectionAdapter { }
 
     companion object {
         const val TIME_VIEW_PAGER_CHANGE_ITEM = 3000
@@ -104,14 +104,14 @@ class HomeFragment : Fragment() {
     private fun initObservers() {
         lifecycleScope.launch {
             repeatOnLifecycle(STARTED) {
-                homeViewModel.listOfContent.observe(viewLifecycleOwner) { contentList ->
-                    if (contentList.isNotEmpty()) {
+                homeViewModel.listOfContentFeatured.observe(viewLifecycleOwner) { contentFeaturedList ->
+                    if (contentFeaturedList.isNotEmpty()) {
                         binding.homeContainerViewPager2.apply {
                             loadingViewPager2.visibility = View.GONE
                             contentViewPager2.visibility = View.VISIBLE
                         }
-                        sizeOfListContentFeatured = contentList.size
-                        adapterViewPager.updateList(contentList)
+                        sizeOfListContentFeatured = contentFeaturedList.size
+                        adapterViewPager.updateList(contentFeaturedList)
                         setUpIndicator()
                     }
                 }

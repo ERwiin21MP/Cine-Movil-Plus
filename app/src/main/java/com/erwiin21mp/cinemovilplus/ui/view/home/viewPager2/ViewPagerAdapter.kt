@@ -4,14 +4,14 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.erwiin21mp.cinemovilplus.R
-import com.erwiin21mp.cinemovilplus.domain.model.ContentHomeModel
+import com.erwiin21mp.cinemovilplus.domain.model.ContentModel
 
 class ViewPagerAdapter(
-    private var list: List<ContentHomeModel> = emptyList(),
+    private var list: List<ContentModel> = emptyList(),
     private val onItemSelected: (String) -> Unit
 ) : RecyclerView.Adapter<ViewPagerHolder>() {
 
-    fun updateList(listUpdated: List<ContentHomeModel>) {
+    fun updateList(listUpdated: List<ContentModel>) {
         list = listUpdated
         notifyDataSetChanged()
     }

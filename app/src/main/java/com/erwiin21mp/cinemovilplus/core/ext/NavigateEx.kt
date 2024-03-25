@@ -3,9 +3,9 @@ package com.erwiin21mp.cinemovilplus.core.ext
 import android.app.Activity
 import android.content.Intent
 import androidx.fragment.app.Fragment
+import com.erwiin21mp.cinemovilplus.data.network.firebase.FirestoreManager.Companion.ID
 import com.erwiin21mp.cinemovilplus.ui.view.contentView.ContentViewActivity
 import com.erwiin21mp.cinemovilplus.ui.view.forgotPassword.ForgotPasswordActivity
-import com.erwiin21mp.cinemovilplus.ui.view.home.HomeViewModel.Companion.ID
 import com.erwiin21mp.cinemovilplus.ui.view.index.IndexActivity
 import com.erwiin21mp.cinemovilplus.ui.view.login.LoginActivity
 import com.erwiin21mp.cinemovilplus.ui.view.signUp.SignUpActivity

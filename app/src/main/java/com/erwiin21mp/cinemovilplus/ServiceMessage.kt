@@ -10,8 +10,8 @@ import androidx.core.app.NotificationCompat.BigTextStyle
 import androidx.core.app.NotificationCompat.Builder
 import androidx.core.app.NotificationCompat.PRIORITY_HIGH
 import com.erwiin21mp.cinemovilplus.core.ext.logData
+import com.erwiin21mp.cinemovilplus.data.network.firebase.FirestoreManager.Companion.ID
 import com.erwiin21mp.cinemovilplus.ui.view.contentView.ContentViewActivity
-import com.erwiin21mp.cinemovilplus.ui.view.home.HomeViewModel.Companion.ID
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import kotlin.random.Random
