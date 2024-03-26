@@ -12,7 +12,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class DataBaseManager @Inject constructor() {
+class LogDataBaseManager @Inject constructor() {
 
     private val database: DatabaseReference = FirebaseDatabase.getInstance().reference
 

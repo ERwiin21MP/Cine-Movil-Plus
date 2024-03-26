@@ -1,12 +1,14 @@
 package com.erwiin21mp.cinemovilplus.data.network.firebase
 
 import com.erwiin21mp.cinemovilplus.core.ext.isNotNull
+import com.erwiin21mp.cinemovilplus.domain.model.CollectionModel
 import com.erwiin21mp.cinemovilplus.domain.model.ContentGenderModel
 import com.erwiin21mp.cinemovilplus.domain.model.ContentModel
 import com.erwiin21mp.cinemovilplus.domain.model.FlatrateModel
 import com.erwiin21mp.cinemovilplus.domain.model.GenderModel
 import com.erwiin21mp.cinemovilplus.domain.model.Type.Movie
 import com.erwiin21mp.cinemovilplus.domain.model.Type.Serie
+import com.erwiin21mp.cinemovilplus.domain.usecase.GetCollectionDetailsUseCase
 import com.erwiin21mp.cinemovilplus.domain.usecase.GetDetailsMovieUseCase
 import com.erwiin21mp.cinemovilplus.domain.usecase.GetDetailsSerieUserCase
 import com.erwiin21mp.cinemovilplus.domain.usecase.GetWatchProvidersMovieUseCase
@@ -25,7 +27,8 @@ class FirestoreManager @Inject constructor(
     private val getDetailsMovieUseCase: GetDetailsMovieUseCase,
     private val getDetailsSerieUserCase: GetDetailsSerieUserCase,
     private val getWatchProvidersMovieUseCase: GetWatchProvidersMovieUseCase,
-    private val getWatchProvidersSerieUseCase: GetWatchProvidersSerieUseCase
+    private val getWatchProvidersSerieUseCase: GetWatchProvidersSerieUseCase,
+    private val getCollectionDetailsUseCase: GetCollectionDetailsUseCase,
 ) {
     companion object {
         const val CONTENT_URL = "content_url"
@@ -93,6 +96,7 @@ class FirestoreManager @Inject constructor(
                     item.horizontalImageURL = result?.horizontalImageURL.orEmpty()
                     item.title = result?.title.orEmpty()
                     item.verticalImageURL = result?.verticalImageURL.orEmpty()
+                    item.releaseDate = result?.releaseDate
                 }
                 listRet.add(item)
             }
@@ -120,5 +124,25 @@ class FirestoreManager @Inject constructor(
             }
         }
         return listRet.sortedBy { it.displayPriority }.distinct()
+    }
+
+    suspend fun getCollections(list: List<ContentModel>): List<CollectionModel> {
+        val listOfCollectionsAux = mutableListOf<CollectionModel>()
+
+        list.forEach {
+            val result =
+                withContext(Dispatchers.IO) { getCollectionDetailsUseCase(it.idCollection.toString()) }
+            if (result.isNotNull()) {
+                listOfCollectionsAux.add(
+                    CollectionModel(
+                        id = result?.id,
+                        name = result?.name,
+                        verticalImageURL = result?.verticalImageURL,
+                        horizontalImageURL = result?.horizontalImageURL
+                    )
+                )
+            }
+        }
+        return listOfCollectionsAux
     }
 }

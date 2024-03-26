@@ -1,7 +1,7 @@
 package com.erwiin21mp.cinemovilplus.data
 
 import com.erwiin21mp.cinemovilplus.data.network.api.APIService
-import com.erwiin21mp.cinemovilplus.data.network.firebase.DataBaseManager
+import com.erwiin21mp.cinemovilplus.data.network.firebase.LogDataBaseManager
 import com.erwiin21mp.cinemovilplus.domain.Repository
 import com.erwiin21mp.cinemovilplus.domain.model.CollectionModel
 import com.erwiin21mp.cinemovilplus.domain.model.ContentModel
@@ -66,6 +66,6 @@ class RepositoryImpl @Inject constructor(private val apiService: APIService) : R
     }
 
     private fun logErrorApi(id: String, message: String) {
-        DataBaseManager().logErrorApi(id, message)
+        LogDataBaseManager().logErrorApi(id, message)
     }
 }

@@ -3,7 +3,7 @@ package com.erwiin21mp.cinemovilplus.ui.view.home.content
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.erwiin21mp.cinemovilplus.R
-import com.erwiin21mp.cinemovilplus.data.network.firebase.DataBaseManager
+import com.erwiin21mp.cinemovilplus.data.network.firebase.LogDataBaseManager
 import com.erwiin21mp.cinemovilplus.databinding.ItemContentBinding
 import com.erwiin21mp.cinemovilplus.domain.model.ContentModel
 import com.erwiin21mp.cinemovilplus.domain.model.Type.Movie
@@ -25,7 +25,7 @@ class ContentViewHolder(view: View) : RecyclerView.ViewHolder(view) {
                     }
 
                     override fun onError(exception: Exception?) {
-                        DataBaseManager().logErrorLoadPosterImageContentVertical(
+                        LogDataBaseManager().logErrorLoadPosterImageContentVertical(
                             message = exception!!,
                             idContent = item.id.toString(),
                             verticalImageUlr = item.verticalImageURL.orEmpty()

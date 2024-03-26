@@ -6,7 +6,7 @@ import com.erwiin21mp.cinemovilplus.R
 import com.erwiin21mp.cinemovilplus.core.ext.onTextChanged
 import com.erwiin21mp.cinemovilplus.data.model.AuthRes
 import com.erwiin21mp.cinemovilplus.data.network.firebase.AuthManager
-import com.erwiin21mp.cinemovilplus.data.network.firebase.DataBaseManager
+import com.erwiin21mp.cinemovilplus.data.network.firebase.LogDataBaseManager
 import com.erwiin21mp.cinemovilplus.databinding.ActivityForgotPasswordBinding
 import com.erwiin21mp.cinemovilplus.ui.utils.Win
 import dagger.hilt.android.AndroidEntryPoint
@@ -21,7 +21,7 @@ class ForgotPasswordActivity : AppCompatActivity() {
     private var isValidEmail = false
     private lateinit var win: Win
     private lateinit var auth: AuthManager
-    private val database = DataBaseManager()
+    private val database = LogDataBaseManager()
 
     private companion object {
         const val BUTTON_SEND_EMAIL = "SendEmail"

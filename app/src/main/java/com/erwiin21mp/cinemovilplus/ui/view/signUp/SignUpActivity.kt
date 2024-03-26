@@ -11,7 +11,7 @@ import com.erwiin21mp.cinemovilplus.core.ext.onTextChanged
 import com.erwiin21mp.cinemovilplus.core.ext.toast
 import com.erwiin21mp.cinemovilplus.data.model.AuthRes
 import com.erwiin21mp.cinemovilplus.data.network.firebase.AuthManager
-import com.erwiin21mp.cinemovilplus.data.network.firebase.DataBaseManager
+import com.erwiin21mp.cinemovilplus.data.network.firebase.LogDataBaseManager
 import com.erwiin21mp.cinemovilplus.databinding.ActivityRegisterBinding
 import com.erwiin21mp.cinemovilplus.ui.utils.Win
 import com.erwiin21mp.cinemovilplus.ui.utils.Win.Companion.MIN_PASSWORD_LENGTH
@@ -31,7 +31,7 @@ class SignUpActivity : AppCompatActivity() {
     private var isValidPassword = false
     private var isEqualsPasswords = false
     private lateinit var win: Win
-    private val database = DataBaseManager()
+    private val database = LogDataBaseManager()
     private lateinit var auth: AuthManager
 
     private companion object {

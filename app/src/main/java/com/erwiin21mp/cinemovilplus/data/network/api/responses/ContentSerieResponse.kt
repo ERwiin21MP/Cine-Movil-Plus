@@ -16,7 +16,7 @@ data class ContentSerieResponse(
         return ContentModel(
             horizontalImageURL = horizontalImageURL?.toImageURL(),
             id = id,
-            releaseDate = releaseDate,
+            releaseDate = releaseDate?.replace("-", "")?.toLong(),
             title = title,
             verticalImageURL = verticalImageURL?.toImageURL(),
             type = Type.Serie

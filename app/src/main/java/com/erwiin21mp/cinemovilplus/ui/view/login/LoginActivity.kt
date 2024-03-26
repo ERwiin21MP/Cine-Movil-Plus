@@ -12,7 +12,7 @@ import com.erwiin21mp.cinemovilplus.core.ext.onTextChanged
 import com.erwiin21mp.cinemovilplus.core.ext.toast
 import com.erwiin21mp.cinemovilplus.data.model.AuthRes
 import com.erwiin21mp.cinemovilplus.data.network.firebase.AuthManager
-import com.erwiin21mp.cinemovilplus.data.network.firebase.DataBaseManager
+import com.erwiin21mp.cinemovilplus.data.network.firebase.LogDataBaseManager
 import com.erwiin21mp.cinemovilplus.databinding.ActivityLoginBinding
 import com.erwiin21mp.cinemovilplus.ui.utils.Win
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -33,7 +33,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var auth: AuthManager
     private lateinit var win: Win
     @Inject
-    lateinit var dataBase: DataBaseManager
+    lateinit var dataBase: LogDataBaseManager
 
     private companion object {
         const val BUTTON_LOGIN = "Login"

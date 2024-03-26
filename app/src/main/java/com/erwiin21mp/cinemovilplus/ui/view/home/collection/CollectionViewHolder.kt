@@ -3,7 +3,7 @@ package com.erwiin21mp.cinemovilplus.ui.view.home.collection
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.erwiin21mp.cinemovilplus.R
-import com.erwiin21mp.cinemovilplus.data.network.firebase.DataBaseManager
+import com.erwiin21mp.cinemovilplus.data.network.firebase.LogDataBaseManager
 import com.erwiin21mp.cinemovilplus.databinding.ItemCollectionBinding
 import com.erwiin21mp.cinemovilplus.domain.model.CollectionModel
 import com.squareup.picasso.Callback
@@ -22,7 +22,7 @@ class CollectionViewHolder(view: View) : RecyclerView.ViewHolder(view) {
                     }
 
                     override fun onError(exception: Exception?) {
-                        DataBaseManager().logErrorLoadImagePlatform(
+                        LogDataBaseManager().logErrorLoadImagePlatform(
                             exception,
                             item.name.orEmpty(),
                             item.verticalImageURL.orEmpty()

@@ -14,7 +14,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.erwiin21mp.cinemovilplus.R
 import com.erwiin21mp.cinemovilplus.data.network.firebase.AuthManager
-import com.erwiin21mp.cinemovilplus.data.network.firebase.DataBaseManager
+import com.erwiin21mp.cinemovilplus.data.network.firebase.LogDataBaseManager
 import com.erwiin21mp.cinemovilplus.databinding.AlertErrorLoginBinding
 import com.erwiin21mp.cinemovilplus.databinding.AlertForgotPasswordSuccessfullyMessageBinding
 import com.erwiin21mp.cinemovilplus.databinding.AlertWaitingBinding
@@ -23,7 +23,7 @@ import javax.inject.Inject
 @SuppressLint("InflateParams")
 class Win @Inject constructor(context: Context) {
 
-    private val database = DataBaseManager()
+    private val database = LogDataBaseManager()
     private val auth = AuthManager(context)
 
     companion object {

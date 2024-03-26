@@ -7,11 +7,10 @@ data class ContentModel(
     var idTmdb: Int? = null,
     var isCameraQuality: Boolean? = null,
     var isEnabled: Boolean? = null,
-    var keywords: String? = null,
     var type: Type,
     var uploadDate: Long? = null,
     var horizontalImageURL: String? = null,
-    var releaseDate: String? = null,
+    var releaseDate: Long? = null,
     var verticalImageURL: String? = null,
     var title: String? = null,
     var genres: String? = null,
@@ -23,5 +22,6 @@ data class ContentModel(
     var networks: String? = null,
     var tagline: String? = null,
     var country: String? = null,
+    var keywords: String? = null,
     var platforms: String? = null
 )

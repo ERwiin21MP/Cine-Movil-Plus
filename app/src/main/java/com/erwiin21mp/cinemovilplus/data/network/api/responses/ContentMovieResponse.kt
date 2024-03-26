@@ -15,7 +15,7 @@ data class ContentMovieResponse(
     fun toDomain() = ContentModel(
         horizontalImageURL = horizontalImageURL?.toImageURL(),
         id = id,
-        releaseDate = releaseDate,
+        releaseDate = releaseDate?.replace("-", "")?.toLong(),
         title = title,
         verticalImageURL = verticalImageURL?.toImageURL(),
         type = Movie

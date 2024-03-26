@@ -17,8 +17,8 @@ import com.erwiin21mp.cinemovilplus.core.ext.navigateToContent
 import com.erwiin21mp.cinemovilplus.core.ext.navigateToIndex
 import com.erwiin21mp.cinemovilplus.core.ext.navigateToLogin
 import com.erwiin21mp.cinemovilplus.data.network.firebase.AuthManager
-import com.erwiin21mp.cinemovilplus.data.network.firebase.DataBaseManager
 import com.erwiin21mp.cinemovilplus.data.network.firebase.FirestoreManager.Companion.ID
+import com.erwiin21mp.cinemovilplus.data.network.firebase.LogDataBaseManager
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.AndroidEntryPoint
@@ -33,7 +33,7 @@ class SplashScreenActivity : AppCompatActivity() {
 
     private lateinit var auth: AuthManager
     @Inject
-    lateinit var database: DataBaseManager
+    lateinit var database: LogDataBaseManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val screenSplash = installSplashScreen()
