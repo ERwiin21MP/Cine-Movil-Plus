@@ -2,9 +2,7 @@ package com.erwiin21mp.cinemovilplus.data.network.api
 
 import com.erwiin21mp.cinemovilplus.data.network.api.responses.CollectionResponse
 import com.erwiin21mp.cinemovilplus.data.network.api.responses.ContentMovieResponse
-import com.erwiin21mp.cinemovilplus.data.network.api.responses.ContentMovieSearchResponse
 import com.erwiin21mp.cinemovilplus.data.network.api.responses.ContentSerieResponse
-import com.erwiin21mp.cinemovilplus.data.network.api.responses.ContentSerieSearchResponse
 import com.erwiin21mp.cinemovilplus.data.network.api.responses.PlatformsResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -26,14 +24,14 @@ interface APIService {
     ): ContentSerieResponse
 
     @GET("movie/{movie_id}/watch/providers")
-    suspend fun getWatchProvidersMovieById(
+    suspend fun getPlatformsMovieById(
         @Path("movie_id") movieId: String,
         @Query("api_key") apiKey: String,
         @Query("language") language: String
     ): PlatformsResponse
 
     @GET("tv/{series_id}/watch/providers")
-    suspend fun getWatchProvidersSerieById(
+    suspend fun getPlatformsSerieById(
         @Path("series_id") seriesId: String,
         @Query("api_key") apiKey: String,
         @Query("language") language: String
@@ -45,18 +43,4 @@ interface APIService {
         @Query("api_key") apiKey: String,
         @Query("language") language: String
     ): CollectionResponse
-
-    @GET("movie/{movie_id}")
-    suspend fun getMovieSearch(
-        @Path("movie_id") movieId: String,
-        @Query("api_key") apiKey: String,
-        @Query("language") language: String
-    ): ContentMovieSearchResponse
-
-    @GET("tv/{series_id}")
-    suspend fun getSerieSearch(
-        @Path("series_id") serieId: String,
-        @Query("api_key") apiKey: String,
-        @Query("language") language: String
-    ): ContentSerieSearchResponse
 }

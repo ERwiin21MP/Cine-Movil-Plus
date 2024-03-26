@@ -2,7 +2,7 @@ package com.erwiin21mp.cinemovilplus.data.network.api.responses
 
 import com.erwiin21mp.cinemovilplus.core.ext.toImageURL
 import com.erwiin21mp.cinemovilplus.domain.model.ContentModel
-import com.erwiin21mp.cinemovilplus.domain.model.Type
+import com.erwiin21mp.cinemovilplus.domain.model.Type.*
 import com.google.gson.annotations.SerializedName
 
 data class ContentSerieResponse(
@@ -16,10 +16,10 @@ data class ContentSerieResponse(
         return ContentModel(
             horizontalImageURL = horizontalImageURL?.toImageURL(),
             id = id,
-            releaseDate = releaseDate?.replace("-", "")?.toLong(),
+            releaseDate = releaseDate,
             title = title,
             verticalImageURL = verticalImageURL?.toImageURL(),
-            type = Type.Serie
+            type = Serie
         )
     }
 }

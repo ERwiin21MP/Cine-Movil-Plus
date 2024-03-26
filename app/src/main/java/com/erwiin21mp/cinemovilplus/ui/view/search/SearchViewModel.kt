@@ -3,32 +3,31 @@ package com.erwiin21mp.cinemovilplus.ui.view.search
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.erwiin21mp.cinemovilplus.data.network.firebase.FirestoreManager
 import com.erwiin21mp.cinemovilplus.domain.model.ContentModel
-import com.erwiin21mp.cinemovilplus.domain.model.ContentSearchModel
+import com.erwiin21mp.cinemovilplus.domain.usecase.GetContentSearchUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SearchViewModel @Inject constructor(
-    private val db: FirestoreManager
-) : ViewModel() {
+class SearchViewModel @Inject constructor(private val getContentSearchUseCase: GetContentSearchUseCase) :
+    ViewModel() {
+
     val listOfContent = MutableLiveData<List<ContentModel>>(emptyList())
 
-    companion object {
-        const val KEYWORDS = "keywords"
-        const val TABLE_CONTENT_GENDER = "content_gender"
-        const val CONTENT_ID = "content_id"
-        const val GENDER_ID = "gender_id"
+    init {
+        getContent()
     }
 
-    init {
-
+    private fun getContent() {
+        viewModelScope.launch {
+//            val listOfContentAux = withContext(Dispatchers.IO) { getContentSearchUseCase() }
+//            logList(listOfContentAux, "listOfContentAux")
+        }
     }
 
 //    private fun getContent() {
-//        val listOfContentAux = mutableListOf<ContentSearchModel>()
+
 //
 //        FirebaseFirestore.getInstance().collection(TABLE_CONTENT).get()
 //            .addOnSuccessListener { documents ->
@@ -124,20 +123,20 @@ class SearchViewModel @Inject constructor(
 //            }
 //    }
 
-    private fun getGenders(list: MutableList<ContentSearchModel>) {
-        viewModelScope.launch {
-            val listOfGenders = db.getGenders()
-            val listOfContentGender = db.getContentGenders()
-//            logList(listOfGenders.sortedBy { it.id }, "listOfGenders")
-            list.forEach { model ->
-                model.genres = listOfContentGender
-                    .filter { it.contentID == model.id?.toInt() }
-                    .joinToString(separator = " ") { contentGender ->
-                        listOfGenders.find { it.id == contentGender.genderID }?.gender.orEmpty()
-                    }
-            }
-
-//            listOfContent.postValue(list)
-        }
-    }
+//    private fun getGenders(list: MutableList<ContentSearchModel>) {
+//        viewModelScope.launch {
+//            val listOfGenders = db.getGenders()
+//            val listOfContentGender = db.getContentGenders()
+////            logList(listOfGenders.sortedBy { it.id }, "listOfGenders")
+//            list.forEach { model ->
+//                model.genres = listOfContentGender
+//                    .filter { it.contentID == model.id?.toInt() }
+//                    .joinToString(separator = " ") { contentGender ->
+//                        listOfGenders.find { it.id == contentGender.genderID }?.gender.orEmpty()
+//                    }
+//            }
+//
+////            listOfContent.postValue(list)
+//        }
+//    }
 }

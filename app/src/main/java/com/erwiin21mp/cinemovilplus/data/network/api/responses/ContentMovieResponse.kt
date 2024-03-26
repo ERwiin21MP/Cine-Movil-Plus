@@ -10,12 +10,12 @@ data class ContentMovieResponse(
     @SerializedName("id") var id: Int? = null,
     @SerializedName("release_date") var releaseDate: String? = null,
     @SerializedName("title") var title: String? = null,
-    @SerializedName("poster_path") var verticalImageURL: String? = null,
+    @SerializedName("poster_path") var verticalImageURL: String? = null
 ) {
     fun toDomain() = ContentModel(
         horizontalImageURL = horizontalImageURL?.toImageURL(),
         id = id,
-        releaseDate = releaseDate?.replace("-", "")?.toLong(),
+        releaseDate = releaseDate,
         title = title,
         verticalImageURL = verticalImageURL?.toImageURL(),
         type = Movie

@@ -84,8 +84,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun getContentCurrentYear(list: List<ContentModel>) {
-        list.forEach { it.releaseDate = it.releaseDate.toString().substring(0, 4).toLong() }
-        val listOr = list.sortedBy { it.releaseDate }
-        listCurrentYear.postValue(listOr.filter { it.releaseDate == listOr.last().releaseDate })
+        val currentYear = list.map { it.releaseDate?.substring(0, 4)?.toShort() ?: 2024 }.maxOf { it }.toString()
+        listCurrentYear.postValue(list.filter { it.releaseDate?.substring(0, 4) == currentYear })
     }
 }

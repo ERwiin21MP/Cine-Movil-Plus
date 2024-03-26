@@ -113,8 +113,8 @@ class HomeFragment : Fragment() {
                 homeViewModel.listOfContentFeatured.observe(viewLifecycleOwner) { contentFeaturedList ->
                     if (contentFeaturedList.isNotEmpty()) {
                         binding.homeContainerViewPager2.apply {
-                            loadingViewPager2.visibility = View.GONE
-                            contentViewPager2.visibility = View.VISIBLE
+                            loadingViewPager2.visibility = GONE
+                            contentViewPager2.visibility = VISIBLE
                         }
                         sizeOfListContentFeatured = contentFeaturedList.size
                         adapterViewPager.updateList(contentFeaturedList)
@@ -124,9 +124,9 @@ class HomeFragment : Fragment() {
                 homeViewModel.listOfPlatforms.observe(viewLifecycleOwner) { platformList ->
                     if (platformList.isNotEmpty()) {
                         binding.homeContainerPlatforms.apply {
-                            containerStreamingPlatforms.visibility = View.GONE
-                            tvLabelStreamingPlatforms.visibility = View.VISIBLE
-                            rvPlatforms.visibility = View.VISIBLE
+                            containerStreamingPlatforms.visibility = GONE
+                            tvLabelStreamingPlatforms.visibility = VISIBLE
+                            rvPlatforms.visibility = VISIBLE
                         }
                         adapterPlatform.updateList(platformList)
                     }
@@ -134,9 +134,9 @@ class HomeFragment : Fragment() {
                 homeViewModel.listOfGenders.observe(viewLifecycleOwner) { genderList ->
                     if (genderList.isNotEmpty()) {
                         binding.homeContainerGenders.apply {
-                            loadingGenders.visibility = View.GONE
-                            tvLabelGenders.visibility = View.VISIBLE
-                            rvGenders.visibility = View.VISIBLE
+                            loadingGenders.visibility = GONE
+                            tvLabelGenders.visibility = VISIBLE
+                            rvGenders.visibility = VISIBLE
                         }
                         adapterGender.updateList(genderList)
                     }
@@ -144,9 +144,9 @@ class HomeFragment : Fragment() {
                 homeViewModel.listAllContent.observe(viewLifecycleOwner) { allContentList ->
                     if (allContentList.isNotEmpty()) {
                         binding.homeContainerAllContent.apply {
-                            loadingAllContent.visibility = View.GONE
-                            tvLabelAllContent.visibility = View.VISIBLE
-                            rvAllContent.visibility = View.VISIBLE
+                            loadingAllContent.visibility = GONE
+                            tvLabelAllContent.visibility = VISIBLE
+                            rvAllContent.visibility = VISIBLE
                         }
                         adapterAllContent.updateList(allContentList)
                     }
@@ -154,11 +154,13 @@ class HomeFragment : Fragment() {
                 homeViewModel.listCurrentYear.observe(viewLifecycleOwner) { currentYearList ->
                     if (currentYearList.isNotEmpty()) {
                         binding.homeContainerCurrentYear.apply {
-                            loadingCurrentYear.visibility = View.GONE
-                            tvLabelCurrentYear.visibility = View.VISIBLE
-                            rvCurrentYear.visibility = View.VISIBLE
+                            loadingCurrentYear.visibility = GONE
+                            tvLabelCurrentYear.visibility = VISIBLE
+                            rvCurrentYear.visibility = VISIBLE
                             tvLabelCurrentYear.text =
-                                "${tvLabelCurrentYear.context.getString(R.string.moviesAndSeries)} ${currentYearList.first().releaseDate}"
+                                "${tvLabelCurrentYear.context.getString(R.string.moviesAndSeries)} ${
+                                    currentYearList.first().releaseDate?.substring(0, 4)
+                                }"
                         }
                         adapterCurrentYear.updateList(currentYearList)
                     }
@@ -166,9 +168,9 @@ class HomeFragment : Fragment() {
                 homeViewModel.listCineMovilPlusNews.observe(viewLifecycleOwner) { cineMovilPlusList ->
                     if (cineMovilPlusList.isNotEmpty()) {
                         binding.homeContainerCineMovilPlusNews.apply {
-                            loadingCineMovilPlusNews.visibility = View.GONE
-                            tvLabelCineMovilPlusNews.visibility = View.VISIBLE
-                            rvCineMovilPlusNews.visibility = View.VISIBLE
+                            loadingCineMovilPlusNews.visibility = GONE
+                            tvLabelCineMovilPlusNews.visibility = VISIBLE
+                            rvCineMovilPlusNews.visibility = VISIBLE
                         }
                         adapterCineMovilPlusNews.updateList(cineMovilPlusList)
                     }
@@ -176,9 +178,9 @@ class HomeFragment : Fragment() {
                 homeViewModel.listOfCollections.observe(viewLifecycleOwner) { collectionsList ->
                     if (collectionsList.isNotEmpty()) {
                         binding.homeContainerCollection.apply {
-                            loadingCollection.visibility = View.GONE
-                            tvLabelCollection.visibility = View.VISIBLE
-                            rvCollection.visibility = View.VISIBLE
+                            loadingCollection.visibility = GONE
+                            tvLabelCollection.visibility = VISIBLE
+                            rvCollection.visibility = VISIBLE
                         }
                         adapterCollection.updateList(collectionsList)
                     }
