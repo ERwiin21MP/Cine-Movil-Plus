@@ -6,6 +6,7 @@ import com.erwiin21mp.cinemovilplus.domain.model.ContentGenderModel
 import com.erwiin21mp.cinemovilplus.domain.model.ContentModel
 import com.erwiin21mp.cinemovilplus.domain.model.FlatrateModel
 import com.erwiin21mp.cinemovilplus.domain.model.GenderModel
+import com.erwiin21mp.cinemovilplus.domain.model.Type
 import com.erwiin21mp.cinemovilplus.domain.model.Type.Movie
 import com.erwiin21mp.cinemovilplus.domain.model.Type.Serie
 import com.erwiin21mp.cinemovilplus.domain.usecase.GetCollectionDetailsUseCase
@@ -59,14 +60,15 @@ class FirestoreManager @Inject constructor(
         }
     }
 
-    suspend fun getContentGenders() = db.collection(TABLE_CONTENT_GENDER).get()
-        .await().documents.map { document ->
-            val data = document.data!!
-            ContentGenderModel(
-                contentID = data[CONTENT_ID].toString().toInt(),
-                genderID = data[GENDER_ID].toString().toInt()
-            )
-        }.shuffled()
+    private suspend fun getContentGendersById(id: Int) =
+        db.collection(TABLE_CONTENT_GENDER).whereEqualTo(CONTENT_ID, id).get()
+            .await().documents.map { document ->
+                val data = document.data!!
+                ContentGenderModel(
+                    contentID = data[CONTENT_ID].toString().toInt(),
+                    genderID = data[GENDER_ID].toString().toInt()
+                )
+            }.shuffled()
 
     private suspend fun getContentByFirebase() =
         db.collection(TABLE_CONTENT).get().await().documents.map { document ->
@@ -147,103 +149,53 @@ class FirestoreManager @Inject constructor(
         return listOfCollectionsAux
     }
 
-//    suspend fun getContentSearch(): List<ContentModel> {
-//        val list = mutableListOf<ContentModel>()
-//        getContentByFirebase().forEach {
-//            if (it.isEnabled == true) {
-//                val item = it
-//                val result = when (it.type) {
-//                    Movie -> {
-//                        val result =
-//                            withContext(Dispatchers.IO) { getMovieSearchUseCase(it.idTmdb.toString()) }
-//                        if (result.isNotNull()) {
-//                            val result2 =
-//                                withContext(Dispatchers.IO) { getWatchProvidersMovieUseCase(it.idTmdb.toString()) }
-//                            if (result2.isNotNull()) {
-//                                val item = it
-//                                item.apply {
-//                                    releaseDate = result?.releaseDate?.toLong()
-//                                    verticalImageURL
-//                                    title
-//                                    genres
-//                                    synopsis
-//                                    productionCountries
-//                                    originalTitle
-//                                    productionCompanies
-//                                    createdBy
-//                                    networks
-//                                    tagline
-//                                    country
-//                                    platforms
-//                                }
-//                            }
-//                            list.add(
-//                                ContentModel(
-//                                    id = id,
-//                                    keywords = data[KEYWORDS].toString(),
-//                                    genres = "",
-//                                    type = type,
-//                                    uploadDate = data[UPLOAD_DATE].toString()
-//                                        .toLong(),
-//                                    isCameraQuality = data[IS_CAMERA_QUALITY].toString()
-//                                        .toBoolean(),
-//                                    title = result?.title,
-//                                    originalTitle = result?.originalTitle,
-//                                    synopsis = result?.synopsis,
-//                                    productionCompanies = result?.productionCompanies.toString(),
-//                                    productionCountries = result?.productionCountries.toString(),
-//                                    releaseDate = result?.releaseDate,
-//                                    verticalImageURL = result?.verticalImageURL,
-//                                    tagline = result?.tagline,
-//                                    platforms = result2?.results?.mx?.flatrate?.joinToString(
-//                                        separator = ", "
-//                                    ) { it.name.toString() }
-//                                )
-//                            )
-//                        }
-//                    }
-//
-//                    Serie -> {
-//                        val result =
-//                            withContext(Dispatchers.IO) { getSerieSearchUseCase(idTmdb) }
-//                        if (result.isNotNull()) {
-//                            val result2 = withContext(Dispatchers.IO) {
-//                                getWatchProvidersSerieUseCase(idTmdb)
-//                            }
-//                            if (result2.isNotNull())
-//                                listOfContentAux.add(
-//                                    ContentSearchModel(
-//                                        id = id,
-//                                        keywords = data[KEYWORDS].toString(),
-//                                        genres = "",
-//                                        type = type,
-//                                        uploadDate = data[UPLOAD_DATE].toString()
-//                                            .toLong(),
-//                                        isCameraQuality = data[IS_CAMERA_QUALITY].toString()
-//                                            .toBoolean(),
-//                                        title = result?.title,
-//                                        originalTitle = result?.originalTitle,
-//                                        synopsis = result?.synopsis,
-//                                        productionCompanies = result?.productionCompanies,
-//                                        productionCountries = result?.productionCountries,
-//                                        releaseDate = result?.releaseDate,
-//                                        verticalImageURL = result?.verticalImageURL,
-//                                        createdBy = result?.createdBy.toString(),
-//                                        networks = result?.networks.toString(),
-//                                        tagline = result?.tagline,
-//                                        country = result?.country.toString(),
-//                                        platforms = result2?.results?.mx?.flatrate?.joinToString(
-//                                            separator = ", "
-//                                        ) { it.name.toString() }
-//                                    )
-//                                )
-//                        }
-//
-//                        list.add(item)
-//                    }
-//                }
-//                return list
-//            }
-//        }
-//    }
+    suspend fun getContentSearch(): List<ContentModel> {
+        val list = mutableListOf<ContentModel>()
+        val listOfGenders = getGenders()
+        getContentByFirebase().forEach { content ->
+            if (content.isEnabled == true) {
+                val result = when (content.type) {
+                    Movie -> withContext(Dispatchers.IO) { getDetailsMovieUseCase(content.idTmdb.toString()) }
+                    Serie -> withContext(Dispatchers.IO) { getDetailsSerieUserCase(content.idTmdb.toString()) }
+                }
+                if (result.isNotNull()) {
+                    content.apply {
+                        releaseDate = result?.releaseDate
+                        verticalImageURL = result?.verticalImageURL
+                        title = result?.title
+                        genres = getGendersContent(content.id!!, listOfGenders)
+                        synopsis = result?.synopsis
+                        productionCountries = result?.productionCountries
+                        originalTitle = result?.originalTitle
+                        productionCompanies = result?.productionCompanies
+                        createdBy = result?.createdBy
+                        networks = result?.networks
+                        tagline = result?.tagline
+                        platforms = getPlatformsContent(content.idTmdb!!, type)
+                    }
+                    list.add(content)
+                }
+            }
+        }
+        return list.sortedByDescending { it.uploadDate }
+    }
+
+    private suspend fun getPlatformsContent(id: Int, type: Type): List<FlatrateModel>? {
+        val list = mutableListOf<FlatrateModel>()
+        val result = when (type) {
+            Movie -> withContext(Dispatchers.IO) { getWatchProvidersMovieUseCase(id.toString()) }
+            Serie -> withContext(Dispatchers.IO) { getWatchProvidersSerieUseCase(id.toString()) }
+        }
+        if (result.isNotNull()) result!!.results?.mx?.flatrate?.forEach {
+            list.add(FlatrateModel(name = it.name))
+        }
+        return list
+    }
+
+    private suspend fun getGendersContent(id: Int, listOfGenders: List<GenderModel>): List<String> {
+        val listOfContentGender = getContentGendersById(id)
+        val list = mutableListOf<String>()
+        listOfContentGender.forEach { content -> list.add(listOfGenders.last { it.id == content.genderID }.gender) }
+        return list
+    }
 }
