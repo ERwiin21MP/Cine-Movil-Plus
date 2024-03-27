@@ -47,8 +47,8 @@ class HomeFragment : Fragment() {
     private val homeViewModel: HomeViewModel by viewModels()
     private var sizeOfListContentFeatured = 0
     private val adapterViewPager = ViewPagerAdapter { navigateToContent(it) }
-    private val adapterPlatform = PlatformsAdapter { navigateToGenderOrPlatform(it) }
-    private val adapterGender = GenderAdapter { navigateToGenderOrPlatform(it.toString()) }
+    private val adapterPlatform = PlatformsAdapter { }
+    private val adapterGender = GenderAdapter { }
     private val adapterAllContent = ContentAdapter { navigateToContent(it) }
     private val adapterCurrentYear = ContentAdapter { navigateToContent(it) }
     private val adapterCineMovilPlusNews = ContentAdapter { navigateToContent(it) }
@@ -67,42 +67,32 @@ class HomeFragment : Fragment() {
     }
 
     private fun initUI() {
-        initObservers()
         initHandler()
         initRunnable()
         initViewPager2()
-        initPlatforms()
-        initGenders()
-        initAllContent()
-        initCurrentYear()
-        initCineMovilPlusNews()
-        initCollection()
+        initObservers()
+        initUIRecyclerViews()
     }
 
-    private fun initCollection() {
-        binding.homeContainerCollection.rvCollection.apply {
-            adapter = adapterCollection
-            setDecorationAndLayoutManagerToRecyclerView(this)
+    private fun initUIRecyclerViews() {
+        binding.apply {
+            for ((recyclerView, adapter) in listOf(
+                homeContainerPlatforms.rvPlatforms to adapterPlatform,
+                homeContainerAllContent.rvAllContent to adapterAllContent,
+                homeContainerCurrentYear.rvCurrentYear to adapterCurrentYear,
+                homeContainerGenders.rvGenders to adapterGender,
+                homeContainerCineMovilPlusNews.rvCineMovilPlusNews to adapterCineMovilPlusNews,
+                homeContainerCollection.rvCollection to adapterCollection
+            )) {
+                initRecyclerView(recyclerView, adapter)
+            }
+
         }
     }
 
-    private fun initCineMovilPlusNews() {
-        binding.homeContainerCineMovilPlusNews.rvCineMovilPlusNews.apply {
-            adapter = adapterCineMovilPlusNews
-            setDecorationAndLayoutManagerToRecyclerView(this)
-        }
-    }
-
-    private fun initCurrentYear() {
-        binding.homeContainerCurrentYear.rvCurrentYear.apply {
-            adapter = adapterCurrentYear
-            setDecorationAndLayoutManagerToRecyclerView(this)
-        }
-    }
-
-    private fun initAllContent() {
-        binding.homeContainerAllContent.rvAllContent.apply {
-            adapter = adapterAllContent
+    private fun initRecyclerView(rv: RecyclerView, adapter: RecyclerView.Adapter<*>) {
+        rv.apply {
+            this.adapter = adapter
             setDecorationAndLayoutManagerToRecyclerView(this)
         }
     }
@@ -189,20 +179,6 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun initGenders() {
-        binding.homeContainerGenders.rvGenders.apply {
-            adapter = adapterGender
-            setDecorationAndLayoutManagerToRecyclerView(this)
-        }
-    }
-
-    private fun initPlatforms() {
-        binding.homeContainerPlatforms.rvPlatforms.apply {
-            adapter = adapterPlatform
-            setDecorationAndLayoutManagerToRecyclerView(this)
-        }
-    }
-
     private fun setDecorationAndLayoutManagerToRecyclerView(recyclerView: RecyclerView) {
         recyclerView.apply {
             addItemDecoration(SpacingItemDecoration(resources.getDimensionPixelSize(R.dimen.spacing_recycler_view)))
@@ -270,10 +246,6 @@ class HomeFragment : Fragment() {
     ): View {
         _binding = FragmentHomeBinding.inflate(layoutInflater, container, false)
         return binding.root
-    }
-
-    private fun navigateToGenderOrPlatform(word: String) {
-
     }
 
     override fun onPause() {
