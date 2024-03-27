@@ -44,11 +44,4 @@
         android:layout_weight="1"
         android:paddingHorizontal="@dimen/containerPadding"
         android:visibility="gone" />
-
-    <View
-        android:id="@+id/bannerAdSearch"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/red"
-        android:visibility="gone" />
 </LinearLayout>

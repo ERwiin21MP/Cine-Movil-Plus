@@ -18,8 +18,7 @@ import com.erwiin21mp.cinemovilplus.core.ext.loseFocusAfterAction
 import com.erwiin21mp.cinemovilplus.core.ext.onTextChanged
 import com.erwiin21mp.cinemovilplus.core.ext.removeAccents
 import com.erwiin21mp.cinemovilplus.databinding.FragmentSearchBinding
-import com.erwiin21mp.cinemovilplus.domain.model.ContentHomeModel
-import com.erwiin21mp.cinemovilplus.domain.model.ContentSearchModel
+import com.erwiin21mp.cinemovilplus.domain.model.ContentModel
 import com.erwiin21mp.cinemovilplus.ui.utils.SpacingItemDecorationSearch
 import com.erwiin21mp.cinemovilplus.ui.view.home.content.ContentAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -32,7 +31,7 @@ class SearchFragment : Fragment() {
     private val searchViewModel: SearchViewModel by viewModels()
     private var _binding: FragmentSearchBinding? = null
     private val adapterContent = ContentAdapter {}
-    private var listOfContent = mutableListOf<ContentSearchModel>()
+    private var listOfContent = listOf<ContentModel>()
 
     private fun initUI() {
         initContentRecyclerView()
@@ -41,39 +40,45 @@ class SearchFragment : Fragment() {
     }
 
     private fun initListeners() {
-        binding.etSearch.onTextChanged { search(it) }
+        binding.etSearch.onTextChanged { search(it.trim()) }
         binding.etSearch.loseFocusAfterAction(IME_ACTION_SEARCH)
     }
 
     private fun search(search: String) {
-        val list = if (search.isEmpty()) getListHomeModel(listOfContent)
-        else getListHomeModel(
+        val list = if (search.isEmpty()) listOfContent
+        else
             listOfContent.filter { content ->
                 with(content) {
                     listOf(
+                        contentURL,
                         id,
-                        keywords,
+                        idCollection,
+                        idTmdb,
+                        isCameraQuality,
+                        isEnabled,
+                        type,
+                        uploadDate,
                         genres,
-                        type.toString(),
-                        uploadDate.toString(),
-                        title,
-                        originalTitle,
-                        synopsis,
-                        productionCompanies,
-                        productionCountries,
+                        horizontalImageURL,
                         releaseDate,
                         verticalImageURL,
+                        title,
+                        synopsis,
+                        productionCountries,
+                        originalTitle,
+                        productionCompanies,
                         createdBy,
+                        networks,
                         tagline,
-                        country,
-                        platforms
+                        platforms,
+                        keywords
                     )
                 }.any {
-                    it.orEmpty().lowercase().removeAccents()
+                    it.toString().lowercase().removeAccents()
                         .contains(search.lowercase().removeAccents())
                 }
-            })
-//        adapterContent.updateList(list)
+            }
+        adapterContent.updateList(list)
     }
 
     private fun initContentRecyclerView() {
@@ -93,24 +98,13 @@ class SearchFragment : Fragment() {
                             loadingSearch.visibility = GONE
                             tilSearch.visibility = VISIBLE
                             rvContentSearch.visibility = VISIBLE
-                            bannerAdSearch.visibility = VISIBLE
-//                            listOfContent = contentList.toMutableList()
-//                            adapterContent.updateList(getListHomeModel(listOfContent))
+                            listOfContent = contentList
+                            adapterContent.updateList(listOfContent)
                         }
                     }
                 }
             }
         }
-    }
-
-    private fun getListHomeModel(list: List<ContentSearchModel>) = list.map {
-        ContentHomeModel(
-            id = it.id,
-            verticalImageURL = it.verticalImageURL,
-            isCameraQuality = it.isCameraQuality,
-            title = it.title,
-            type = it.type
-        )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

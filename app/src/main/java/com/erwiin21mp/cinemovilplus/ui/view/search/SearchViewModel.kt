@@ -12,8 +12,7 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
-class SearchViewModel @Inject constructor(private val getContentSearchUseCase: GetContentSearchUseCase) :
-    ViewModel() {
+class SearchViewModel @Inject constructor(private val getContentSearchUseCase: GetContentSearchUseCase) : ViewModel() {
 
     val listOfContent = MutableLiveData<List<ContentModel>>(emptyList())
 
