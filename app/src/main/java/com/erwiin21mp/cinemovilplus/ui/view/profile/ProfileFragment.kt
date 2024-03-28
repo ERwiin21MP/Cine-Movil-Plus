@@ -9,19 +9,25 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle.*
+import androidx.lifecycle.Lifecycle.State.*
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.erwiin21mp.cinemovilplus.R
 import com.erwiin21mp.cinemovilplus.core.ext.navigateToLogin
 import com.erwiin21mp.cinemovilplus.core.ext.toast
 import com.erwiin21mp.cinemovilplus.data.network.firebase.AuthManager
+import com.erwiin21mp.cinemovilplus.data.network.firebase.FirestoreManager
 import com.erwiin21mp.cinemovilplus.data.network.firebase.LogDataBaseManager
 import com.erwiin21mp.cinemovilplus.databinding.FragmentProfileBinding
+import com.erwiin21mp.cinemovilplus.ui.utils.Win
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
-import jp.wasabeef.picasso.transformations.CropCircleTransformation
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class ProfileFragment : Fragment() {
@@ -29,6 +35,13 @@ class ProfileFragment : Fragment() {
     private var _binding: FragmentProfileBinding? = null
     private lateinit var auth: AuthManager
     private val database = LogDataBaseManager()
+    private val profileViewModel: ProfileViewModel by viewModels()
+
+    @Inject
+    lateinit var win: Win
+
+    @Inject
+    lateinit var db: FirestoreManager
 
     private companion object {
         const val BUTTON_CANCEL = "Cancel"
@@ -45,8 +58,28 @@ class ProfileFragment : Fragment() {
     }
 
     private fun initUI() {
-        loadUIDProfile()
+        initObservers()
         initListeners()
+    }
+
+    private fun initObservers() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(STARTED) {
+                profileViewModel.profilePhotoURL.observe(viewLifecycleOwner) { url ->
+                    if (url.isNotEmpty()) Picasso.get().load(url).error(R.drawable.ic_guest)
+                        .into(binding.ivProfilePhoto)
+                }
+                profileViewModel.userName.observe(viewLifecycleOwner) { userName ->
+                    if (userName.isNotEmpty()) binding.tvUserName.text = userName
+                }
+                profileViewModel.email.observe(viewLifecycleOwner) { email ->
+                    if (email.isNotEmpty()) binding.tvUserEmail.text = email
+                }
+                profileViewModel.uid.observe(viewLifecycleOwner) { uid ->
+                    if (uid.isNotEmpty()) binding.tvUID.text = uid
+                }
+            }
+        }
     }
 
     private fun initListeners() {
@@ -86,25 +119,6 @@ class ProfileFragment : Fragment() {
                     requireActivity().finish()
                 }
             }
-        }
-    }
-
-    @SuppressLint("SetTextI18n")
-    private fun loadUIDProfile() {
-        val user = auth.getCurrentUser()
-        binding.apply {
-            tvUID.text = "UID: ${user!!.uid}"
-
-            var displayName = user.displayName
-            val email = user.email
-
-            if (user.isAnonymous) {
-                displayName = context?.getString(R.string.userAnonymous)
-                tvUserEmail.visibility = View.GONE
-            } else Picasso.get().load(user.photoUrl).error(R.drawable.ic_user)
-                .transform(CropCircleTransformation()).into(ivProfilePhoto)
-            tvUserName.text = displayName
-            tvUserEmail.text = email
         }
     }
 

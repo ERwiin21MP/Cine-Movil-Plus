@@ -18,6 +18,9 @@ import com.erwiin21mp.cinemovilplus.data.network.firebase.LogDataBaseManager
 import com.erwiin21mp.cinemovilplus.databinding.AlertErrorLoginBinding
 import com.erwiin21mp.cinemovilplus.databinding.AlertForgotPasswordSuccessfullyMessageBinding
 import com.erwiin21mp.cinemovilplus.databinding.AlertWaitingBinding
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 import javax.inject.Inject
 
 @SuppressLint("InflateParams")
@@ -119,4 +122,7 @@ class Win @Inject constructor(context: Context) {
             onClickListener()
         }
     }
+
+    fun getCurrentDateLong() =
+        SimpleDateFormat("ddMMyyyyHHmmss", Locale.getDefault()).format(Date()).toLong()
 }

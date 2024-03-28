@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.RecyclerView
 import com.erwiin21mp.cinemovilplus.R
-import com.google.firebase.messaging.FirebaseMessagingService
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -19,20 +18,8 @@ fun Any?.isNull() = this == null
 
 fun Any?.isNotNull() = this != null
 
-fun Activity.logData(message: String, tag: String = "") {
-    Log.e("Erwin $tag", message)
-}
-
-fun Fragment.logData(message: String, tag: String = "") {
-    Log.e("Erwin $tag", message)
-}
-
-fun FirebaseMessagingService.logData(message: String, tag: String = "") {
-    Log.e("Erwin $tag", message)
-}
-
-fun ViewModel.logData(message: String, tag: String = "") {
-    Log.e("Erwin $tag", message)
+fun Any.logData(message: Any?, tag: String = "") {
+    Log.e("Erwin $tag", message.toString())
 }
 
 fun Activity.toast(message: String) {

@@ -1,6 +1,7 @@
 package com.erwiin21mp.cinemovilplus.data.network.firebase
 
 import com.erwiin21mp.cinemovilplus.core.ext.isNotNull
+import com.erwiin21mp.cinemovilplus.core.ext.logData
 import com.erwiin21mp.cinemovilplus.domain.model.CollectionModel
 import com.erwiin21mp.cinemovilplus.domain.model.ContentGenderModel
 import com.erwiin21mp.cinemovilplus.domain.model.ContentModel
@@ -14,6 +15,7 @@ import com.erwiin21mp.cinemovilplus.domain.usecase.GetDetailsMovieUseCase
 import com.erwiin21mp.cinemovilplus.domain.usecase.GetDetailsSerieUserCase
 import com.erwiin21mp.cinemovilplus.domain.usecase.GetWatchProvidersMovieUseCase
 import com.erwiin21mp.cinemovilplus.domain.usecase.GetWatchProvidersSerieUseCase
+import com.erwiin21mp.cinemovilplus.ui.utils.Win
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
@@ -26,7 +28,9 @@ class FirestoreManager @Inject constructor(
     private val getDetailsSerieUserCase: GetDetailsSerieUserCase,
     private val getWatchProvidersMovieUseCase: GetWatchProvidersMovieUseCase,
     private val getWatchProvidersSerieUseCase: GetWatchProvidersSerieUseCase,
-    private val getCollectionDetailsUseCase: GetCollectionDetailsUseCase
+    private val getCollectionDetailsUseCase: GetCollectionDetailsUseCase,
+    private val win: Win,
+    private val authManager: AuthManager
 ) {
     companion object {
         const val CONTENT_URL = "content_url"
@@ -45,6 +49,12 @@ class FirestoreManager @Inject constructor(
         const val TABLE_CONTENT_GENDER = "content_gender"
         const val CONTENT_ID = "content_id"
         const val GENDER_ID = "gender_id"
+        const val TABLE_USER = "users"
+        const val USERNAME = "username"
+        const val REGISTRATION_DATE = "registration_date"
+        const val TABLE_USER_LOG_APP_OPEN = "user_log_app_open"
+        const val USER_ID = "user_id"
+        const val DATE = "date"
     }
 
     private fun getTypeOfContent(idType: Int) = if (idType == 1) Serie else Movie
@@ -197,5 +207,24 @@ class FirestoreManager @Inject constructor(
         val list = mutableListOf<String>()
         listOfContentGender.forEach { content -> list.add(listOfGenders.last { it.id == content.genderID }.gender) }
         return list
+    }
+
+    suspend fun pushUserOpenApp() {
+        val map = mutableMapOf(
+            USER_ID to authManager.getCurrentUser()?.uid,
+            DATE to win.getCurrentDateLong()
+        )
+
+
+
+        val id: String = withContext(Dispatchers.IO) { db.collection(TABLE_USER_LOG_APP_OPEN).document().id }
+        logData("id: $id")
+        map[ID] = id
+        logData("map: $map")
+        try {
+            db.collection(TABLE_USER_LOG_APP_OPEN).document(id).set(map)
+        } catch (e: Exception) {
+            logData("e: ${e.cause}")
+        }
     }
 }

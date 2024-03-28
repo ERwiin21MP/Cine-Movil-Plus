@@ -149,20 +149,13 @@ class SignUpActivity : AppCompatActivity() {
             when (val result = auth.createUserWithEmailAndPassword(email, password)) {
                 is AuthRes.Success -> createAccountSuccess(result, userName, dialog)
                 is AuthRes.Error -> database.logErrorCreateAccount(
-                    result,
-                    userName,
-                    email,
-                    password
+                    result, userName, email, password
                 )
             }
         }
     }
 
-    private suspend fun createAccountSuccess(
-        result: AuthRes.Success<FirebaseUser?>,
-        userName: String,
-        dialog: Dialog
-    ) {
+    private suspend fun createAccountSuccess(result: AuthRes.Success<FirebaseUser?>, userName: String, dialog: Dialog) {
         database.logSuccessLogin(result)
         when (val result2 = auth.updateUserDisplayName(userName)) {
             is AuthRes.Error -> {

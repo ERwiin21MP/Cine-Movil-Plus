@@ -17,6 +17,7 @@ import com.erwiin21mp.cinemovilplus.core.ext.navigateToContent
 import com.erwiin21mp.cinemovilplus.core.ext.navigateToIndex
 import com.erwiin21mp.cinemovilplus.core.ext.navigateToLogin
 import com.erwiin21mp.cinemovilplus.data.network.firebase.AuthManager
+import com.erwiin21mp.cinemovilplus.data.network.firebase.FirestoreManager
 import com.erwiin21mp.cinemovilplus.data.network.firebase.FirestoreManager.Companion.ID
 import com.erwiin21mp.cinemovilplus.data.network.firebase.LogDataBaseManager
 import com.google.android.gms.tasks.OnCompleteListener
@@ -31,16 +32,19 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class SplashScreenActivity : AppCompatActivity() {
 
-    private lateinit var auth: AuthManager
+    @Inject
+    lateinit var auth: AuthManager
+
     @Inject
     lateinit var database: LogDataBaseManager
+
+    @Inject
+    lateinit var db: FirestoreManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val screenSplash = installSplashScreen()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_screen)
-
-        auth = AuthManager(this)
         initUI(screenSplash)
     }
 
@@ -58,6 +62,7 @@ class SplashScreenActivity : AppCompatActivity() {
         if (auth.getCurrentUser().isNull()) {
             navigateToLogin()
         } else {
+            CoroutineScope(Dispatchers.IO).launch { db.pushUserOpenApp() }
             if (id.isNull()) {
                 navigateToIndex()
             } else {

@@ -26,7 +26,6 @@ class HomeViewModel @Inject constructor(
 ) : ViewModel() {
     val listOfContentFeatured = MutableLiveData<List<ContentModel>>(emptyList())
     val listOfPlatforms = MutableLiveData<List<FlatrateModel>>(emptyList())
-
     val listOfGenders = MutableLiveData<List<GenderModel>>(emptyList())
     val listAllContent = MutableLiveData<List<ContentModel>>(emptyList())
     val listCurrentYear = MutableLiveData<List<ContentModel>>(emptyList())

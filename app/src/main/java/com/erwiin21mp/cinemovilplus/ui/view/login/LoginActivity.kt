@@ -12,6 +12,7 @@ import com.erwiin21mp.cinemovilplus.core.ext.onTextChanged
 import com.erwiin21mp.cinemovilplus.core.ext.toast
 import com.erwiin21mp.cinemovilplus.data.model.AuthRes
 import com.erwiin21mp.cinemovilplus.data.network.firebase.AuthManager
+import com.erwiin21mp.cinemovilplus.data.network.firebase.FirestoreManager
 import com.erwiin21mp.cinemovilplus.data.network.firebase.LogDataBaseManager
 import com.erwiin21mp.cinemovilplus.databinding.ActivityLoginBinding
 import com.erwiin21mp.cinemovilplus.ui.utils.Win
@@ -32,8 +33,12 @@ class LoginActivity : AppCompatActivity() {
     private var isValidPassword = false
     private lateinit var auth: AuthManager
     private lateinit var win: Win
+
     @Inject
     lateinit var dataBase: LogDataBaseManager
+
+    @Inject
+    lateinit var db: FirestoreManager
 
     private companion object {
         const val BUTTON_LOGIN = "Login"
@@ -138,6 +143,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun loginSuccess(result: AuthRes.Success<FirebaseUser?>) {
         dataBase.logSuccessLogin(result)
+        CoroutineScope(Dispatchers.IO).launch { db.pushUserOpenApp() }
         runOnUiThread { toast(getString(R.string.youHaveSuccessfullyLoggedIn)) }
         navigateToIndex()
     }
@@ -166,4 +172,4 @@ class LoginActivity : AppCompatActivity() {
             dialog.dismiss()
         }
     }
-} // 175 lines -> 125 lines
+}
