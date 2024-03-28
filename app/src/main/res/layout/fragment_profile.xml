@@ -32,7 +32,9 @@
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_marginHorizontal="@dimen/spacing_20"
-                    android:src="@drawable/ic_guest" />
+                    android:src="@drawable/ic_guest"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -47,7 +49,9 @@
                         android:layout_marginHorizontal="@dimen/spacing_20"
                         android:fontFamily="@font/montserrat_bold"
                         android:gravity="center"
-                        tools:text="Erwin Martínez Pérez" />
+                        android:visibility="gone"
+                        tools:text="Erwin Martínez Pérez"
+                        tools:visibility="visible" />
 
                     <TextView
                         android:id="@+id/tvUserEmail"
@@ -55,7 +59,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="@dimen/spacing_20"
                         android:gravity="center"
-                        tools:text="erwinmp98@gmail.com" />
+                        android:visibility="gone"
+                        tools:text="erwinmp98@gmail.com"
+                        tools:visibility="visible" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -66,11 +72,13 @@
                 android:layout_marginTop="@dimen/spacing_12"
                 android:textColor="@color/loading"
                 android:textSize="12sp"
+                android:visibility="gone"
                 app:layout_constraintBottom_toTopOf="@id/llBtns"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/llUserImageAndUserNameAndUserEmail"
-                tools:text="HGmb7GT2iSUcUrMrpEW0vEEZudl1" />
+                tools:text="HGmb7GT2iSUcUrMrpEW0vEEZudl1"
+                tools:visibility="visible" />
 
             <LinearLayout
                 android:id="@+id/llBtns"

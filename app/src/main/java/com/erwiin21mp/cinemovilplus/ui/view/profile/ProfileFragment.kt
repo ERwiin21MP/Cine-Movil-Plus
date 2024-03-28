@@ -5,6 +5,7 @@ import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.appcompat.app.AlertDialog
@@ -15,7 +16,6 @@ import androidx.lifecycle.Lifecycle.State.*
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.erwiin21mp.cinemovilplus.R
-import com.erwiin21mp.cinemovilplus.core.ext.isNotNull
 import com.erwiin21mp.cinemovilplus.core.ext.loadImage
 import com.erwiin21mp.cinemovilplus.core.ext.navigateToLogin
 import com.erwiin21mp.cinemovilplus.core.ext.toast
@@ -67,20 +67,32 @@ class ProfileFragment : Fragment() {
         lifecycleScope.launch {
             repeatOnLifecycle(STARTED) {
                 profileViewModel.profilePhotoURL.observe(viewLifecycleOwner) { url ->
-                    if (url.isNotNull() && url!!.isNotEmpty())
-                        binding.ivProfilePhoto.loadImage(url)
+                    binding.ivProfilePhoto.apply {
+                        loadImage(
+                            url = url,
+                            errorImage = R.drawable.ic_guest,
+                            onSuccess = { binding.ivProfilePhoto.visibility = VISIBLE }
+                        )
+                        visibility = VISIBLE
+                    }
                 }
                 profileViewModel.userName.observe(viewLifecycleOwner) { userName ->
-                    if (userName.isNotNull() && userName!!.isNotEmpty())
-                        binding.tvUserName.text = userName
+                    binding.tvUserName.apply {
+                        text = userName
+                        visibility = VISIBLE
+                    }
                 }
                 profileViewModel.email.observe(viewLifecycleOwner) { email ->
-                    if (email.isNotNull() && email!!.isNotEmpty())
-                        binding.tvUserEmail.text = email
+                    binding.tvUserEmail.apply {
+                        text = email
+                        visibility = VISIBLE
+                    }
                 }
                 profileViewModel.uid.observe(viewLifecycleOwner) { uid ->
-                    if (uid.isNotNull() && uid!!.isNotEmpty())
-                        binding.tvUID.text = uid
+                    binding.tvUID.apply {
+                        text = uid
+                        visibility = VISIBLE
+                    }
                 }
             }
         }
