@@ -15,6 +15,8 @@ import androidx.lifecycle.Lifecycle.State.*
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.erwiin21mp.cinemovilplus.R
+import com.erwiin21mp.cinemovilplus.core.ext.isNotNull
+import com.erwiin21mp.cinemovilplus.core.ext.loadImage
 import com.erwiin21mp.cinemovilplus.core.ext.navigateToLogin
 import com.erwiin21mp.cinemovilplus.core.ext.toast
 import com.erwiin21mp.cinemovilplus.data.network.firebase.AuthManager
@@ -22,7 +24,6 @@ import com.erwiin21mp.cinemovilplus.data.network.firebase.FirestoreManager
 import com.erwiin21mp.cinemovilplus.data.network.firebase.LogDataBaseManager
 import com.erwiin21mp.cinemovilplus.databinding.FragmentProfileBinding
 import com.erwiin21mp.cinemovilplus.ui.utils.Win
-import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -66,17 +67,20 @@ class ProfileFragment : Fragment() {
         lifecycleScope.launch {
             repeatOnLifecycle(STARTED) {
                 profileViewModel.profilePhotoURL.observe(viewLifecycleOwner) { url ->
-                    if (url.isNotEmpty()) Picasso.get().load(url).error(R.drawable.ic_guest)
-                        .into(binding.ivProfilePhoto)
+                    if (url.isNotNull() && url!!.isNotEmpty())
+                        binding.ivProfilePhoto.loadImage(url)
                 }
                 profileViewModel.userName.observe(viewLifecycleOwner) { userName ->
-                    if (userName.isNotEmpty()) binding.tvUserName.text = userName
+                    if (userName.isNotNull() && userName!!.isNotEmpty())
+                        binding.tvUserName.text = userName
                 }
                 profileViewModel.email.observe(viewLifecycleOwner) { email ->
-                    if (email.isNotEmpty()) binding.tvUserEmail.text = email
+                    if (email.isNotNull() && email!!.isNotEmpty())
+                        binding.tvUserEmail.text = email
                 }
                 profileViewModel.uid.observe(viewLifecycleOwner) { uid ->
-                    if (uid.isNotEmpty()) binding.tvUID.text = uid
+                    if (uid.isNotNull() && uid!!.isNotEmpty())
+                        binding.tvUID.text = uid
                 }
             }
         }

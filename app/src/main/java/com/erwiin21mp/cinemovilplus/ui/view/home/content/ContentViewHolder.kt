@@ -17,7 +17,7 @@ class ContentViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
     fun render(item: ContentModel, onItemSelected: (String) -> Unit) {
         binding.apply {
-            Picasso.get().load(item.verticalImageURL).error(R.drawable.no_image)
+            Picasso.get().load(item.verticalImageURL).error(R.drawable.no_load_image)
                 .into(ivPosterVertical, object : Callback {
                     override fun onSuccess() {
                         ivPosterVerticalLoading.visibility = View.GONE

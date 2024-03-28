@@ -210,21 +210,18 @@ class FirestoreManager @Inject constructor(
     }
 
     suspend fun pushUserOpenApp() {
-        val map = mutableMapOf(
-            USER_ID to authManager.getCurrentUser()?.uid,
-            DATE to win.getCurrentDateLong()
-        )
-
-
-
-        val id: String = withContext(Dispatchers.IO) { db.collection(TABLE_USER_LOG_APP_OPEN).document().id }
-        logData("id: $id")
-        map[ID] = id
-        logData("map: $map")
-        try {
-            db.collection(TABLE_USER_LOG_APP_OPEN).document(id).set(map)
-        } catch (e: Exception) {
-            logData("e: ${e.cause}")
+        withContext(Dispatchers.IO) {
+            val map = mutableMapOf(
+                USER_ID to authManager.getCurrentUser()?.uid,
+                DATE to win.getCurrentDateLong()
+            )
+            val id: String = db.collection(TABLE_USER_LOG_APP_OPEN).document().id
+            map[ID] = id
+            try {
+                db.collection(TABLE_USER_LOG_APP_OPEN).document(id).set(map)
+            } catch (e: Exception) {
+                logData("e: ${e.cause}")
+            }
         }
     }
 }

@@ -14,7 +14,7 @@ class CollectionViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
     fun render(item: CollectionModel, onItemSelected: (Int) -> Unit) {
         binding.apply {
-            Picasso.get().load(item.verticalImageURL).error(R.drawable.no_image)
+            Picasso.get().load(item.verticalImageURL).error(R.drawable.no_load_image)
                 .into(ivPosterVertical, object : Callback {
                     override fun onSuccess() {
                         ivPosterVertical.visibility = View.VISIBLE

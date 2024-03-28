@@ -15,7 +15,7 @@ class PlatformsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     private val binding = ItemPlatformBinding.bind(view)
     fun render(item: FlatrateModel, onItemSelected: (String) -> Unit) {
         binding.apply {
-            Picasso.get().load(item.imageURL).error(R.drawable.no_image)
+            Picasso.get().load(item.imageURL).error(R.drawable.no_load_image)
                 .into(ivPlatform, object : Callback {
                     override fun onSuccess() {
                         containerIvPlatform.visibility = View.GONE

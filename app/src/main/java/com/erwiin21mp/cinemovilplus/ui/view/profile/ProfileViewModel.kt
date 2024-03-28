@@ -9,10 +9,10 @@ import javax.inject.Inject
 @HiltViewModel
 class ProfileViewModel @Inject constructor(private val auth: AuthManager) : ViewModel() {
 
-    val profilePhotoURL = MutableLiveData<String>()
-    val userName = MutableLiveData<String>()
-    val email = MutableLiveData<String>()
-    val uid = MutableLiveData<String>()
+    val profilePhotoURL = MutableLiveData<String?>()
+    val userName = MutableLiveData<String?>()
+    val email = MutableLiveData<String?>()
+    val uid = MutableLiveData<String?>()
 
     init {
         getProfilePhoto()

@@ -13,7 +13,7 @@ class ViewPagerHolder(view: View) : RecyclerView.ViewHolder(view) {
     private val binding = ItemViewPagerBinding.bind(view)
     fun render(item: ContentModel?, onItemSelected: (String) -> Unit) {
         binding.apply {
-            Picasso.get().load(item?.horizontalImageURL?.toImageURL()).error(R.drawable.no_image)
+            Picasso.get().load(item?.horizontalImageURL?.toImageURL()).error(R.drawable.no_load_image)
                 .into(ivPoster)
             containerIVPosterLoading.visibility = View.GONE
             ivPoster.visibility = View.VISIBLE
