@@ -25,6 +25,7 @@ import com.erwiin21mp.cinemovilplus.data.network.firebase.LogDataBaseManager
 import com.erwiin21mp.cinemovilplus.databinding.FragmentProfileBinding
 import com.erwiin21mp.cinemovilplus.ui.utils.Win
 import dagger.hilt.android.AndroidEntryPoint
+import jp.wasabeef.picasso.transformations.CropCircleTransformation
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -72,6 +73,7 @@ class ProfileFragment : Fragment() {
                         loadImage(
                             url = url,
                             errorImage = R.drawable.ic_guest,
+                            transform = CropCircleTransformation(),
                             onSuccess = { binding.ivProfilePhoto.visibility = VISIBLE }
                         )
                         visibility = VISIBLE
