@@ -7,6 +7,7 @@ import com.erwiin21mp.cinemovilplus.domain.model.ContentGenderModel
 import com.erwiin21mp.cinemovilplus.domain.model.ContentModel
 import com.erwiin21mp.cinemovilplus.domain.model.FlatrateModel
 import com.erwiin21mp.cinemovilplus.domain.model.GenderModel
+import com.erwiin21mp.cinemovilplus.domain.model.LogAppOpenModel
 import com.erwiin21mp.cinemovilplus.domain.model.Type
 import com.erwiin21mp.cinemovilplus.domain.model.Type.Movie
 import com.erwiin21mp.cinemovilplus.domain.model.Type.Serie
@@ -224,4 +225,15 @@ class FirestoreManager @Inject constructor(
             }
         }
     }
+
+    suspend fun fetchLogAppOpen(uid: String) =
+        db.collection(TABLE_USER_LOG_APP_OPEN).whereEqualTo(USER_ID, uid).get().await()
+            .map { document ->
+                val data = document.data
+                LogAppOpenModel(
+                    id = data[ID].toString(),
+                    userId = data[USER_ID].toString(),
+                    date = data[DATE].toString().toLong()
+                )
+            }
 }

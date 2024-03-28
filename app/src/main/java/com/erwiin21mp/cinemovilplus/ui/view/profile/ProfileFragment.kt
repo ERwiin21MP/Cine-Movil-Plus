@@ -63,6 +63,7 @@ class ProfileFragment : Fragment() {
         initListeners()
     }
 
+    @SuppressLint("SetTextI18n")
     private fun initObservers() {
         lifecycleScope.launch {
             repeatOnLifecycle(STARTED) {
@@ -90,7 +91,7 @@ class ProfileFragment : Fragment() {
                 }
                 profileViewModel.uid.observe(viewLifecycleOwner) { uid ->
                     binding.tvUID.apply {
-                        text = uid
+                        text = "UID: $uid"
                         visibility = VISIBLE
                     }
                 }
